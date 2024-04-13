@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'app/environments/environment';
+import { map } from 'rxjs/operators';
+import { User } from '../user/user.types';
+import { CurrentUser } from '../user/CurrentUser';
 
 @Injectable()
 export class AuthService
@@ -28,12 +32,12 @@ export class AuthService
      */
     set accessToken(token: string)
     {
-        localStorage.setItem('accessToken', token);
+        localStorage.setItem('access_token', token);
     }
 
     get accessToken(): string
     {
-        return localStorage.getItem('accessToken') ?? '';
+        return localStorage.getItem('access_token') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,24 +77,49 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post( `${environment.apiUrl}/api/v1/auth/authenticate`, credentials).pipe(
             switchMap((response: any) => {
-
+                console.log(response)
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.access_token;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                User.currentUser = response.user;
+                CurrentUser.setCurrentUser(response.user);  
 
+                this._userService.user = response.user;
                 // Return a new observable with the response
+                console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz",User.currentUser.id);
+
                 return of(response);
             })
         );
     }
 
+    login(email: string, password: string): Observable<any> {
+        console.log(email, password)
+        // Send POST request to authenticate endpoint with email and hashed password
+        return this._httpClient.post<any>(
+          `${environment.apiUrl}/api/v1/auth/authenticate`,
+          { email: email, password: password }
+        ).pipe(
+          map(user => {
+            console.log(user)
+            // Check if the response contains a valid access token
+            if (user && user.access_token) {
+              // Store user details and access token in local storage
+              localStorage.setItem('currentUser', JSON.stringify(user));
+              this.accessToken = user.access_token;
+              this._authenticated = true;
+              this._userService.user =user;
+            }
+            return user;
+          })
+        );
+      }
     /**
      * Sign in using the access token
      */
@@ -136,14 +165,25 @@ export class AuthService
      */
     signOut(): Observable<any>
     {
+        const accessToken = localStorage.getItem('access_token');
+
         // Remove the access token from the local storage
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('access_token');
 
         // Set the authenticated flag to false
         this._authenticated = false;
-
-        // Return the observable
-        return of(true);
+        if (accessToken) {
+            // Create HttpHeaders with the access token
+            const headers = new HttpHeaders({
+                'Authorization': `Bearer ${accessToken}`
+            });
+    
+            // Make a POST request to the logout endpoint with the access token in the headers
+            return this._httpClient.post(`localhost:9000/pidev/api/v1/auth/logout`, {}, { headers });
+        } else {
+            // Return an observable of false if the access token is not found
+            return of(false);
+        }
     }
 
     /**

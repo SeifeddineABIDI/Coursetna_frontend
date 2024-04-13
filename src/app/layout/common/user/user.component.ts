@@ -42,7 +42,7 @@ export class UserComponent implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void
-    {
+    {   
         // Subscribe to user changes
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))

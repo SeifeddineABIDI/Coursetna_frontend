@@ -10,14 +10,14 @@
         <mat-icon
             *ngIf="!showAvatar || !user.avatar"
             [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-        <span
+        <!-- <span
             class="absolute right-0 bottom-0 w-2 h-2 rounded-full"
             [ngClass]="{'mr-px mb-px': !showAvatar || !user.avatar,
                           'bg-green-500': user.status === 'online',
                           'bg-amber-500': user.status === 'away',
                           'bg-red-500': user.status === 'busy',
                           'bg-gray-400': user.status === 'not-visible'}"
-        ></span>
+        ></span> -->
     </span>
 </button>
 

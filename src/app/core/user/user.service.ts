@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
+import { environment } from 'app/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService
-{
-    private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
+{   
+    public _user: ReplaySubject<User> = new ReplaySubject<User>(1);
 
     /**
      * Constructor
@@ -44,14 +45,20 @@ export class UserService
     /**
      * Get the current logged in user data
      */
-    get(): Observable<User>
-    {
-        return this._httpClient.get<User>('api/common/user').pipe(
-            tap((user) => {
-                this._user.next(user);
-            })
+    get(userId: number, token: string): Observable<User> {
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz",User.currentUser.id);
+
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    
+        // Modify the endpoint URL as per your backend API
+        return this._httpClient.get<User>(`localhost:9000/pidev/api/v1/auth/current`, { headers }).pipe(
+          tap((user: User) => {
+            this._user.next(user);
+          })
         );
-    }
+      }
 
     /**
      * Update the user
@@ -61,7 +68,7 @@ export class UserService
     update(user: User): Observable<any>
     {
         return this._httpClient.patch<User>('api/common/user', {user}).pipe(
-            map((response) => {
+            tap((response) => {
                 this._user.next(response);
             })
         );
