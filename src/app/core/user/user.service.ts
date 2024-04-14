@@ -29,6 +29,8 @@ export class UserService
      */
     set user(value: User)
     {
+              console.log('Setting user:', value);
+
         // Store the value
         this._user.next(value);
     }

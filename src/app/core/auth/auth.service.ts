@@ -12,6 +12,7 @@ import { CurrentUser } from '../user/CurrentUser';
 export class AuthService
 {
     private _authenticated: boolean = false;
+    user: User;
 
     /**
      * Constructor
@@ -79,55 +80,59 @@ export class AuthService
 
         return this._httpClient.post( `${environment.apiUrl}/api/v1/auth/authenticate`, credentials).pipe(
             switchMap((response: any) => {
-                console.log(response)
+                if(response.access_token== null){
+                    return of(response)
+                }
                 // Store the access token in the local storage
                 this.accessToken = response.access_token;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
-
+                this.user = response.user;
                 // Store the user on the user service
+                this._userService.user = response.user;
+                localStorage.setItem('currentUser', JSON.stringify(response.user));
+
                 User.currentUser = response.user;
                 CurrentUser.setCurrentUser(response.user);  
-
-                this._userService.user = response.user;
+                
                 // Return a new observable with the response
-                console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz",User.currentUser.id);
+                console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz",this._userService.user);
 
                 return of(response);
             })
         );
     }
 
-    login(email: string, password: string): Observable<any> {
-        console.log(email, password)
-        // Send POST request to authenticate endpoint with email and hashed password
-        return this._httpClient.post<any>(
-          `${environment.apiUrl}/api/v1/auth/authenticate`,
-          { email: email, password: password }
-        ).pipe(
-          map(user => {
-            console.log(user)
-            // Check if the response contains a valid access token
-            if (user && user.access_token) {
-              // Store user details and access token in local storage
-              localStorage.setItem('currentUser', JSON.stringify(user));
-              this.accessToken = user.access_token;
-              this._authenticated = true;
-              this._userService.user =user;
-            }
-            return user;
-          })
-        );
-      }
+    // login(email: string, password: string): Observable<any> {
+    //     console.log(email, password)
+    //     // Send POST request to authenticate endpoint with email and hashed password
+    //     return this._httpClient.post<any>(
+    //       `${environment.apiUrl}/api/v1/auth/authenticate`,
+    //       { email: email, password: password }
+    //     ).pipe(
+    //       map(user => {
+    //         console.log(user)
+    //         // Check if the response contains a valid access token
+    //         if (user && user.access_token) {
+    //           // Store user details and access token in local storage
+    //           localStorage.setItem('currentUser', JSON.stringify(user));
+    //           this.accessToken = user.access_token;
+    //           this._authenticated = true;
+    //           this._userService.user =user;
+    //         }
+    //         return user;
+    //       })
+    //     );
+    //   }
     /**
      * Sign in using the access token
      */
     signInUsingToken(): Observable<any>
     {
         // Sign in using the token
-        return this._httpClient.post('api/auth/sign-in-with-token', {
-            accessToken: this.accessToken
+        return this._httpClient.post(`${environment.apiUrl}/api/v1/auth/authenticateWithToken`, {
+            token: this.accessToken
         }).pipe(
             catchError(() =>
 
@@ -143,9 +148,9 @@ export class AuthService
                 // in using the token, you should generate a new one on the server
                 // side and attach it to the response object. Then the following
                 // piece of code can replace the token with the refreshed one.
-                if ( response.accessToken )
+                if ( response.access_token )
                 {
-                    this.accessToken = response.accessToken;
+                    this.accessToken = response.access_token;
                 }
 
                 // Set the authenticated flag to true
@@ -165,17 +170,17 @@ export class AuthService
      */
     signOut(): Observable<any>
     {
-        const accessToken = localStorage.getItem('access_token');
+        const access_token = localStorage.getItem('access_token');
 
         // Remove the access token from the local storage
         localStorage.removeItem('access_token');
 
         // Set the authenticated flag to false
         this._authenticated = false;
-        if (accessToken) {
+        if (access_token) {
             // Create HttpHeaders with the access token
             const headers = new HttpHeaders({
-                'Authorization': `Bearer ${accessToken}`
+                'Authorization': `Bearer ${access_token}`
             });
     
             // Make a POST request to the logout endpoint with the access token in the headers

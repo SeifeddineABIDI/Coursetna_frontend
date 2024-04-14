@@ -8,6 +8,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 @Component({
     selector     : 'auth-sign-up',
     templateUrl  : './sign-up.component.html',
+    styleUrls    : ['./sign-up.component.css'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
@@ -44,10 +45,10 @@ export class AuthSignUpComponent implements OnInit
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-                name      : ['', Validators.required],
-                email     : ['', [Validators.required, Validators.email]],
+                firstname      : ['', Validators.required],
+                lastname      : ['', Validators.required],
+                email     : ['', [Validators.required]],
                 password  : ['', Validators.required],
-                company   : [''],
                 agreements: ['', Validators.requiredTrue]
             }
         );
@@ -100,5 +101,17 @@ export class AuthSignUpComponent implements OnInit
                     this.showAlert = true;
                 }
             );
+    }
+    imageUrl: string | ArrayBuffer | null = null;
+
+    onFileSelected(event: any) {
+      const file: File = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.imageUrl = reader.result;
+        };
+      }
     }
 }

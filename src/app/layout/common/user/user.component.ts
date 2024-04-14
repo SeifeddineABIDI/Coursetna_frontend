@@ -4,6 +4,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { CurrentUser } from 'app/core/user/CurrentUser';
 
 @Component({
     selector       : 'user',
@@ -43,17 +44,24 @@ export class UserComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {   
+        const storedUser = localStorage.getItem('currentUser');
+        console.log("stoooo",storedUser)
+        if (storedUser) {
+            this.user = JSON.parse(storedUser);
+        }
         // Subscribe to user changes
         this._userService.user$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) => {
-                this.user = user;
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((user: User | null) => {
+            console.log('User data received from service:', user);
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-    }
+            // Update the local user variable
+            this.user = user;
 
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+}
     /**
      * On destroy
      */
