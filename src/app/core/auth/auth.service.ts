@@ -173,17 +173,17 @@ export class AuthService
         // Remove the access token from the local storage
         localStorage.removeItem('access_token');
         localStorage.removeItem('currentUser');
-
+        console.log('signOut',  access_token)
         // Set the authenticated flag to false
         this._authenticated = false;
-        if (access_token) {
+        if (access_token!=null) {
             // Create HttpHeaders with the access token
             const headers = new HttpHeaders({
                 'Authorization': `Bearer ${access_token}`
             });
     
             // Make a POST request to the logout endpoint with the access token in the headers
-            return this._httpClient.post(`localhost:9000/pidev/api/v1/auth/logout`, {}, { headers });
+            return this._httpClient.post(`${environment.apiUrl}/api/v1/auth/logout`, {}, { headers });
         } else {
             // Return an observable of false if the access token is not found
             return of(false);
