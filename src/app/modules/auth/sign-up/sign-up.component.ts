@@ -49,6 +49,8 @@ export class AuthSignUpComponent implements OnInit
                 lastname      : ['', Validators.required],
                 email     : ['', [Validators.required]],
                 password  : ['', Validators.required],
+                image  : [''],
+
                 agreements: ['', Validators.requiredTrue]
             }
         );
@@ -68,18 +70,20 @@ export class AuthSignUpComponent implements OnInit
         {
             return;
         }
-
+        const nom = this.signUpForm.get('firstname').value;
+        const prenom = this.signUpForm.get('lastname').value;
+        const email = this.signUpForm.get('email').value;
+        const password = this.signUpForm.get('password').value;
+        const photo: File = this.imageFile;      
         // Disable the form
         this.signUpForm.disable();
 
         // Hide the alert
         this.showAlert = false;
-
         // Sign up
-        this._authService.signUp(this.signUpForm.value)
+        this._authService.signUp(nom, prenom, email, password, photo)
             .subscribe(
                 (response) => {
-
                     // Navigate to the confirmation required page
                     this._router.navigateByUrl('/confirmation-required');
                 },
@@ -103,15 +107,12 @@ export class AuthSignUpComponent implements OnInit
             );
     }
     imageUrl: string | ArrayBuffer | null = null;
-
+    imageFile: File;
     onFileSelected(event: any) {
-      const file: File = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.imageUrl = reader.result;
-        };
+        const file: File = event.target.files[0];
+        this.imageFile = file;
+        this.signUpForm.patchValue({
+          photo: file
+        });
       }
-    }
 }

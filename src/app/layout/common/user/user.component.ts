@@ -45,7 +45,6 @@ export class UserComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {   
         const storedUser = localStorage.getItem('currentUser');
-        console.log("stoooo",storedUser)
         if (storedUser) {
             this.user = JSON.parse(storedUser);
         }
@@ -53,8 +52,6 @@ export class UserComponent implements OnInit, OnDestroy
         this._userService.user$
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((user: User | null) => {
-            console.log('User data received from service:', user);
-
             // Update the local user variable
             this.user = user;
 

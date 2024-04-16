@@ -29,9 +29,7 @@ export class UserService
      */
     set user(value: User)
     {
-              console.log('Setting user:', value);
-
-        // Store the value
+         // Store the value
         this._user.next(value);
     }
 
@@ -48,8 +46,6 @@ export class UserService
      * Get the current logged in user data
      */
     get(userId: number, token: string): Observable<User> {
-        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz",User.currentUser.id);
-
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });

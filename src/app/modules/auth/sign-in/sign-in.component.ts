@@ -101,7 +101,6 @@ export class AuthSignInComponent implements OnInit
                     
                     // Set the redirect url
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                    console.log('Redirect URL:', redirectURL); // Log the redirectURL
 
                     if (redirectURL === '/example') {
                         this._router.navigateByUrl(redirectURL);

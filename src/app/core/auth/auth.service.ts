@@ -97,8 +97,6 @@ export class AuthService
                 CurrentUser.setCurrentUser(response.user);  
                 
                 // Return a new observable with the response
-                console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz",this._userService.user);
-
                 return of(response);
             })
         );
@@ -174,6 +172,7 @@ export class AuthService
 
         // Remove the access token from the local storage
         localStorage.removeItem('access_token');
+        localStorage.removeItem('currentUser');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -196,10 +195,16 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/sign-up', user);
-    }
+    signUp(nom: string, prenom: string, email: string, password: string, image: File): Observable<any> {
+        const formData = new FormData();
+        formData.append('nom', nom);
+        formData.append('prenom', prenom);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('photo', image);
+      
+        return this._httpClient.post(`${environment.apiUrl}/api/v1/auth/register`, formData);
+      }
 
     /**
      * Unlock session
