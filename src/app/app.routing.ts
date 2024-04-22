@@ -4,13 +4,17 @@ import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 
+
 // @formatter:off
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
+    
+    
 
     // Redirect empty path to '/example'
     {path: '', pathMatch : 'full', redirectTo: 'example'},
+    
 
     // Redirect signed-in user to the '/example'
     //
@@ -32,8 +36,12 @@ export const appRoutes: Route[] = [
             {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule)},
             {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
             {path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},
-            {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)}
-        ]
+            {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)},
+            
+
+           
+
+        ]   
     },
 
     // Auth routes for authenticated users
@@ -59,6 +67,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+            
         ]
     },
 
@@ -72,6 +81,13 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+
+            // {path: 'forum', component: HomeComponent },
+            // {path: 'view-posts', component: PostTitleComponent },
+            // {path: 'create-post', component: CreatePostComponent },
+            
+            {path: 'forum', loadChildren: () => import('app/modules/forum/forum.module').then(m => m.ForumModule)}
+        
         ]
     }
 ];

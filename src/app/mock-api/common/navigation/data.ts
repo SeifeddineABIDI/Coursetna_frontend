@@ -8,6 +8,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'forum',
+        title: 'Forum-Esprit',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/forum'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
