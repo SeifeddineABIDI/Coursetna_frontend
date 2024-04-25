@@ -1,0 +1,10 @@
+.custom-table {
+    max-width: 95%; /* Largeur maximale de la table */
+    margin: 2% auto; /* Centrer la table horizontalement */
+}
+.add-button {
+top: 2%; /* Adjust top position as needed */
+right: 1px; /* Adjust right position as needed */
+max-width: 10%; /* Set the maximum width of the button */
+margin: 2%; /* Set the margin */
+}

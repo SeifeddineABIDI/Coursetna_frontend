@@ -23,8 +23,8 @@ export class QuizService {
   updateQuiz(quiz: Quiz) {
     return  this.http.put<Quiz>(`${this.apiurl}/updateQuiz`,quiz);
   }
-  deleteQuiz(id :number): Observable<Quiz> {
-    return this.http.delete<Quiz>(`${this.apiurl}/removeQuiz/${id}`);
+  deleteQuiz(id :number): Observable<void>{
+    return this.http.delete<void>(`${this.apiurl}/removeQuiz/${id}`);
   }
 /*****END CRUD********* */
 }

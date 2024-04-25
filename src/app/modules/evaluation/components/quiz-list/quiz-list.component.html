@@ -1,22 +1,20 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-        <style>
-            .custom-table {
-                max-width: 95%; /* Largeur maximale de la table */
-                margin: 2% auto; /* Centrer la table horizontalement */
-            }
-        </style>
-    
-    </head>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
+
+</head>
 <body>
+        <button class="btn btn-success add-button"><i class="fas fa-plus"></i> Add</button>
     <table id="example" class="table table-striped custom-table">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Duree</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody >
@@ -24,6 +22,10 @@
                 <td>{{q.title}}</td>
                 <td>{{q.description}}</td>
                 <td>{{q.duree}}</td>
+                <td>
+                    <button class="btn btn-primary" ><i class="fas fa-edit"></i></button> <!-- Edit icon -->
+                    <button class="btn btn-danger" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Delete icon -->
+                </td>
             </tr>         
         </tbody>
     </table>

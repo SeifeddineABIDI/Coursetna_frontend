@@ -7,7 +7,7 @@ import { Score } from "./score";
 // }
 
 export interface Quiz{
-    numQuiz?:string;
+    numQuiz?:number;
     title?:string;
     description?:string;
     duree?:number;
