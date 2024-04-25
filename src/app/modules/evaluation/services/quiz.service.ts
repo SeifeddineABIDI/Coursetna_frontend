@@ -15,19 +15,21 @@ export class QuizService {
   getAllQuiz(): Observable<Quiz[]>{
     return this.http.get<Quiz[]>(`${this.apiurl}/getAll`);
   }
+  deleteQuiz(id :number): Observable<void>{
+    return this.http.delete<void>(`${this.apiurl}/removeQuiz/${id}`);
+  }
   addQuizAndAssignToTopic(quiz: Quiz, topicId: number): Observable<Quiz>{
     return this.http.post<Quiz>(`${this.apiurl}/addQuizAndAssignToTopic/${topicId}`, quiz);
+  }
+  updateQuiz(quiz: Quiz) {
+    console.log("service quiz quiz:",quiz);
+    return  this.http.put<Quiz>(`${this.apiurl}/updateQuiz`,quiz);
   }
 
   getQuizById(id:number): Observable<Quiz>{
     return this.http.get<Quiz>(`${this.apiurl}/getQuiz/${id}`);
   }
-  updateQuiz(quiz: Quiz) {
-    return  this.http.put<Quiz>(`${this.apiurl}/updateQuiz`,quiz);
-  }
-  deleteQuiz(id :number): Observable<void>{
-    return this.http.delete<void>(`${this.apiurl}/removeQuiz/${id}`);
-  }
+
 /*****END CRUD********* */
 
 getAllTopics(): Observable<Topic[]>{

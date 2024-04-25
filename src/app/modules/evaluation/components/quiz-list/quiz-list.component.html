@@ -33,7 +33,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Quiz</h5>
+                    <h5 class="modal-title">{{ modalTitle }}</h5>
                     <button type="button" class="btn-close" (click)="toggleAddModal(false)" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -48,16 +48,19 @@
                         </div>
 
 
-                        <div class="mb-3">
-                            <label class="form-label">Topic</label>
-                            <select class="form-control" [formControl]="topic">
-                                <option value="">Select Topic</option> 
-                                <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.nom }}</option>
-                            </select>
-                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
-                                Topic is required
+                    <!-- Show topic select only when adding a new quiz -->
+                        <ng-container *ngIf="!isEditMode">
+                            <div class="mb-3">
+                                <label class="form-label">Topic</label>
+                                <select class="form-control" [formControl]="topic">
+                                    <option value="">Select Topic</option> 
+                                    <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.nom }}</option>
+                                </select>
+                                <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
+                                    Topic is required
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
                 
                         <div class="mb-3">
                             <label  class="form-label">Description</label>
@@ -84,7 +87,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="toggleAddModal(false)">Close</button>
-                    <button type="submit" class="btn btn-primary" (click)="save()" [disabled]="quizForm.invalid ||topic.invalid">Save</button>
+                    <button type="submit" class="btn btn-primary" (click)="save()" [disabled]="isEditMode ? quizForm.invalid : (quizForm.invalid || topic.invalid)">Save</button>
                 </div>
             </div>
         </div>
@@ -107,7 +110,7 @@
                 <td>{{q.description}}</td>
                 <td>{{q.duree}}</td>
                 <td>
-                    <button class="btn btn-primary" ><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-primary" (click)="editModel(q)"><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
                     <button class="btn btn-danger" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
                 </td>
             </tr>         

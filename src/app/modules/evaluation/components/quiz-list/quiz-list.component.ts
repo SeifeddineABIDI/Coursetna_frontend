@@ -63,12 +63,52 @@ export class QuizListComponent{
       }
     })
   }
+/******************************Edit Quiz************************ */
+  isEditMode: boolean = false;
+  idEditedQuiz:number;
+  editModel(quiz: Quiz) {
+    this.idEditedQuiz=quiz.numQuiz
+    this.quizForm.patchValue(quiz); // Patch quiz data into the form
+    this.isEditMode = true;
+    this.toggleAddModal(true);
+  }
+  editQuiz(){
+    if (this.quizForm.valid) {
+      const editedQuiz: Quiz = {
+        numQuiz:this.idEditedQuiz ,
+        title:this.quizForm.value.title,
+        description:this.quizForm.value.description,
+        duree:this.quizForm.value.duree,
+      };
+
+      this.qs.updateQuiz(editedQuiz).subscribe(
+        (result) => {
+          console.log('Quiz updated successfully:', result);
+          
+          this.quizForm.reset();
+          this.toggleAddModal(false);
+          this.isEditMode = false;
+          this.getAllQuizzes();
+        },
+        (error) => {
+          console.error('Error occurred while updating quiz:', error);
+        }
+      );
+  }else{
+    this.quizForm.markAllAsTouched();
+  }
+  }
+/******************************End Edit Quiz************************ */
+
 /************model************/
 // Variable pour contrôler l'affichage du modèle d'ajout
 showAddModal: boolean = false;
+modalTitle: string = 'Add New Quiz';
+
 // Fonction pour basculer l'affichage du modèle d'ajout
 toggleAddModal(status: boolean): void {
   this.showAddModal = status;
+  this.modalTitle = status ? 'Add New Quiz' : 'Edit Quiz';
 }
 /*******Form**************** */
 quizForm: FormGroup;
@@ -82,14 +122,15 @@ fetchTopics() {
 }
 
 save(){
+  if (this.isEditMode) {
+    this.editQuiz();
+  } else {
+    this.saveNewQuiz();
+  }
+}
+/********************************* */
+saveNewQuiz(){
   const selectedTopicId: number = parseInt(this.topic.value, 10); // interprets the string as a decimal number.
-  console.log('Selected Topic ID:', selectedTopicId);
-  console.log('Data to be sent:', {
-    quiz: this.quizForm.value,
-    topicId: selectedTopicId
-});
-
-
     if (this.quizForm.valid) {
       this.qs.addQuizAndAssignToTopic(this.quizForm.value, selectedTopicId).subscribe(
         (result) => {
@@ -107,7 +148,6 @@ save(){
   }else{
     this.quizForm.markAllAsTouched();
   }
-
 }
 
 
