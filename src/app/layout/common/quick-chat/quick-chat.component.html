@@ -1,52 +1,179 @@
-<div class="fixed lg:sticky top-0 bottom-0 lg:left-full w-full sm:w-96 lg:w-16 lg:h-screen lg:shadow">
-    <div
-        class="flex flex-col w-full sm:w-96 h-full transition-transform duration-400 ease-drawer bg-card"
-        [ngClass]="{'-translate-x-full sm:-translate-x-96 lg:-translate-x-80 shadow': opened, 'translate-x-0': !opened}">
+<div class="modal" [ngClass]="{'hidden': !showModala}"
+    style="box-shadow: -2px 0px 8px rgba(0,0,0,0.1); position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <div class="modal-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+    </div>
+    <div class="modal-content dark:bg-hover bg-white"
+        style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 80%; max-width: 600px; z-index: 10000;">
+        <h2 style="margin-bottom: 20px; text-align: center;">Create a Discussion</h2>
+        <div style="display: flex; flex-direction: row;">
+            <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px;">
+
+                <!-- app.component.html -->
+                <div *ngFor="let user of users" (click)="toggleUserSelection(user)"
+                    [ngClass]="{'bg-primary-400': isUserSelected(user)}"
+                    style="border: 1px solid lightgray; border-radius: 8px; padding: 10px; margin-bottom: 5px; display: flex; align-items: center; cursor: pointer;">
+
+                    <div style="display: flex; align-items: center;">
+                        <img [src]="user.photo"
+                            style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
+                            alt="{{user.prenom}} {{user.nom}}">
+                        <span>{{ user.prenom }} {{ user.nom }}</span>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+            <div style="flex: 1;">
+                <h3 style="margin: 0;"><- Search for students</h3>
+                        <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
+                            <input type="text" matInput placeholder="Insert student name here">
+                            <button style="padding: 10px; margin-left: 10px;"><span>🔍</span></button>
+                        </mat-form-field>
+                        <h3 style="margin: 0;">"Group" discussion title:</h3>
+                        <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
+                            <input type="text" matInput [(ngModel)]="inputTitle"
+                                placeholder="Insert discussion title here">
+                        </mat-form-field>
+                        <h3 style="margin: 0;">Insert image for "Group" discussion:</h3>
+                        <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
+                        <div *ngIf="imageData; else fallback">
+                            <img [src]="imageData" alt="Uploaded Image"
+                                style="width: 70px; height: 70px; border-radius: 50%;">
+                        </div>
+                        <ng-template #fallback>
+                            <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'"
+                                alt="Default Image" style="width: 70px; height: 70px; border-radius: 50%;">
+                        </ng-template>
+
+            </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end;">
+            <button class="bg-primary-400 hover:bg-hover" (click)="startDiscussion()"
+                style="border-radius: 8%; border: 4px; padding: 10px 20px; margin-right: 10px;">Confirm</button>
+            <button class="bg-gray-200 hover:bg-hover" (click)="closeModala()"
+                style="border-radius: 8%; border: 4px; padding: 10px 20px;">Close</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal" [ngClass]="{'hidden': !showModalb}"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <div class="modal-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+    </div>
+    <div class="modal-content dark:bg-hover bg-white"
+        style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 80%; max-width: 800px; z-index: 10000;">
+        <h2 style="margin-bottom: 20px; text-align: center;">Create a Community</h2>
+        <div style="display: flex; flex-direction: row;">
+            <!-- Left side: Discussions -->
+            <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px;">
+
+                <!-- app.component.html -->
+                <div *ngFor="let user of users" (click)="toggleUserSelection(user)"
+                    [ngClass]="{'bg-primary-400': isUserSelected(user)}"
+                    style="border: 1px solid lightgray; border-radius: 8px; padding: 10px; margin-bottom: 5px; display: flex; align-items: center; cursor: pointer;">
+
+                    <div style="display: flex; align-items: center;">
+                        <img [src]="user.photo"
+                            style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
+                            alt="{{user.prenom}} {{user.nom}}">
+                        <span>{{ user.prenom }} {{ user.nom }}</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Middle side: Student Search, Group Title, and Image Input -->
+            <div style="flex: 1; padding-right: 20px;">
+                <h3 style="margin: 0;"><-Search for students</h3>
+                        <mat-form-field class="fuse-mat-bold fuse-mat-dense w-full" style="margin-bottom: 20px;">
+                            <input type="text" matInput placeholder="Insert student name here">
+                            <button style="padding: 10px; margin-left: 10px;"><span>🔍</span></button>
+                        </mat-form-field>
+                        <h3 style="margin: 0;">Community title:</h3>
+                        <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
+                            <input type="text" matInput [(ngModel)]="inputTitle"
+                                placeholder="Insert community title here">
+                        </mat-form-field>
+                        <h3 style="margin: 0;">Insert image for Community:</h3>
+                        <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
+                        <div *ngIf="imageData; else fallback">
+                            <img [src]="imageData" alt="Uploaded Image"
+                                style="width: 70px; height: 70px; border-radius: 50%;">
+                        </div>
+                        <ng-template #fallback>
+                            <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'"
+                                alt="Default Image" style="width: 70px; height: 70px; border-radius: 50%;">
+                        </ng-template>
+            </div>
+
+            <!-- Right side: Channels with Add/Remove -->
+            <div style="flex: 1; overflow-y: auto; max-height: 300px;">
+                <h3 style="margin: 0;">Channels:</h3>
+                <div *ngFor="let channel of channels; let i=index">
+                    <mat-form-field class="fuse-mat-bold w-full">
+                        <input type="text" matInput [(ngModel)]="channels[i]" placeholder="Channel {{ i + 1 }}">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button (click)="addChannel()" style="margin-right: 10px;">+</button>
+                    <button (click)="removeChannel()" style="margin-right: 10px;">-</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end;">
+            <button class="bg-primary-400 hover:bg-hover" (click)="startCommunity()"
+                style="border-radius: 8%; border: 4px; padding: 10px 20px; margin-right: 10px;">Confirm</button>
+            <button class="bg-gray-200 hover:bg-hover" (click)="closeModalb()"
+                style="border-radius: 8%; border: 4px; padding: 10px 20px;">Close</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="fixed lg:sticky top-0 bottom-0 lg:left-full w-full sm:w-16 lg:w-16 lg:h-screen lg:shadow">
+    <div class="flex flex-col w-full sm:w-120 lg:w-120 h-full transition-transform duration-400 ease-drawer bg-card"
+        [ngClass]="{'-translate-x-full lg:-translate-x-100 sm:-translate-x-120  shadow': opened, 'translate-x-0': !opened}">
 
         <!-- Header -->
-        <div
-            class="quick-chat-header flex flex-0 items-center justify-start cursor-pointer"
-            (click)="toggle()">
-
+        <div class="quick-chat-header flex flex-0 items-center justify-start cursor-pointer">
             <!-- Toggle -->
             <ng-container *ngIf="!opened || (opened && !selectedChat)">
                 <div class="flex flex-auto items-center justify-center">
-                    <div class="flex flex-0 items-center justify-center w-16">
-                        <mat-icon
-                            class="icon-size-6"
-                            [svgIcon]="'heroicons_outline:chat-alt-2'"></mat-icon>
+                    <div (click)="toggle()" class="flex flex-0 items-center justify-center w-16">
+                        <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:chat-alt-2'"></mat-icon>
                     </div>
-                    <div class="text-lg font-medium text-secondary">Team Chat</div>
-                    <button
-                        class="ml-auto mr-4"
-                        mat-icon-button>
-                        <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                    </button>
-                </div>
-            </ng-container>
 
-            <!-- Contact info -->
-            <ng-container *ngIf="opened && selectedChat">
-                <div class="flex flex-auto items-center ml-3">
-                    <div class="relative flex flex-0 items-center justify-center w-10 h-10">
-                        <ng-container *ngIf="chat.contact.avatar">
-                            <img
-                                class="w-full h-full rounded-full object-cover"
-                                [src]="chat.contact.avatar"
-                                alt="Contact avatar"/>
-                        </ng-container>
-                        <ng-container *ngIf="!chat.contact.avatar">
-                            <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                {{chat.contact.name.charAt(0)}}
-                            </div>
-                        </ng-container>
-                    </div>
-                    <div class="ml-4 text-lg font-medium leading-5 truncate">{{chat.contact.name}}</div>
-                    <button
-                        class="ml-auto mr-4"
-                        mat-icon-button>
+                    <div (click)="toggle()" class="text-lg font-medium text-secondary">{{currentDiscussionTitle}}</div>
+                    <button (click)="showPins()" class="ml-auto mr-4" mat-icon-button [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover':  showPinsB,
+                    'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': showPinsB}">
+                        📌
+                    </button>
+
+                    <button (click)="toggle()" class="ml-auto mr-4" mat-icon-button>
                         <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
                     </button>
+
                 </div>
             </ng-container>
         </div>
@@ -55,142 +182,408 @@
         <div class="flex flex-auto border-t overflow-hidden">
 
             <!-- Chat list -->
-            <div
-                class="flex-0 w-16 h-full overflow-y-auto overscroll-y-contain sm:overflow-hidden sm:overscroll-auto"
-                fuseScrollbar
-                [fuseScrollbarOptions]="{wheelPropagation: false}">
+            <div class="flex-0 w-20 h-full overflow-y-auto overscroll-y-contain sm:overflow-hidden sm:overscroll-auto"
+                fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false}">
                 <div class="flex-auto">
-                    <ng-container *ngFor="let chat of chats; trackBy: trackByFn">
-                        <div
-                            class="flex items-center py-3 px-4 cursor-pointer"
-                            [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedChat || selectedChat.id !== chat.id,
-                                        'bg-primary-50 dark:bg-hover': selectedChat && selectedChat.id === chat.id}"
-                            (click)="selectChat(chat.id)">
-                            <div class="relative flex flex-0 items-center justify-center w-8 h-8">
-                                <ng-container *ngIf="chat.unreadCount > 0">
-                                    <div
-                                        class="absolute bottom-0 right-0 flex-0 w-2 h-2 -ml-0.5 rounded-full ring-2 ring-bg-card dark:ring-gray-900 bg-primary dark:bg-primary-500 text-on-primary"
-                                        [class.ring-primary-50]="selectedChat && selectedChat.id === chat.id"></div>
-                                </ng-container>
-                                <ng-container *ngIf="chat.contact.avatar">
-                                    <img
-                                        class="w-full h-full rounded-full object-cover"
-                                        [src]="chat.contact.avatar"
-                                        alt="Contact avatar"/>
-                                </ng-container>
-                                <ng-container *ngIf="!chat.contact.avatar">
-                                    <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                        {{chat.contact.name.charAt(0)}}
+
+
+                    <div class="flex items-center py-3 px-4 cursor-pointer"
+                        [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'" (click)="openModala()"
+                        style="font-size: x-large;">
+
+                        <div class="relative flex flex-0 items-center justify-center w-12">
+
+                            ➕
+                        </div>
+
+
+
+
+                    </div>
+
+                    <ng-container *ngFor="let discussion of discussions">
+
+
+                        <div class="flex items-center py-3 px-4 cursor-pointer"
+                            [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': currentDiscussion.id !== discussion.id,
+                                        'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': currentDiscussion === discussion.id}"
+                            (click)="selectDiscussion(discussion.id,discussion.title)">
+
+
+                            <ng-container *ngIf="discussion.typeDiscussion === 'Duo'; else titleTemplate">
+
+
+                                <ng-container *ngIf="currentUser === discussion.users[0].id; else titleeTemplate">
+
+                                    <div class="relative flex flex-0 items-center justify-center w-12 h-12">
+
+                                        <img class="w-full h-full rounded-full object-cover"
+                                            src="{{discussion.users[1].photo}}" alt="Contact avatar" />
+
                                     </div>
+
+
                                 </ng-container>
-                            </div>
+
+                                <ng-template #titleeTemplate>
+                                    <div class="relative flex flex-0 items-center justify-center w-12 h-12">
+
+                                        <img class="w-full h-full rounded-full object-cover"
+                                            src="{{discussion.users[0].photo}}" alt="Contact avatar" />
+
+                                    </div>
+                                </ng-template>
+
+
+                            </ng-container>
+                            <ng-template #titleTemplate>
+                                <ng-container *ngIf="discussion.photo != '' else noI">
+
+                                    <div class="relative flex flex-0 items-center justify-center w-12 h-12">
+
+                                        <img class="w-full h-full rounded-full object-cover" src="{{discussion.photo}}"
+                                            alt="Contact avatar" />
+
+                                    </div>
+
+
+                                </ng-container>
+
+                                <ng-template #noI>
+                                    {{discussion.title}}
+                                </ng-template>
+                            </ng-template>
+
+
+
+
                         </div>
                     </ng-container>
                 </div>
             </div>
 
             <!-- Conversation -->
-            <div class="flex flex-col flex-auto border-l overflow-hidden bg-gray-50 dark:bg-transparent">
-                <ng-container *ngIf="chat; else selectChatOrStartNew">
-                    <div class="flex flex-col-reverse overflow-y-auto overscroll-y-contain">
-                        <div class="flex flex-col flex-auto shrink p-6">
-                            <ng-container *ngFor="let message of chat.messages; let i = index; let first = first; let last = last; trackBy: trackByFn">
-                                <!-- Start of the day -->
-                                <ng-container *ngIf="first || (chat.messages[i - 1].createdAt | date:'d') !== (message.createdAt | date:'d')">
-                                    <div class="flex items-center justify-center my-3 -mx-6">
-                                        <div class="flex-auto border-b"></div>
-                                        <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
-                                            {{message.createdAt | date: 'longDate'}}
-                                        </div>
-                                        <div class="flex-auto border-b"></div>
+            <div class="flex-0 w-80 border-l overflow-hidden bg-gray-50  dark:bg-transparent">
+                <div class="flex flex-col-reverse overflow-y-auto overscroll-y-contain h-full">
+                    <div class="flex flex-col flex-auto shrink p-6">
+                        <ng-container
+                            *ngFor="let message of messages; let i = index; let first = first; let last = last; trackBy: trackByFn">
+
+                            <!-- Start of the day -->
+                            <ng-container
+                                *ngIf="first || (messages[i - 1]?.dateSent | date:'d') !== (message.dateSent | date:'d')">
+                                <div class="flex items-center justify-center my-3 -mx-6">
+                                    <div class="flex-auto border-b"></div>
+                                    <div class="flex-0 mx-4 text-sm font-medium leading-5 text-secondary">
+                                        {{message.dateSent | date: 'longDate'}}
                                     </div>
+                                    <div class="flex-auto border-b"></div>
+                                </div>
+                            </ng-container>
+
+                            <!-- Message Container -->
+                            <div class="flex flex-col" [ngClass]="{
+                                'items-end': message.user.id === currentUser,
+                                'items-start': message.user.id !== currentUser,
+                                'mt-0.5': message.user.id === currentUser,
+                                'mt-3': message.user.id !== currentUser
+                            }">
+                                <!-- Display Reply if it's not null -->
+                                <ng-container *ngIf="message.reply">
+                                    <ng-container *ngIf="!message.reply.archived">
+                                        <div (click)="onMessageClick(message.reply)"
+                                            class="relative max-w-60 px-3 py-2 rounded-lg bg-gray-300 text-gray-900"
+                                            style="border-left: 3px solid gray;">
+                                            <div class="min-w-4 leading-5" [innerHTML]="message.reply.message"
+                                                style="word-wrap: break-word;"></div>
+                                        </div>
+                                        <div style="height: 5px;"></div>
+                                        <!-- Spacer between reply and the actual message -->
+                                    </ng-container>
                                 </ng-container>
-                                <div
-                                    class="flex flex-col"
-                                    [ngClass]="{'items-end': message.isMine,
-                                                'items-start': !message.isMine,
-                                                'mt-0.5': i > 0 && chat.messages[i - 1].isMine === message.isMine,
-                                                'mt-3': i > 0 && chat.messages[i - 1].isMine !== message.isMine}">
-                                    <!-- Bubble -->
-                                    <div
-                                        class="relative max-w-3/4 px-3 py-2 rounded-lg"
-                                        [ngClass]="{'bg-blue-500 text-blue-50': message.isMine,
-                                                    'bg-gray-500 text-gray-50': !message.isMine}">
-                                        <!-- Speech bubble tail -->
-                                        <ng-container *ngIf="last || chat.messages[i + 1].isMine !== message.isMine">
-                                            <div
-                                                class="absolute bottom-0 w-3"
-                                                [ngClass]="{'text-blue-500 -right-1 -mr-px mb-px': message.isMine,
-                                                            'text-gray-500 -left-1 -ml-px mb-px -scale-x-1': !message.isMine}">
-                                                <ng-container *ngTemplateOutlet="speechBubbleExtension"></ng-container>
-                                            </div>
-                                        </ng-container>
-                                        <!-- Message -->
-                                        <div
-                                            class="min-w-4 leading-5"
-                                            [innerHTML]="message.value">
-                                        </div>
+
+                                <!-- Actual Message -->
+                                <div (click)="onMessageClick(message)" class="relative max-w-60 px-3 py-2 rounded-lg"
+                                    [ngClass]="{
+                                         'bg-primary-500 text-primary-50': message.user.id === currentUser,
+                                         'bg-gray-500 text-gray-50': message.user.id !== currentUser
+                                     }">
+                                    <!-- Speech bubble tail -->
+                                    <div class="absolute bottom-0 w-3" [ngClass]="{
+                                             'text-primary-500 -right-1 -mr-px mb-px': message.user.id === currentUser,
+                                             'text-gray-500 -left-1 -ml-px mb-px -scale-x-1': message.user.id !== currentUser
+                                         }">
+                                        <ng-container *ngTemplateOutlet="speechBubbleExtension"></ng-container>
                                     </div>
-                                    <!-- Time -->
-                                    <ng-container
-                                        *ngIf="first
-                                       || last
-                                       || chat.messages[i + 1].isMine !== message.isMine
-                                       || chat.messages[i + 1].createdAt !== message.createdAt">
-                                        <div
-                                            class="my-0.5 text-sm font-medium text-secondary"
-                                            [ngClass]="{'mr-3': message.isMine,
-                                                        'ml-3': !message.isMine}">
-                                            {{message.createdAt | date:'HH:mm'}}
+
+                                    <!-- Message content -->
+                                    <div class="min-w-4 leading-5" [innerHTML]="message.message"
+                                        style="word-wrap: break-word;"></div>
+
+                                    <!-- Reactions -->
+
+                                </div>
+                                <div class="flex flex-wrap mt-2 text-sm">
+                                    <ng-container *ngFor="let reaction of groupReactions(message.reactions)">
+                                        <div class="flex items-center mr-2">
+                                            <span>{{ reaction.emoji }}</span> <!-- Reaction emoji -->
+                                            <span class="ml-1">{{ reaction.count }}</span> <!-- Reaction count -->
                                         </div>
                                     </ng-container>
                                 </div>
-                            </ng-container>
+
+                                <!-- Timestamp -->
+                                <ng-container *ngIf="first
+                                   || last
+                                   || (messages[i - 1]?.user.id === currentUser) !== (message.user.id === currentUser)
+                                   || messages[i + 1]?.dateSent !== message.dateSent">
+                                    <div class="my-0.5 text-sm font-medium text-secondary" [ngClass]="{
+                                        'mr-3': message.user.id === currentUser,
+                                        'ml-3': message.user.id !== currentUser
+                                    }">
+                                        {{message.dateSent | date:'HH:mm'}}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                    </div>
+                </div>
+                >
+
+
+                <!-- Message field -->
+                <div class="flex flex-auto p-4 border-t bg-gray-50 dark:bg-gray-500"
+                    style="position: fixed; bottom: 0; width:69% ">
+                    <mat-form-field class="fuse-mat-dense fuse-mat-rounded fuse-mat-bold w-full"
+                        [subscriptSizing]="'dynamic'">
+                        <textarea matInput cdkTextareaAutosize #messageInput placeholder="Type your message"
+                            [(ngModel)]="sendMessageo" (keydown.enter)="onEnter($event)"></textarea>
+                    </mat-form-field>
+                    <div class="flex items-center h-11 my-px ml-4">
+                        <button (click)="sendMessage()" mat-icon-button>
+                            <mat-icon class="rotate-90" [svgIcon]="'heroicons_outline:paper-airplane'"></mat-icon>
+
+
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Chat list -->
+            <div class="dark:bg-hover bg-gray-100 flex-col h-full overflow-y-auto overscroll-y-contain sm:overflow-hidden sm:overscroll-auto"
+                fuseScrollbar [fuseScrollbarOptions]="{wheelPropagation: false}">
+                <div class="flex-auto">
+
+
+                    <div class="bg-primary-500 flex items-end py-3 px-4 cursor-pointer">
+                        <div class="relative flex flex-0 items-center justify-center w-8 h-20">
+
+                            <div class="vertical-text"
+                                style="writing-mode: vertical-rl; font-weight: bold; color: white;">
+                                👨‍👩‍👧‍👦 Community
+                            </div>
+
+
                         </div>
                     </div>
 
-                    <!-- Message field -->
-                    <div class="flex items-end p-4 border-t bg-gray-50 dark:bg-transparent">
-                        <mat-form-field
-                            class="fuse-mat-dense fuse-mat-rounded fuse-mat-bold w-full"
-                            [subscriptSizing]="'dynamic'">
-                            <textarea
-                                matInput
-                                cdkTextareaAutosize
-                                #messageInput></textarea>
-                        </mat-form-field>
-                        <div class="flex items-center h-11 my-px ml-4">
-                            <button
-                                mat-icon-button>
-                                <mat-icon
-                                    class="rotate-90"
-                                    [svgIcon]="'heroicons_outline:paper-airplane'"></mat-icon>
-                            </button>
+                    <div class="flex items-center py-3 px-4 cursor-pointer"
+                        [ngClass]="'bg-primary-500 hover:bg-gray-100 dark:hover:bg-hover'" (click)="openModalb()"
+                        style="font-size: x-large;">
+
+                        <div class="relative flex flex-0 items-center justify-center w-8 h-5" style="color: white;">
+
+                            <span style="color: white; font-size: 40px;">+</span>
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="flex items-center py-3 px-4 cursor-pointer" [ngClass]="{'hover:bg-gray-200 dark:hover:bg-hover': currentCommunity != 0,
+                            'hover:bg-gray-400 bg-gray-400 dark:hover:bg-hover dark:bg-hover': currentCommunity == 0}"
+                        (click)="selectDM()">
+                        <div class="relative flex flex-0 items-center justify-center w-8 h-8">
+                            <h1>🔵DMs🔵</h1>
                         </div>
                     </div>
-                </ng-container>
+                    <ng-container *ngFor="let community of communities">
+                        <div class="flex items-center py-3 px-4 cursor-pointer"
+                            [ngClass]="{'hover:bg-gray-200 dark:hover:bg-hover': currentCommunity != community.id,
+                                      'hover:bg-gray-400 bg-gray-400 dark:hover:bg-hover dark:bg-hover ': currentCommunity == community.id}"
+                            (click)="selectCommunity(community.id)">
+                            <div class="relative flex flex-0 items-center justify-center w-8 h-8">
+                                <ng-container *ngIf="community.photo != '' else noIx">
+
+                                    <div class="relative flex flex-0 items-center justify-center w-12 h-12">
+
+                                        <img class="w-full h-full rounded-full object-cover" src="{{community.photo}}"
+                                            alt="Contact avatar" />
+
+                                    </div>
+
+
+                                </ng-container>
+
+                                <ng-template #noIx>
+                                    {{community.title}}
+                                </ng-template>
+                            </div>
+                        </div>
+
+                    </ng-container>
+
+
+
+                </div>
             </div>
         </div>
+
     </div>
 </div>
+
+<div class="dark:bg-hover bg-white" *ngIf="currentMessage" [ngClass]="{'expanded': showEmojiList}" style="
+    border-top-left-radius: 7%; 
+    border-bottom-left-radius: 7%; 
+    position: fixed; 
+    right: 0; 
+    top: 10%; 
+    width: 45%; 
+    border-left: 1px solid #ccc; 
+    padding: 16px; 
+    box-shadow: -2px 0px 8px rgba(0,0,0,0.1);">
+    <div style="display: flex; align-items: center;">
+        <img [src]="currentMessage.user.photo"
+            style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
+            alt="{{ currentMessage.user.prenom }} {{ currentMessage.user.nom }}">
+        <span> {{ currentMessage.user.prenom }} {{ currentMessage.user.nom }}</span>
+    </div>
+
+    <br>
+
+    <div style="
+      border: 1px solid #ccc; 
+      padding: 12px; 
+      background: #f9f9f9; 
+      overflow-y: auto; 
+      max-height: 8em; 
+      white-space: pre-wrap; 
+      word-wrap: break-word;">
+        {{ currentMessage.message }}
+    </div>
+
+    <!-- Input field and buttons for editing and replying -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px;">
+        <mat-form-field style="flex: 1; margin: 0 10px;">
+            <input matInput placeholder="Insert message here" [(ngModel)]="editreplyMessageo" />
+        </mat-form-field>
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display: flex; justify-content: space-between; margin-top: 8px; flex-wrap: wrap;">
+        <!-- Delete, Modify, Reply -->
+        <button (click)="deleteMessage(currentMessage.id)" [ngClass]="{
+        'bg-gray-500': currentMessage.user.id !== currentUser,
+        'bg-gray-200': currentMessage.user.id === currentUser
+      }" style="padding: 8px 12px; border-radius: 50%; font-size: large;"
+            [disabled]="currentMessage.user.id !== currentUser">
+            🗑️
+        </button>
+
+        <button (click)="modifyMessage(currentMessage.id)" [ngClass]="{
+        'bg-gray-500': currentMessage.user.id !== currentUser,
+        'bg-gray-200': currentMessage.user.id === currentUser
+      }" style="padding: 8px 12px; border-radius: 50%; font-size: large;"
+            [disabled]="currentMessage.user.id !== currentUser">
+            ✏️
+        </button>
+
+        <button (click)="replyMessage(currentMessage.id)" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">
+            📩
+        </button>
+
+        <!-- Pin, Report, React, Share, Translate -->
+        <button (click)="pinMessage()" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">
+            📌
+        </button>
+
+        <button (click)="performAction('forward')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">
+            🚨
+        </button>
+
+        <!-- Heart button for showing the emoji list -->
+        <button (click)="performAction('react')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">
+            💖
+        </button>
+
+        <button (click)="performAction('share')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">
+            🔗
+        </button>
+
+        <button (click)="performAction('translate')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">
+            🌐
+        </button>
+    </div>
+
+    <!-- Emoji reaction list -->
+    <div *ngIf="showFEmoji" style="
+      border-top: 1px solid #ccc; 
+      padding: 12px; 
+      background: #f9f9f9; 
+      display: flex; 
+      justify-content: space-around; 
+      flex-wrap: wrap;
+      margin-top: 8px;
+    ">
+        <!-- List of additional emoji -->
+        <button (click)="reactMessage(currentMessage.id,'👍')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">👍</button>
+        <button (click)="reactMessage(currentMessage.id,'👎')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">👎</button>
+        <button (click)="reactMessage(currentMessage.id,'💖')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">💖</button>
+        <button (click)="reactMessage(currentMessage.id,'😊')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">😊</button>
+        <button (click)="reactMessage(currentMessage.id,'😢')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">😢</button>
+        <button (click)="reactMessage(currentMessage.id,'😡')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">😡</button>
+        <button (click)="reactMessage(currentMessage.id,'😮')" class="bg-gray-200"
+            style="padding: 8px 12px; border-radius: 50%; font-size: large;">😮</button>
+    </div>
+</div>
+
+
+
 
 <!-- Select chat or start new template -->
 <ng-template #selectChatOrStartNew>
     <div class="flex flex-col flex-auto items-center justify-center w-full h-full p-4">
-        <mat-icon
-            class="icon-size-24"
-            [svgIcon]="'heroicons_outline:chat'"></mat-icon>
+        <mat-icon class="icon-size-24" [svgIcon]="'heroicons_outline:chat'"></mat-icon>
         <div class="mt-4 text-xl text-center font-medium tracking-tight text-secondary">Select a conversation</div>
     </div>
 </ng-template>
 
 <!-- Speech bubble tail SVG -->
-<!-- @formatter:off -->
 <ng-template #speechBubbleExtension>
     <svg width="100%" height="100%" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <path d="M1.01522827,0.516204834 C-8.83532715,54.3062744 61.7609863,70.5215302 64.8009949,64.3061218 C68.8074951,54.8859711 30.1663208,52.9997559 37.5036011,0.516204834 L1.01522827,0.516204834 Z" fill="currentColor" fill-rule="nonzero"></path>
+            <path
+                d="M1.01522827,0.516204834 C-8.83532715,54.3062744 61.7609863,70.5215302 64.8009949,64.3061218 C68.8074951,54.8859711 30.1663208,52.9997559 37.5036011,0.516204834 L1.01522827,0.516204834 Z"
+                fill="currentColor" fill-rule="nonzero"></path>
         </g>
     </svg>
 </ng-template>
-<!-- @formatter:on -->
