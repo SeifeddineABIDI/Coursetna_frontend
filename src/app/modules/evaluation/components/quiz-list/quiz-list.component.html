@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+        <style>
+            .custom-table {
+                max-width: 95%; /* Largeur maximale de la table */
+                margin: 2% auto; /* Centrer la table horizontalement */
+            }
+        </style>
+    
+    </head>
+<body>
+    <table id="example" class="table table-striped custom-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Duree</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let q of quizzes">
+                <td>{{q.title}}</td>
+                <td>{{q.description}}</td>
+                <td>{{q.duree}}</td>
+            </tr>         
+        </tbody>
+    </table>
+    
+</body>
+</html>
