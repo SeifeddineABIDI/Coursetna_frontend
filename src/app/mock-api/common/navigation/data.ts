@@ -11,7 +11,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id   : 'quizList',
-        title: 'quizList',
+        title: 'Quiz',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/quizList'

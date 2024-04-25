@@ -4,10 +4,93 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
-
+    <style>
+        /* Style for the modal */
+        .add-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 25%;
+            z-index: 9999;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        /* Style to hide the table when modal is displayed */
+        .modal-open {
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-        <button class="btn btn-success add-button"><i class="fas fa-plus"></i> Add</button>
+    <!-- Bouton "Add" -->
+    <button class="btn btn-primary add-button" type="button"  (click)="toggleAddModal(true)"><i class="fas fa-plus"></i> Add</button>
+    
+    <!-- Modèle d'ajout -->
+    <div class="add-modal" *ngIf="showAddModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Quiz</h5>
+                    <button type="button" class="btn-close" (click)="toggleAddModal(false)" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="quizForm">
+                        <div class="mb-3">
+                            <label  class="form-label">Title</label>
+                            <input type="text" class="form-control" placeholder="Title" formControlName="title" >
+
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('title')?.hasError('required') && quizForm.get('title')?.touched">
+                                Title is required
+                            </div>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label class="form-label">Topic</label>
+                            <select class="form-control" [formControl]="topic">
+                                <option value="">Select Topic</option> 
+                                <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.nom }}</option>
+                            </select>
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
+                                Topic is required
+                            </div>
+                        </div>
+                
+                        <div class="mb-3">
+                            <label  class="form-label">Description</label>
+                            <input type="text" class="form-control" placeholder="Description" formControlName="description">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('description')?.hasError('required') && quizForm.get('description')?.touched">
+                                Description is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Duree</label>
+                            <input type="text" class="form-control" placeholder="Duree" formControlName="duree">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('duree')?.hasError('required') && quizForm.get('duree')?.touched">
+                                Duree is required
+                            </div>
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('duree')?.hasError('pattern') && quizForm.get('duree')?.touched">
+                                Duree must be number
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="toggleAddModal(false)">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="save()" [disabled]="quizForm.invalid ||topic.invalid">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau de données -->
     <table id="example" class="table table-striped custom-table">
         <thead>
             <tr>
@@ -18,17 +101,17 @@
             </tr>
         </thead>
         <tbody >
+            <!-- Contenu de la table -->
             <tr *ngFor="let q of quizzes">
                 <td>{{q.title}}</td>
                 <td>{{q.description}}</td>
                 <td>{{q.duree}}</td>
                 <td>
-                    <button class="btn btn-primary" ><i class="fas fa-edit"></i></button> <!-- Edit icon -->
-                    <button class="btn btn-danger" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Delete icon -->
+                    <button class="btn btn-primary" ><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-danger" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
                 </td>
             </tr>         
         </tbody>
     </table>
-    
 </body>
 </html>
