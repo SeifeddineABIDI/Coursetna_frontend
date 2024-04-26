@@ -39,4 +39,8 @@ export class MessageService {
   pinMessage(id: number): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/pinMessage?id=${id}`, "");
   }
+
+  askQuestion(ask: string) {
+    return this.http.post(`${this.baseUrl}/askQuestion`, ask, { responseType: 'json' })
+  }
 }

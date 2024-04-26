@@ -41,16 +41,38 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     currentCommunity: number | null = parseInt(localStorage.getItem('currentCommunity')!);
     currentDiscussionTitle!: string
     currentMessage: any = null;
-    
+
     showModala: boolean = false;
     showModalb: boolean = false;
 
     showFEmoji: boolean = false;
+    showFTranslate: boolean = false;
     showPinsB: boolean = false;
 
     inputTitle: string = '';
     channels: string[] = [''];
     userDiscussion: any[] = [];
+
+    languages: string[] = [
+        'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Armenian', 'Azerbaijani',
+        'Basque', 'Belarusian', 'Bengali', 'Bosnian', 'Bulgarian', 'Burmese',
+        'Catalan', 'Cebuano', 'Chichewa', 'Chinese', 'Corsican', 'Croatian', 
+        'Czech', 'Danish', 'Dutch', 'English', 'Esperanto', 'Estonian', 'Farsi', 
+        'Filipino', 'Finnish', 'French', 'Frisian', 'Galician', 'Georgian', 'German',
+        'Greek', 'Gujarati', 'Haitian Creole', 'Hausa', 'Hawaiian', 'Hebrew', 'Hindi',
+        'Hmong', 'Hungarian', 'Icelandic', 'Igbo', 'Indonesian', 'Irish', 'Italian', 
+        'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Khmer', 'Kinyarwanda', 'Korean',
+        'Kurdish', 'Kyrgyz', 'Lao', 'Latin', 'Latvian', 'Lithuanian', 'Luxembourgish',
+        'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maltese', 'Maori', 'Marathi',
+        'Mongolian', 'Nepali', 'Norwegian', 'Odia', 'Pashto', 'Persian', 'Polish', 
+        'Portuguese', 'Punjabi', 'Romanian', 'Russian', 'Samoan', 'Scottish Gaelic', 
+        'Serbian', 'Sesotho', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Slovenian', 
+        'Somali', 'Spanish', 'Sundanese', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 
+        'Telugu', 'Thai', 'Turkish', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 
+        'Welsh', 'Xhosa', 'Yiddish', 'Yoruba', 'Zulu'
+      ].sort(); // Sort alphabetically
+    
+      selectedLanguage: string = '';
 
     @ViewChild('messageInput') messageInput: ElementRef;
     chat: Chat;
@@ -150,7 +172,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 photo: 'https://i.pinimg.com/736x/f3/1e/a0/f31ea05d300cfe3aebfc0576d0faba10.jpg'
             },
         ];
-        
+
 
         this.currentDiscussionTitle = "Discussions";
 
@@ -368,25 +390,25 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     onEnter(event: KeyboardEvent): void {
         // Prevent the default behavior (adding a newline)
         event.preventDefault();
-    
+
         // Call the function to send the message
         this.sendMessage();
-      }
+    }
 
     toggleUserSelection(user: any) {
         const index = this.userDiscussion.indexOf(user);
         if (index === -1) {
-          // User not in list, add them
-          this.userDiscussion.push(user);
+            // User not in list, add them
+            this.userDiscussion.push(user);
         } else {
-          // User is in the list, remove them
-          this.userDiscussion.splice(index, 1);
+            // User is in the list, remove them
+            this.userDiscussion.splice(index, 1);
         }
-      }
-    
-      isUserSelected(user: any) {
+    }
+
+    isUserSelected(user: any) {
         return this.userDiscussion.includes(user);
-      }
+    }
 
     // Function to open the modal
     openModala() {
@@ -416,8 +438,8 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             case 'react':
                 this.showFEmoji = !this.showFEmoji;
                 break;
-            case 'delete':
-                console.log('Delete action for:', this.currentMessage);
+            case 'translate':
+                this.showFTranslate = !this.showFTranslate;
                 break;
             case 'share':
                 console.log('Share action for:', this.currentMessage);
@@ -426,9 +448,9 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log('Forward action for:', this.currentMessage);
                 this.currentMessage = null; // Hide the popup after action
                 break;
-                
+
         }
-        
+
     }
 
 
@@ -439,35 +461,35 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.closeModala();
         const userDiscussionIds = this.userDiscussion.map((u) => u.id);
         if (userDiscussionIds.length === 1) {
-          // Start a Duo discussion with the single user
-          const otherUserId = userDiscussionIds[0];
-          this.discussionService.startDiscussionDuo(this.currentUser, otherUserId).subscribe(
-            (response) => {
-              console.log('Duo discussion started successfully');
-              // Optionally, call a function to refresh the list of discussions
-            },
-            (error) => {
-              alert('Error starting Group discussion: ' + error);
-              console.error('Error starting Duo discussion:', error);
-            }
-          );
+            // Start a Duo discussion with the single user
+            const otherUserId = userDiscussionIds[0];
+            this.discussionService.startDiscussionDuo(this.currentUser, otherUserId).subscribe(
+                (response) => {
+                    console.log('Duo discussion started successfully');
+                    // Optionally, call a function to refresh the list of discussions
+                },
+                (error) => {
+                    alert('Error starting Group discussion: ' + error);
+                    console.error('Error starting Duo discussion:', error);
+                }
+            );
         } else if (userDiscussionIds.length > 1) {
-          const discussionTitle = this.inputTitle;
-          const userList = this.userDiscussion.map((u) => u.id).join('_');
-         this.discussionService.startDiscussionGroup(this.currentUser, discussionTitle, userList,this.imageData).subscribe(
-            (response) => {
-              console.log('Group discussion started successfully');
-              this.retrieveAllDiscussions()
-            },
-            (error) => {
-              alert('Error starting Group discussion: ' + error);
-              console.error('Error starting Duo discussion:', error);
-            }
-          );
+            const discussionTitle = this.inputTitle;
+            const userList = this.userDiscussion.map((u) => u.id).join('_');
+            this.discussionService.startDiscussionGroup(this.currentUser, discussionTitle, userList, this.imageData).subscribe(
+                (response) => {
+                    console.log('Group discussion started successfully');
+                    this.retrieveAllDiscussions()
+                },
+                (error) => {
+                    alert('Error starting Group discussion: ' + error);
+                    console.error('Error starting Duo discussion:', error);
+                }
+            );
         } else {
-          alert('No users selected for starting a discussion');
+            alert('No users selected for starting a discussion');
         }
-      }
+    }
 
 
     startCommunity() {
@@ -476,28 +498,28 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         const userDiscussionIds = this.userDiscussion.map((u) => u.id);
         const discussionTitle = this.inputTitle;
         if (userDiscussionIds.length === 0) {
-          this.discussionService.startDiscussionCommunity(this.currentUser,discussionTitle,"",channelString,this.imageData).subscribe(
-            (response) => {
-              console.log('Community discussion started successfully');
-            },
-            (error) => {
-              alert('Error starting Community discussion: ' + error);
-              console.error('Error starting Community discussion:', error);
-            }
-          );
+            this.discussionService.startDiscussionCommunity(this.currentUser, discussionTitle, "", channelString, this.imageData).subscribe(
+                (response) => {
+                    console.log('Community discussion started successfully');
+                },
+                (error) => {
+                    alert('Error starting Community discussion: ' + error);
+                    console.error('Error starting Community discussion:', error);
+                }
+            );
         } else if (userDiscussionIds.length > 1) {
-          const userList = this.userDiscussion.map((u) => u.id).join('_');
-         this.discussionService.startDiscussionCommunity(this.currentUser, discussionTitle, userList,channelString,this.imageData).subscribe(
-            (response) => {
-              console.log('Group discussion started successfully');
-              this.retrieveAllDiscussions()
-            },
-            (error) => {
-                alert('Error starting Community discussion: ' + error);
-                console.error('Error starting Community discussion:', error);
-            }
-          );
-        } 
+            const userList = this.userDiscussion.map((u) => u.id).join('_');
+            this.discussionService.startDiscussionCommunity(this.currentUser, discussionTitle, userList, channelString, this.imageData).subscribe(
+                (response) => {
+                    console.log('Group discussion started successfully');
+                    this.retrieveAllDiscussions()
+                },
+                (error) => {
+                    alert('Error starting Community discussion: ' + error);
+                    console.error('Error starting Community discussion:', error);
+                }
+            );
+        }
     }
 
     // Function to close the modal
@@ -520,29 +542,29 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                     const desiredWidth = 300; // Change this to your desired width
                     const aspectRatio = originalImage.width / originalImage.height;
                     const desiredHeight = desiredWidth / aspectRatio;
-    
+
                     // Create an off-screen canvas to draw the downscaled image
                     const canvas = document.createElement("canvas");
                     canvas.width = desiredWidth;
                     canvas.height = desiredHeight;
-    
+
                     const context = canvas.getContext("2d");
                     if (context) {
                         // Draw the original image onto the canvas with the new dimensions
                         context.drawImage(originalImage, 0, 0, desiredWidth, desiredHeight);
-    
+
                         // Get the data URL from the canvas
                         this.imageData = canvas.toDataURL("image/jpeg"); // You can specify other formats like 'image/png'
                     }
                 };
-    
+
                 // Set the source of the image to the data read from the file
                 originalImage.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
     }
-    
+
 
     selectDM(): void {
         const id = this.currentUser;
@@ -580,7 +602,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this._toggleOpened(true);
         this.messageService.retrieveAllMessages(idx)
             .subscribe(messages => this.messages = messages
-                );
+            );
 
         const currentDate = new Date();
         this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSSSS')!;
@@ -598,7 +620,24 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     sendMessage() {
-        
+
+        const keywords = [
+            "Hey chatgpt",
+            "hi chatgpt",
+            "hey gemini",
+            "hi gemini",
+            "hey copilot",
+            "hi copilot",
+            "chatgpt",
+            "gemini",
+            "copilot",
+            "ai",
+            "hey ai",
+            "hi ai",
+        ];
+
+
+
         const user = this.currentUser;
         const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
         this.messageService.sendMessage(user, discussion, this.sendMessageo).subscribe(response => {
@@ -609,10 +648,18 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             console.error('Error sending message:', error);
         });
 
+        const normalizedInput = this.sendMessageo.trim().toLowerCase();
+
+        for (const keyword of keywords) {
+            if (normalizedInput.startsWith(keyword.toLowerCase())) {
+             this.askQuestion(this.sendMessageo) ;
+            }
+          }
+
     }
 
     replyMessage(message: number) {
-        
+
         const user = this.currentUser;
         const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
         this.messageService.replyMessage(user, discussion, message, this.editreplyMessageo).subscribe(response => {
@@ -626,7 +673,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     reactMessage(message: number, reaction: string) {
-        
+
         const user = this.currentUser;
         const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
         this.reactionService.addReaction(user, message, reaction).subscribe(response => {
@@ -640,7 +687,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     modifyMessage(id: number) {
-        this.messageService.modifyMessage(id,"(Modified) " + this.editreplyMessageo).subscribe(response => {
+        this.messageService.modifyMessage(id, "(Modified) " + this.editreplyMessageo).subscribe(response => {
             console.log('Message deleted successfully');
             this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
         }, error => {
@@ -675,7 +722,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.error('Error fetching recent messages:', error);
             }
         );
-        
+
         if (this.showPinsB == true) {
             this.messages = this.messages.filter(message => message.pinned);
         }
@@ -730,30 +777,30 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     groupReactions(reactions: { reaction: string, archived: boolean }[]): { emoji: string, count: number }[] {
         // Filter out reactions that are archived
         const activeReactions = reactions.filter(reaction => !reaction.archived);
-      
-        const reactionMap = activeReactions.reduce((map, reaction) => {
-          if (!map[reaction.reaction]) {
-            map[reaction.reaction] = 0;
-          }
-          map[reaction.reaction]++;
-          return map;
-        }, {} as { [key: string]: number });
-      
-        return Object.entries(reactionMap).map(([emoji, count]) => ({
-          emoji,
-          count
-        }));
-      }
-      
 
-      pinMessage(id: number) {
+        const reactionMap = activeReactions.reduce((map, reaction) => {
+            if (!map[reaction.reaction]) {
+                map[reaction.reaction] = 0;
+            }
+            map[reaction.reaction]++;
+            return map;
+        }, {} as { [key: string]: number });
+
+        return Object.entries(reactionMap).map(([emoji, count]) => ({
+            emoji,
+            count
+        }));
+    }
+
+
+    pinMessage(id: number) {
         this.messageService.pinMessage(this.currentMessage.id).subscribe(response => {
             console.log('Message pinned successfully');
             this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
         }, error => {
             console.error('Error pinning message:', error);
         });
-        this.currentMessage = null; 
+        this.currentMessage = null;
     }
 
     showPins() {
@@ -763,6 +810,28 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.messages = this.messages.filter(message => message.pinned);
         }
     }
-        
-    
+
+    askQuestion(question: string) {
+        // Send the question to the backend
+        this.messageService.askQuestion(question).subscribe((response: any) => {
+
+            const textValue = "🤖:  " + response?.candidates?.[0]?.content?.parts?.[0]?.text;
+            const user = this.currentUser;
+            const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+            this.messageService.sendMessage(user, discussion, textValue).subscribe(response => {
+                console.log('Message sent successfully');
+                this.retrieveRecentMessages();
+                this.sendMessageo = "";
+            }, error => {
+                console.error('Error sending message:', error);
+            });
+
+        }, error => {
+            console.log("lol");
+        });
+
+        this.currentMessage = null;
+    }
+
+
 }

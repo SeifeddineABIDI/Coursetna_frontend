@@ -263,7 +263,7 @@
             </div>
 
             <!-- Conversation -->
-            <div class="flex-0 w-80 border-l overflow-hidden bg-gray-50  dark:bg-transparent">
+            <div class="flex-0 w-80 border-l overflow-hidden bg-gray-50 dark:bg-transparent">
                 <div class="flex flex-col-reverse overflow-y-auto overscroll-y-contain h-full">
                     <div class="flex flex-col flex-auto shrink p-6">
                         <ng-container
@@ -283,11 +283,11 @@
 
                             <!-- Message Container -->
                             <div class="flex flex-col" [ngClass]="{
-                                'items-end': message.user.id === currentUser,
-                                'items-start': message.user.id !== currentUser,
-                                'mt-0.5': message.user.id === currentUser,
-                                'mt-3': message.user.id !== currentUser
-                            }">
+                          'items-center': message.message.startsWith('🤖'),
+                          'items-end': message.user.id === currentUser && !message.message.startsWith('🤖'),
+                          'items-start': message.user.id !== currentUser && !message.message.startsWith('🤖')
+                        }">
+
                                 <!-- Display Reply if it's not null -->
                                 <ng-container *ngIf="message.reply">
                                     <ng-container *ngIf="!message.reply.archived">
@@ -298,21 +298,23 @@
                                                 style="word-wrap: break-word;"></div>
                                         </div>
                                         <div style="height: 5px;"></div>
-                                        <!-- Spacer between reply and the actual message -->
                                     </ng-container>
                                 </ng-container>
 
                                 <!-- Actual Message -->
                                 <div (click)="onMessageClick(message)" class="relative max-w-60 px-3 py-2 rounded-lg"
                                     [ngClass]="{
-                                         'bg-primary-500 text-primary-50': message.user.id === currentUser,
-                                         'bg-gray-500 text-gray-50': message.user.id !== currentUser
-                                     }">
+                            'bg-green-500 text-green-50': message.message.startsWith('🤖'),
+                            'bg-primary-500 text-primary-50': message.user.id === currentUser && !message.message.startsWith('🤖'),
+                            'bg-gray-500 text-gray-50': message.user.id !== currentUser && !message.message.startsWith('🤖')
+                          }">
+
                                     <!-- Speech bubble tail -->
                                     <div class="absolute bottom-0 w-3" [ngClass]="{
-                                             'text-primary-500 -right-1 -mr-px mb-px': message.user.id === currentUser,
-                                             'text-gray-500 -left-1 -ml-px mb-px -scale-x-1': message.user.id !== currentUser
-                                         }">
+                              'hidden': message.message.startsWith('🤖'),
+                              'text-primary-500 -right-1 -mr-px mb-px': message.user.id === currentUser && !message.message.startsWith('🤖'),
+                              'text-gray-500 -left-1 -ml-px mb-px -scale-x-1': message.user.id !== currentUser && !message.message.startsWith('🤖')
+                            }">
                                         <ng-container *ngTemplateOutlet="speechBubbleExtension"></ng-container>
                                     </div>
 
@@ -321,38 +323,42 @@
                                         style="word-wrap: break-word;"></div>
 
                                     <!-- Reactions -->
-
                                 </div>
+
+                                <!-- Reactions -->
                                 <div class="flex flex-wrap mt-2 text-sm">
                                     <ng-container *ngFor="let reaction of groupReactions(message.reactions)">
                                         <div class="flex items-center mr-2">
-                                            <span>{{ reaction.emoji }}</span> <!-- Reaction emoji -->
-                                            <span class="ml-1">{{ reaction.count }}</span> <!-- Reaction count -->
+                                            <span>{{ reaction.emoji }}</span>
+                                            <span class="ml-1">{{ reaction.count }}</span>
                                         </div>
                                     </ng-container>
                                 </div>
 
                                 <!-- Timestamp -->
                                 <ng-container *ngIf="first
-                                   || last
-                                   || (messages[i - 1]?.user.id === currentUser) !== (message.user.id === currentUser)
-                                   || messages[i + 1]?.dateSent !== message.dateSent">
+                          || last
+                          || (messages[i - 1]?.user.id === currentUser) !== (message.user.id === currentUser)
+                          || messages[i + 1]?.dateSent !== message.dateSent">
                                     <div class="my-0.5 text-sm font-medium text-secondary" [ngClass]="{
-                                        'mr-3': message.user.id === currentUser,
-                                        'ml-3': message.user.id !== currentUser
-                                    }">
+                              'mr-3': message.user.id === currentUser,
+                              'ml-3': message.user.id !== currentUser
+                            }">
                                         {{message.dateSent | date:'HH:mm'}}
                                     </div>
                                 </ng-container>
+
                             </div>
                         </ng-container>
 
+                        <!-- Extra spacing at the end to prevent clipping -->
                         <div>&nbsp;</div>
                         <div>&nbsp;</div>
                         <div>&nbsp;</div>
                     </div>
                 </div>
-                >
+
+
 
 
                 <!-- Message field -->
@@ -516,9 +522,9 @@
             📌
         </button>
 
-        <button (click)="performAction('forward')" class="bg-gray-200"
+        <button (click)="askQuestion(currentMessage.message + ' ' + editreplyMessageo)" class="bg-gray-200"
             style="padding: 8px 12px; border-radius: 50%; font-size: large;">
-            🚨
+            🤖
         </button>
 
         <!-- Heart button for showing the emoji list -->
@@ -563,6 +569,23 @@
             style="padding: 8px 12px; border-radius: 50%; font-size: large;">😡</button>
         <button (click)="reactMessage(currentMessage.id,'😮')" class="bg-gray-200"
             style="padding: 8px 12px; border-radius: 50%; font-size: large;">😮</button>
+    </div>
+
+
+    <!-- Emoji reaction list -->
+    <div *ngIf="showFTranslate" style="
+        border-top: 1px solid #ccc; 
+        padding: 12px; 
+        background: #f9f9f9; 
+        display: flex; 
+        justify-content: space-around; 
+        flex-wrap: wrap;
+        margin-top: 8px;
+      ">
+        <button *ngFor="let language of languages" [ngClass]="{'selected': language === selectedLanguage}"
+            (click)="selectedLanguage = language">
+            {{ language }}
+        </button>
     </div>
 </div>
 
