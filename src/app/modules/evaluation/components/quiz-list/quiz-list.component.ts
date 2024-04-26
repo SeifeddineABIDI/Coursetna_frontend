@@ -23,7 +23,6 @@ export class QuizListComponent{
       duree: new FormControl('', [Validators.required,Validators.pattern('[0-9]{1,3}')]),
     })
   };
-  
 
    ngOnInit(): void {
      this.quizzes=this.getAllQuizzes() as any;
@@ -67,10 +66,11 @@ export class QuizListComponent{
   isEditMode: boolean = false;
   idEditedQuiz:number;
   editModel(quiz: Quiz) {
+    this.modalTitle = 'Edit Quiz';
     this.idEditedQuiz=quiz.numQuiz
     this.quizForm.patchValue(quiz); // Patch quiz data into the form
     this.isEditMode = true;
-    this.toggleAddModal(true);
+    this.showAddModal = true;
   }
   editQuiz(){
     if (this.quizForm.valid) {
@@ -108,7 +108,7 @@ modalTitle: string = 'Add New Quiz';
 // Fonction pour basculer l'affichage du modèle d'ajout
 toggleAddModal(status: boolean): void {
   this.showAddModal = status;
-  this.modalTitle = status ? 'Add New Quiz' : 'Edit Quiz';
+  this.modalTitle = 'Add New Quiz';
 }
 /*******Form**************** */
 quizForm: FormGroup;
