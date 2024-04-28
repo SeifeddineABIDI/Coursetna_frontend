@@ -25,8 +25,8 @@ export class DiscussionService {
     return this.http.post<any>(`${this.baseUrl}/startDiscussionCommunity?userStart=${userStart}&title=${title}&userList=${userList}&discussionList=${discussionList}`, image);
   }
 
-  addUserToDiscussion(id: number, userList: number[]): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/addUserToDiscussion?id=${id}`, userList);
+  modifyDiscussionGroup(discussion: number, userStart: number, title: string, userList: string, image: string | ArrayBuffer): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/modifyDiscussionGroup?discussion=${discussion}&userStart=${userStart}&title=${title}&userList=${userList}`, image);
   }
 
   retrieveAllDiscussions(id: number): Observable<Discussion[]> {

@@ -25,12 +25,14 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     discussions: Discussion[] = [];
     communities: Discussion[] = [];
     users: User[] = [];
+    usersPre: User[] = [];
     messages: Message[] = [];
 
     sendMessageo!: string;
     editreplyMessageo!: string;
 
-    imageData: string | ArrayBuffer | null = null;
+    imageData: string | ArrayBuffer | null = " ";
+    imageDatam: string | ArrayBuffer | null = " ";
 
     intervalId: any;
 
@@ -40,10 +42,13 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     currentDiscussion: number | null = parseInt(localStorage.getItem('currentDiscussion')!);
     currentCommunity: number | null = parseInt(localStorage.getItem('currentCommunity')!);
     currentDiscussionTitle!: string
+    currentDiscussionType!: string;
     currentMessage: any = null;
 
     showModala: boolean = false;
     showModalb: boolean = false;
+    showModalc: boolean = false;
+    showModald: boolean = false;
 
     showFEmoji: boolean = false;
     showFTranslate: boolean = false;
@@ -52,27 +57,30 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     inputTitle: string = '';
     channels: string[] = [''];
     userDiscussion: any[] = [];
+    existingUsers: any[] = [];
 
     languages: string[] = [
         'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Armenian', 'Azerbaijani',
         'Basque', 'Belarusian', 'Bengali', 'Bosnian', 'Bulgarian', 'Burmese',
-        'Catalan', 'Cebuano', 'Chichewa', 'Chinese', 'Corsican', 'Croatian', 
-        'Czech', 'Danish', 'Dutch', 'English', 'Esperanto', 'Estonian', 'Farsi', 
+        'Catalan', 'Cebuano', 'Chichewa', 'Chinese', 'Corsican', 'Croatian',
+        'Czech', 'Danish', 'Dutch', 'English', 'Esperanto', 'Estonian', 'Farsi',
         'Filipino', 'Finnish', 'French', 'Frisian', 'Galician', 'Georgian', 'German',
         'Greek', 'Gujarati', 'Haitian Creole', 'Hausa', 'Hawaiian', 'Hebrew', 'Hindi',
-        'Hmong', 'Hungarian', 'Icelandic', 'Igbo', 'Indonesian', 'Irish', 'Italian', 
+        'Hmong', 'Hungarian', 'Icelandic', 'Igbo', 'Indonesian', 'Irish', 'Italian',
         'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Khmer', 'Kinyarwanda', 'Korean',
         'Kurdish', 'Kyrgyz', 'Lao', 'Latin', 'Latvian', 'Lithuanian', 'Luxembourgish',
         'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maltese', 'Maori', 'Marathi',
-        'Mongolian', 'Nepali', 'Norwegian', 'Odia', 'Pashto', 'Persian', 'Polish', 
-        'Portuguese', 'Punjabi', 'Romanian', 'Russian', 'Samoan', 'Scottish Gaelic', 
-        'Serbian', 'Sesotho', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Slovenian', 
-        'Somali', 'Spanish', 'Sundanese', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 
-        'Telugu', 'Thai', 'Turkish', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 
+        'Mongolian', 'Nepali', 'Norwegian', 'Odia', 'Pashto', 'Persian', 'Polish',
+        'Portuguese', 'Punjabi', 'Romanian', 'Russian', 'Samoan', 'Scottish Gaelic',
+        'Serbian', 'Sesotho', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Slovenian',
+        'Somali', 'Spanish', 'Sundanese', 'Swahili', 'Swedish', 'Tajik', 'Tamil',
+        'Telugu', 'Thai', 'Turkish', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese',
         'Welsh', 'Xhosa', 'Yiddish', 'Yoruba', 'Zulu'
-      ].sort(); // Sort alphabetically
-    
-      selectedLanguage: string = '';
+    ].sort(); // Sort alphabetically
+
+    selectedLanguage: string = '';
+
+    translated: string = '';
 
     @ViewChild('messageInput') messageInput: ElementRef;
     chat: Chat;
@@ -143,7 +151,16 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
 
 
-        this.users = [
+        this.usersPre = [
+            {
+                id: 1,
+                nom: 'Salma',
+                prenom: 'Mejri',
+                email: 'w@gmail.com',
+                password: 'w',
+                role: TypeUser.Admin,
+                photo: 'https://i.pinimg.com/736x/96/b8/40/96b8406b53c04aae7792dea99197ae4d.jpg'
+            },
             {
                 id: 2,
                 nom: 'Yassin',
@@ -172,6 +189,8 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 photo: 'https://i.pinimg.com/736x/f3/1e/a0/f31ea05d300cfe3aebfc0576d0faba10.jpg'
             },
         ];
+
+        this.usersPre = this.usersPre.filter((user) => user.id !== this.currentUser);
 
 
         this.currentDiscussionTitle = "Discussions";
@@ -412,12 +431,23 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Function to open the modal
     openModala() {
+        this.users = this.usersPre;
         this.showModala = true;
     }
 
     openModalb() {
         this.showModalb = true;
     }
+
+    openModalc() {
+        this.pmodifyDiscussion()
+        this.showModalc = true;
+    }
+
+    openModald() {
+        this.showModald = true;
+    }
+
 
     addChannel() {
         this.channels.push('');
@@ -441,19 +471,14 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             case 'translate':
                 this.showFTranslate = !this.showFTranslate;
                 break;
-            case 'share':
-                console.log('Share action for:', this.currentMessage);
-                break;
-            case 'forward':
-                console.log('Forward action for:', this.currentMessage);
+            case 'close':
                 this.currentMessage = null; // Hide the popup after action
                 break;
+
 
         }
 
     }
-
-
 
 
     startDiscussion() {
@@ -531,6 +556,14 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showModalb = false;
     }
 
+    closeModalc() {
+        this.showModalc = false;
+    }
+
+    closeModald() {
+        this.showModald = false;
+    }
+
     handleFileInput(event: any): void {
         const file = event.target.files[0];
         if (file) {
@@ -555,6 +588,8 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
                         // Get the data URL from the canvas
                         this.imageData = canvas.toDataURL("image/jpeg"); // You can specify other formats like 'image/png'
+                        this.imageDatam = canvas.toDataURL("image/jpeg"); // You can specify other formats like 'image/png'
+                    
                     }
                 };
 
@@ -614,29 +649,19 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    selectDiscussion(id: number, title: string): void {
+    selectDiscussion(id: number, title: string, type: string) {
         this.currentDiscussionTitle = title;
+          this.currentDiscussionType = type;
         this.retrieveAllMessages(id);
+
     }
 
     sendMessage() {
 
         const keywords = [
-            "Hey chatgpt",
-            "hi chatgpt",
-            "hey gemini",
-            "hi gemini",
-            "hey copilot",
-            "hi copilot",
-            "chatgpt",
-            "gemini",
-            "copilot",
-            "ai",
-            "hey ai",
-            "hi ai",
+            "Hey chatgpt", "hi chatgpt", "hey gemini", "hi gemini", "hey copilot", "hi copilot", "chatgpt",
+            "gemini", "copilot", "ai", "hey ai", "hi ai", "hi chatbot", "hey chatbot", "chatbot",
         ];
-
-
 
         const user = this.currentUser;
         const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
@@ -652,9 +677,9 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
         for (const keyword of keywords) {
             if (normalizedInput.startsWith(keyword.toLowerCase())) {
-             this.askQuestion(this.sendMessageo) ;
+                this.askQuestion(this.sendMessageo);
             }
-          }
+        }
 
     }
 
@@ -728,51 +753,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    addUserToDiscussion() {
-        const checkbox1 = document.getElementById('checkbox1') as HTMLInputElement;
-        const checkbox2 = document.getElementById('checkbox2') as HTMLInputElement;
 
-        var numbers = [];
-
-        // Check if checkbox1 is selected and add 2 to the list
-        if (checkbox1.checked) {
-            numbers.push(2);
-        }
-
-        // Check if checkbox2 is selected and add 3 to the list
-        if (checkbox2.checked) {
-            numbers.push(3);
-        }
-
-
-        const targetDiscussion = this.discussions.find(discussion => discussion.id === parseInt(localStorage.getItem("currentDiscussion")!));
-        if (targetDiscussion) {
-
-            if (targetDiscussion.typeDiscussion == "Group") {
-
-                this.discussionService.addUserToDiscussion(parseInt(localStorage.getItem("currentDiscussion")!), numbers).subscribe(response => {
-                    console.log('Users added to Discussion successfully');
-                    this.retrieveAllDiscussions();
-                }, error => {
-                    console.error('Error starting discussion:', error);
-                });
-
-            }
-            if (targetDiscussion.typeDiscussion == "CommunitySlave") {
-
-                this.discussionService.addUserToDiscussion(parseInt(localStorage.getItem("currentCommunity")!), numbers).subscribe(response => {
-                    console.log('Users added to Discussion successfully');
-                    this.retrieveAllDiscussions();
-                }, error => {
-                    console.error('Error starting discussion:', error);
-                });
-
-            }
-        }
-
-
-
-    }
 
     groupReactions(reactions: { reaction: string, archived: boolean }[]): { emoji: string, count: number }[] {
         // Filter out reactions that are archived
@@ -833,5 +814,58 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentMessage = null;
     }
 
+    translate() {
+        // Send the question to the backend
+        this.messageService.askQuestion('Translate this phrase to ' + this.selectedLanguage + ': ' + this.currentMessage.message).subscribe((response: any) => {
+            this.translated = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        }, error => {
+            console.log("lol");
+        });
+
+    }
+
+
+    pmodifyDiscussion() {
+        this.userDiscussion = [];
+
+        const d = this.discussions.find((discussion) => discussion.id === this.currentDiscussion);
+        const discussionUserIds = new Set(d.users.map((user) => user.id));
+
+        this.existingUsers = d.users;
+        this.existingUsers = this.existingUsers.filter((user) => user.id !== this.currentUser);
+        for (const user of this.existingUsers) {
+            this.userDiscussion.push(user);
+        }
+
+        this.users = this.usersPre;
+        this.users = this.users.filter((user) => !discussionUserIds.has(user.id));
+        this.inputTitle = d.title;
+        this.imageDatam = d.photo;
+
+    }
+
+
+    modifyDiscussion() {
+
+        this.closeModalc();
+        const userDiscussionIds = this.userDiscussion.map((u) => u.id);
+        if (userDiscussionIds.length >= 1) {
+            const discussionTitle = this.inputTitle;
+            const userList = this.userDiscussion.map((u) => u.id).join('_');
+            this.discussionService.modifyDiscussionGroup(this.currentDiscussion, this.currentUser, discussionTitle, userList, this.imageData).subscribe(
+                (response) => {
+                    console.log('Group discussion modified successfully');
+                    this.retrieveAllDiscussions()
+                },
+                (error) => {
+                    alert('Error modifying Group discussion: ' + error);
+                    console.error('Error modifying Group discussion:', error);
+                }
+            );
+        } else {
+            alert('No users selected for modifying a discussion');
+        }
+    }
 
 }

@@ -8,6 +8,7 @@ export interface Discussion {
     typeDiscussion: TypeDiscussion;
     users: User[];
     community: Discussion[];
+    photo: string;
     archived: boolean;
 }
 
