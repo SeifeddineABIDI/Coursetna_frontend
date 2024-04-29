@@ -73,6 +73,10 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
             {path: 'quizList', loadChildren: () => import('app/modules/evaluation/components/quizlist.module').then(m => m.QuizlistModule)},
+        //simple utilisateur routes/
+        {path: 'quiz', loadChildren: () => import('app/modules/evaluation/components/quiz.module').then(m => m.QuizModule)},
+        {path: 'questions/:id', loadChildren: () => import('app/modules/evaluation/components/questions.module').then(m => m.QuestionsModule)},
+
         ]
     }
 ];

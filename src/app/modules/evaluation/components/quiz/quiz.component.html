@@ -1,1 +1,12 @@
-<p>quiz works!</p>
+<div class="row">
+  <div class="col-sm-6" *ngFor="let q of quizzes">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{q.title}}</h5>
+        <p class="card-text">{{q.description}}</p>
+        <p class="card-text">{{q.duree}}</p>
+        <a class="btn btn-primary" style="position: absolute; bottom: 10px; right: 10px;" [routerLink]="['/questions',q.numQuiz]">Passer Quiz</a>
+      </div>
+    </div>
+  </div>
+</div>

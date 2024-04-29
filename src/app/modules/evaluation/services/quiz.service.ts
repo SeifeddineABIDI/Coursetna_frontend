@@ -15,6 +15,11 @@ export class QuizService {
   getAllQuiz(): Observable<Quiz[]>{
     return this.http.get<Quiz[]>(`${this.apiurl}/getAll`);
   }
+  getQuizNotEmpty(): Observable<Quiz[]>{
+    return this.http.get<Quiz[]>(`${this.apiurl}/getQuizNotEmpty`);
+  }
+
+
   deleteQuiz(id :number): Observable<void>{
     return this.http.delete<void>(`${this.apiurl}/removeQuiz/${id}`);
   }
