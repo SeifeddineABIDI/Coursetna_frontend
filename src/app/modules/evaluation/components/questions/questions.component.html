@@ -15,7 +15,7 @@
         <span class="timer-label">Time Remaining:</span>
         <span class="timer-value">{{ formatTime(timeRemaining) }}</span>
         <span class="icon-container">
-          <img src="../../../../../assets/images/avatars/hourglass.png" alt="Hourglass Icon" class="icon spinning" >
+          <img src="../../../../../assets/images/avatars/hourglass.png" alt="Hourglass Icon" class="icon"[ngClass]="{'spinning': timeRemaining > 1}" >
         </span>
       </div>
 

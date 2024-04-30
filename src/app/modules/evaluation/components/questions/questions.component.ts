@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Question } from '../../models/question';
 import { QuestionService } from '../../services/question.service';
 import { ActivatedRoute } from '@angular/router';
+import { QuizService } from '../../services/quiz.service';
+import { Quiz } from '../../models/quiz';
 
 @Component({
   selector: 'app-questions',
@@ -13,30 +15,32 @@ export class QuestionsComponent {
   id!:number;
 
   timer: any;
-  durationInSeconds: number = 60; // Duration: 60 seconds
   timeRemaining: number;
 
-  constructor(private qs:QuestionService,private Act: ActivatedRoute){
-
+  constructor(private qs:QuestionService,private Act: ActivatedRoute,private qzs:QuizService){
   }
 
   ngOnInit(): void {
-    this.id=this.Act.snapshot.params['id'];
+    this.id=this.Act.snapshot.params['id'];    
     this.questions=this.getAll(this.id) as any;
-
-    this.startTimer();
+    this.getQuizDuration(this.id);
   }
+
 /***********timer********** */
-// startTimer(): void {
-//   const durationInSeconds = this.durationInMinutes * 60;
-//   this.timer = setTimeout(() => {
-//     // Timer logic: Close the quiz when the duration ends
-//     alert('Quiz time is up!');
-//     // Implement code to close the quiz or navigate away
-//   }, durationInSeconds * 1000); // Convert duration to milliseconds
-// }
+getQuizDuration(quizId: number): void {
+  this.qzs.getDureeByQuiz(quizId).subscribe(
+    duration => {
+      this.timeRemaining=duration*60;// Stocke la durée du quiz dans la variable quizDuration
+      console.log('Quiz duration:', this.timeRemaining); // Affiche la durée du quiz dans la console
+      this.startTimer(); // Appel de startTimer après avoir obtenu la durée du quiz
+    },
+    error => {
+      console.error('Error fetching quiz duration:', error);
+    }
+  );
+}
+
 startTimer(): void {
-  this.timeRemaining = this.durationInSeconds;
   this.timer = setInterval(() => {
     this.timeRemaining--;
     if (this.timeRemaining <= 0) {
@@ -46,29 +50,33 @@ startTimer(): void {
     }
   }, 1000); // Update every second
 }
+formatTime(seconds: number): string {
+  const mins: string = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const secs: string = (seconds % 60).toString().padStart(2, '0');
+  return `${mins}:${secs}`;
+}
 /******end timer************* */
-  
-  getAll(id: number){
-    return this.qs.getAllQuestions(id).subscribe(
+/*********getAll********************* */
+getAll(id: number){
+  this.qs.getAllQuestions(id).subscribe(
     { next: (data)=>this.questions = data,
       error:(err)=> console.log(err),
-      complete:()=> console.log('done')
+      complete:()=> console.log('getAll() done')
     });
-  }
-/****************************** */
-  currentQuestionIndex: number = 0;
-  userAnswers: any = {};
-onNext(): void {
-  if (this.currentQuestionIndex < this.questions.length - 1) {
-    this.currentQuestionIndex++;
-  }
 }
+currentQuestionIndex: number = 0;
+userAnswers: any = {};
+// onNext(): void {
+//   if (this.currentQuestionIndex < this.questions.length - 1) {
+//     this.currentQuestionIndex++;
+//   }
+// }
 
-onPrevious(): void {
-  if (this.currentQuestionIndex > 0) {
-    this.currentQuestionIndex--;
-  }
-}
+// onPrevious(): void {
+//   if (this.currentQuestionIndex > 0) {
+//     this.currentQuestionIndex--;
+//   }
+// }
 
 saveQuiz(): void {
   clearTimeout(this.timer);
@@ -77,10 +85,8 @@ saveQuiz(): void {
   // Vous pouvez ajouter votre logique ici pour calculer le score en fonction des réponses de l'utilisateur
   console.log(this.userAnswers);
 }
-formatTime(seconds: number): string {
-  const mins: string = Math.floor(seconds / 60).toString().padStart(2, '0');
-  const secs: string = (seconds % 60).toString().padStart(2, '0');
-  return `${mins}:${secs}`;
-}
+
+
+
 
 }

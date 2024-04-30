@@ -18,6 +18,9 @@ export class QuizService {
   getQuizNotEmpty(): Observable<Quiz[]>{
     return this.http.get<Quiz[]>(`${this.apiurl}/getQuizNotEmpty`);
   }
+  getDureeByQuiz(quizId:number): Observable<number>{
+    return this.http.get<number>(`${this.apiurl}/getdureeByQuiz/${quizId}`);
+  }
 
 
   deleteQuiz(id :number): Observable<void>{
