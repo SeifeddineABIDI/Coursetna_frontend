@@ -1,0 +1,97 @@
+  table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+  }
+
+  thead {
+    background-color: #f2f2f2;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-warning {
+    background-color: #ffc107;
+    color: #fff;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: #fff;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn i {
+    margin-right: 4px;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+body {
+    font-family: Arial, sans-serif;
+    margin: 20;
+    background-color: aquamarine;
+}
+
+.container {
+    background-color: #f4f4f4;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    color: #333;
+}
+
+.stat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+}
+
+.red-card {
+    background-color: #ffcccc; /* Light red */
+}
+
+.stat p {
+    margin: 5px 0;
+}
+
+.stat .label {
+    font-weight: bold;
+}

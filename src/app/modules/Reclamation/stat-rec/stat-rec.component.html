@@ -1,0 +1,17 @@
+<div class="container">
+    <h1>Statistiques de réclamations</h1>
+    <div class="stat">
+        <!-- Card for reclamations traitées -->
+        <div class="card">
+            <div class="card-content">
+                <p><span class="label">Nombre de réclamations traitées :</span> {{ reclamationsTraitees }}</p>
+            </div>
+        </div>
+        <!-- Card for reclamations non traitées -->
+        <div class="card" [ngClass]="{'red-card': reclamationsNonTraitees > 1}">
+            <div class="card-content">
+                <p><span class="label">Nombre de réclamations non traitées :</span> {{ reclamationsNonTraitees }}</p>
+            </div>
+        </div>
+    </div>
+</div>

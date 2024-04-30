@@ -1,0 +1,41 @@
+<form [formGroup]="reclamationform">
+  <div class="container">
+    <div class="content-container">
+      <h2 class="title">Here You Can Submit Your <span class="reclamation">Reclamation</span></h2>
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" formControlName="titre" placeholder="Enter the title of your reclamation">
+        <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="reclamationform.get('titre')?.hasError('required') && reclamationform.get('titre')?.touched">
+          Title is required
+      </div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" formControlName="description" rows="3" placeholder="Enter the description of your reclamation"></textarea>
+        <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="reclamationform.get('description')?.hasError('required') && reclamationform.get('description')?.touched">
+          description is required
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="topic" class="form-label">Topic</label>
+        <select class="form-select" id="topic" aria-label="Select a topic" [formControl]="topic">
+            <option value="" disabled selected>Select a topic</option>
+            <option *ngFor="let t of topics" [value]="t.id">{{t.nom}}</option>
+            
+        </select>
+        <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
+          Topic is required
+      </div>
+    </div>
+    
+    
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary" type="button" (click)="addreclamation()" [disabled]=" (reclamationform.invalid || topic.invalid)">Add</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+  

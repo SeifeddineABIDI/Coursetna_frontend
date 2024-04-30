@@ -47,6 +47,7 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
             {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule)}
+            
         ]
     },
 
@@ -59,6 +60,9 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+            //{ path: 'reclamationUser', loadChildren: () => import('app/modules/Reclamation/reclamation.module').then(m => m.ReclamationModule) },
+             // { path: 'reclamationUser', loadChildren: () => import('app/modules/Reclamation/reclamation.module').then(m => m.ReclamationModule) }
+
         ]
     },
 
@@ -72,6 +76,12 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+            {path: 'reclamation', loadChildren: () => import('app/modules/Reclamation/reclamation.module').then(m => m.ReclamationModule)},
+            {path: 'addreclamation', loadChildren: () => import('app/modules/Reclamation/ajouter-reclamation.module').then(m => m.AjouterReclamationModule) },
+            {path: 'stat', loadChildren: () => import('app/modules/Reclamation/stat-rec.module').then(m => m.StatRecModule) },
+          //  {path: 'reponse', loadChildren: () => import('app/modules/Reclamation/reponse.module').then(m => m.ReponseModule) },
+            {path: 'reponse', loadChildren: () => import('app/modules/Reclamation/reponse.module').then(m => m.ReponseModule) },
+
         ]
     }
 ];

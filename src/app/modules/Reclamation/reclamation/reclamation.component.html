@@ -1,0 +1,30 @@
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id reclamation</th>
+      <th scope="col">titre</th>
+      <th scope="col">description</th>
+      <th scope="col">creationDate</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rec of listreclamation">
+      <td>#{{ rec.idrec }}</td>
+      <td>{{ rec.titre }}</td>
+      <td>{{ rec.description }}</td>
+      <td>{{ rec.creationDate }}</td>
+       <td><button type="button" class="btn btn-warning" *ngIf="rec.status == 'non_traite' ">{{ rec.status }}</button>
+      <button type="button" class="btn btn-success" *ngIf="rec.status == 'traite' ">{{ rec.status }}</button></td>
+      <td>
+        <button type="button" class="btn btn-pr" >answer<i class="fas fa-edit"></i></button>
+      <button type="button" class="btn btn-danger" (click)="deleteReclamation(rec.idrec)"><i class="far fa-trash-alt"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
