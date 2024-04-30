@@ -1,38 +1,48 @@
-  <div class="card">
-    <div class="card-header">
-      <h2>QUIZ TIME</h2>
-    </div>
-    <div class="card-body" *ngIf="questions.length > 0" >
-      <div *ngFor="let question of questions; let i = index">
-        <div *ngIf="currentQuestionIndex === i">
-          <p class="card-title">Question {{ i + 1 }} / {{ questions.length }} ({{ question.points }}pts)</p>
-          <p class="card-text">{{ question.question }}</p>
-          <ul class="answer-options">
-            <li>
-              <label>
-                <input type="radio" name="answer" [value]="option" [(ngModel)]="userAnswers[currentQuestionIndex]"> {{ question.choice1 }}
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="answer" [value]="option" [(ngModel)]="userAnswers[currentQuestionIndex]"> {{ question.choice2 }}
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="answer" [value]="option" [(ngModel)]="userAnswers[currentQuestionIndex]"> {{ question.choice3 }}
-              </label>
-            </li>
-          </ul>
-          <div class="button-container">
-            <button  class="btn btn-primary" (click)="onPrevious()" [disabled]="currentQuestionIndex === 0">Previous</button>
-            <button  class="btn btn-primary" (click)="onNext()" [disabled]="currentQuestionIndex === questions.length - 1">Next</button>
-            <button  class="btn btn-primary" (click)="onSubmit()" *ngIf="currentQuestionIndex === questions.length - 1">Results</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz by Topic</title>
+</head>
+<body>
+    <header>
+        <h2>QUIZ TIME</h2>
+    </header>
 
-  
-  
+    <main>
+      <div *ngIf="timeRemaining >= 0" class="timer">
+        <span class="timer-label">Time Remaining:</span>
+        <span class="timer-value">{{ formatTime(timeRemaining) }}</span>
+        <span class="icon-container">
+          <img src="../../../../../assets/images/avatars/hourglass.png" alt="Hourglass Icon" class="icon spinning" >
+        </span>
+      </div>
+
+        <section class="topics" *ngFor="let question of questions; let i = index">
+            <h2>Question {{ i + 1 }} / {{ questions.length }} ({{ question.points }}pts)</h2>
+            <ul class="answer-options">
+              <li>
+                <label>
+                  <input type="radio" name="answer" [value]="option" [(ngModel)]="userAnswers[currentQuestionIndex]"> {{ question.choice1 }}
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="answer" [value]="option" [(ngModel)]="userAnswers[currentQuestionIndex]"> {{ question.choice2 }}
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="answer" [value]="option" [(ngModel)]="userAnswers[currentQuestionIndex]"> {{ question.choice3 }}
+                </label>
+              </li>
+            </ul>
+        </section>
+        
+        <div class="button-container">
+          <button class="btn btn-primary" (click)="saveQuiz()">Save Quiz</button>
+        </div>
+    </main>
+</body>
+</html>

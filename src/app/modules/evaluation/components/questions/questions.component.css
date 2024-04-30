@@ -1,72 +1,69 @@
-.card {
-  width: 600px; /* Adjust width as needed */
-  height: 400px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 50px auto; /* Add margin for centering */
-  padding: 20px;
+body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
 }
 
-.card-header {
+header {
   text-align: center;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ddd;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.topics {
+  border: 1px solid #ddd;
   padding: 10px;
-  font-size: 18px;
-  font-weight: bold;
 }
 
-.card-body {
-  /* Inherits styles from card */
-}
-
-.card-title {
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.card-text {
-  margin-bottom: 15px;
-}
-
-.answer-options {
+.topics ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
-.answer-options li {
+.topics li {
   margin-bottom: 10px;
 }
 
-.answer-options li label {
-  display: block;
-  cursor: pointer;
-}
 
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-}
 
-.button-container {
-  text-align: center;
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
   margin-top: 20px;
 }
 
-.btn-primary {
-  margin-top: 10px; /* Margin above the button */
-  margin-right: 5px; /* Margin to the right of the button */
-  margin-bottom: 5px; /* Margin below the button */
-  margin-left: 5px; /* Margin to the left of the button */
+.timer-label {
+  margin-right: 5px;
+}
+
+.timer-value {
+  color: #ff5722; /* Orange color */
+}
+/* Adjust image size to make it similar to an icon */
+.icon {
+  width: 30; /* Adjust width as needed */
+  height: 24px; /* Adjust height as needed */
+  vertical-align: middle; /* Align image vertically with text */
+}
+/* Ajoutez une marge à droite pour créer de l'espace entre le temps et l'image */
+.icon-container {
+  margin-left: 8px; /* Ajustez la valeur selon vos préférences */
+}
+/* Animation pour faire tourner l'image */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Appliquer l'animation à l'image */
+.spinning {
+  animation: spin 1s linear infinite; /* Fait tourner l'image indéfiniment */
 }
 
