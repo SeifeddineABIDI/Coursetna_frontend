@@ -31,6 +31,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     sendMessageo!: string;
     editreplyMessageo!: string;
+    forwardingo!: string;
 
     imageData: string | ArrayBuffer | null = " ";
     imageDatam: string | ArrayBuffer | null = " ";
@@ -38,10 +39,12 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     currentUserId: number | null = parseInt(localStorage.getItem('currentUserId')!);
     currentDiscussion: number | null = parseInt(localStorage.getItem('currentDiscussion')!);
     currentCommunity: number | null = parseInt(localStorage.getItem('currentCommunity')!);
-    currentDiscussionTitle!: string
+    currentDiscussionTitle!: string;
     currentDiscussionType!: string;
     currentCommunityTitle!: string;
     currentMessage: any = null;
+
+    forwardins: boolean = false;
 
     showModala: boolean = false;
     showModalb: boolean = false;
@@ -805,9 +808,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                     console.error('Error leaving discussion:', error);
                 }
             );
-        } else {
-
-        }
+        } 
 
     }
 
@@ -866,6 +867,10 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentDiscussionType = type;
         localStorage.setItem("currentDiscussionType",type) ;
         this.retrieveAllMessages(id);
+
+        if(this.forwardins) {
+            this.forwarding();
+        }
 
     }
 
@@ -1102,6 +1107,22 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log("lol");
         });
 
+    }
+
+    pforwarding() {
+        this.forwardins= true ;
+        alert("Select a discussion to share the selected message.") ;
+        this.forwardingo = this.currentMessage.message;
+        this.currentMessage = ""
+    }
+
+    forwarding() {
+        
+        if (confirm('Are you sure to share this message to the discussion '+ this.currentDiscussionTitle +'?')) {
+            this.sendMessageo =  this.forwardingo;
+            this.sendMessage();
+        } 
+        this.forwardins = false ;
     }
 
 
