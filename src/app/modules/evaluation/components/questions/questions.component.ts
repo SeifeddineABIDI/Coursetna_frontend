@@ -4,10 +4,10 @@ import { QuestionService } from '../../services/question.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import Swal from 'sweetalert2';
 import { Answer } from '../../models/answer';
 import { AnswerService } from '../../services/answer.service';
 import { concat } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-questions',
@@ -95,61 +95,26 @@ getAll(id: number): void {
     complete: () => console.log('getAll() done')
   });
 }
-
-// saveQuiz(): void {
-//   clearTimeout(this.timer);
-
-//   this.questions.forEach((question, index) => {
-//     const selectedChoice = this.quizForm.get(`selectedOption_${index}`).value;
-//     const answer = new Answer({
-//       selectedChoice: selectedChoice,
-//     });
-//     const questionId = this.questions[index].numQuestion;
-
-//     // Appel de la méthode pour sauvegarder la réponse
-//     this.as.addReponseAndAssignToQuestionAndUser(answer, questionId, 1).subscribe(
-//       (response) => {
-//         console.log(`Réponse pour ${this.questions[index]} sauvegardée avec succès:`, response);
-//       },
-//       (error) => {
-//         console.error(`Une erreur s'est produite lors de la sauvegarde de la réponse pour ${this.questions[index]}:`, error);
-//       })
-      
-//     console.log(`answer pour Question: `, answer);
-//   });
-
-//   // Swal.fire({
-//   //   icon: 'success',
-//   //   title: 'Quiz added successfully!',
-//   //   showConfirmButton: false,
-//   //   timer: 1500
-//   // }).then(() => {
-//   //   this.router.navigate(['/quizList']);
-//   // });
-//   // console.log('Quiz saved!');
-// }
-
-
+/*******save Quiz*********** */
 saveQuiz(): void {
   clearTimeout(this.timer);
-//finish the code
-const answers: { questionId: number, selectedOption: string }[] = [];
 
-// Iterate over each question in the form
-for (let i = 0; i < this.questions.length; i++) {
-  const selectedOption = this.quizForm.get(`selectedOption_${i}`).value;
-  const questionId = this.questions[i].numQuestion;
-  // Save question ID and selected choice to the list
-  answers.push({ questionId: questionId, selectedOption: selectedOption });
-}
- console.log('Answers:', answers);
+  for (let i = 0; i < this.questions.length; i++) {
+    const selectedOption = this.quizForm.get(`selectedOption_${i}`).value;
+    const questionId = this.questions[i].numQuestion;
+    const rep: Answer = { selectedChoice: selectedOption };
 
-  for (const answer of answers) {
-    const rep: Answer = { selectedChoice: answer.selectedOption };
-
-    this.addReponse(rep, answer.questionId, 1);
+    this.addReponse(rep, questionId, 1);
   }
-
+  Swal.fire({
+    icon: 'success',
+    title: 'Quiz added successfully!',
+    showConfirmButton: false,
+    timer: 1500
+  }).then(() => {
+    this.router.navigate(['/quizList']);
+  });
+  console.log('Quiz saved!');
 }
 
 addReponse(reponse: Answer, questionId: number, userId: number): void {
