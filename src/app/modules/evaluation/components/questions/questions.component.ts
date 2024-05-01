@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { Question } from '../../models/question';
 import { QuestionService } from '../../services/question.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
-import { Quiz } from '../../models/quiz';
-import { Reponse } from '../../models/reponse';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import Swal from 'sweetalert2';
+import { Answer } from '../../models/answer';
+import { AnswerService } from '../../services/answer.service';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-questions',
@@ -25,7 +27,9 @@ export class QuestionsComponent {
     private qs:QuestionService,
     private Act: ActivatedRoute,
     private qzs:QuizService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private as: AnswerService
   ){
     this.quizForm = this.formBuilder.group({});
   }
@@ -92,16 +96,71 @@ getAll(id: number): void {
   });
 }
 
+// saveQuiz(): void {
+//   clearTimeout(this.timer);
+
+//   this.questions.forEach((question, index) => {
+//     const selectedChoice = this.quizForm.get(`selectedOption_${index}`).value;
+//     const answer = new Answer({
+//       selectedChoice: selectedChoice,
+//     });
+//     const questionId = this.questions[index].numQuestion;
+
+//     // Appel de la méthode pour sauvegarder la réponse
+//     this.as.addReponseAndAssignToQuestionAndUser(answer, questionId, 1).subscribe(
+//       (response) => {
+//         console.log(`Réponse pour ${this.questions[index]} sauvegardée avec succès:`, response);
+//       },
+//       (error) => {
+//         console.error(`Une erreur s'est produite lors de la sauvegarde de la réponse pour ${this.questions[index]}:`, error);
+//       })
+      
+//     console.log(`answer pour Question: `, answer);
+//   });
+
+//   // Swal.fire({
+//   //   icon: 'success',
+//   //   title: 'Quiz added successfully!',
+//   //   showConfirmButton: false,
+//   //   timer: 1500
+//   // }).then(() => {
+//   //   this.router.navigate(['/quizList']);
+//   // });
+//   // console.log('Quiz saved!');
+// }
+
+
 saveQuiz(): void {
   clearTimeout(this.timer);
-  console.log('Quiz saved!');
-  const responses: { [key: string]: string } = {};
-  this.questions.forEach((question, index) => {
-    responses[`Question ${index + 1}`] = this.quizForm.get(`selectedOption_${index}`).value;
-  });
-  console.log('Quiz responses:', responses);
+//finish the code
+const answers: { questionId: number, selectedOption: string }[] = [];
+
+// Iterate over each question in the form
+for (let i = 0; i < this.questions.length; i++) {
+  const selectedOption = this.quizForm.get(`selectedOption_${i}`).value;
+  const questionId = this.questions[i].numQuestion;
+  // Save question ID and selected choice to the list
+  answers.push({ questionId: questionId, selectedOption: selectedOption });
+}
+ console.log('Answers:', answers);
+
+  for (const answer of answers) {
+    const rep: Answer = { selectedChoice: answer.selectedOption };
+
+    this.addReponse(rep, answer.questionId, 1);
+  }
+
 }
 
-
+addReponse(reponse: Answer, questionId: number, userId: number): void {
+  this.as.addReponseAndAssignToQuestionAndUser(reponse, questionId,userId).subscribe(
+      (result) => {
+        console.log('answer added and assigned to Question And User successfully:', result);
+      },
+      (error) => {
+        console.error('Error occurred while adding answer :', error);
+      }
+    );
+}
 
 }

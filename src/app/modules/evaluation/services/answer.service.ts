@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Question } from '../models/question';
+import { Answer } from '../models/answer';
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionService {
-  apiurl = 'http://localhost:9000/pidev/question';
+export class AnswerService {
+  apiurl = 'http://localhost:9000/pidev/answer';
   constructor(private http:HttpClient) { }
 
   /*****CRUD********** */
-  getAllQuestions(id :number): Observable<Question[]>{
-    return this.http.get<Question[]>(`${this.apiurl}/getAllQuestions/${id}`);
+  getAllResponse(): Observable<Answer[]>{
+    return this.http.get<Answer[]>(`${this.apiurl}/getAll`);
+  }
+  addReponseAndAssignToQuestionAndUser(Answer: Answer, questionId: number,userId:number){
+    return this.http.post<Answer>(`${this.apiurl}/addReponseAndAssignToQuestionAndUser/${userId}/${questionId}`, Answer);
   }
 
 
@@ -20,9 +23,7 @@ export class QuestionService {
   // deleteQuestion(id :number): Observable<void>{
   //   return this.http.delete<void>(`${this.apiurl}/removeQuestion/${id}`);
   // }
-  // addQuestionAndAssignToTopic(Question: Question, topicId: number): Observable<Question>{
-  //   return this.http.post<Question>(`${this.apiurl}/addQuestionAndAssignToTopic/${topicId}`, Question);
-  // }
+
   // updateQuestion(Question: Question) {
   //   console.log("service Question Question:",Question);
   //   return  this.http.put<Question>(`${this.apiurl}/updateQuestion`,Question);
@@ -36,3 +37,4 @@ export class QuestionService {
 
 
 }
+

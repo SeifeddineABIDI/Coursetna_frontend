@@ -1,7 +1,7 @@
 import { User } from "app/core/user/user.types";
 import { Question } from "./question";
 
-export class Reponse{
+export class Answer{
     numReponse?:number;
     selectedChoice?:string;
     
