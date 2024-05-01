@@ -15,7 +15,8 @@ export class QuizListComponent{
   topics: Topic[]=[];
 
   topic=new FormControl('',Validators.required);
-
+  quizForm: FormGroup;
+  
   constructor(private qs:QuizService,private fb:FormBuilder){
     this.quizForm = this.fb.group({
       title: new FormControl('', [Validators.required]),
@@ -107,12 +108,12 @@ modalTitle: string = 'Add New Quiz';
 
 // Fonction pour basculer l'affichage du modèle d'ajout
 toggleAddModal(status: boolean): void {
+  this.isEditMode = false;
   this.showAddModal = status;
   this.modalTitle = 'Add New Quiz';
+  this.quizForm.reset();
 }
 /*******Form**************** */
-quizForm: FormGroup;
-
 fetchTopics() {
   return this.qs.getAllTopics().subscribe(
     { next: (data)=>this.topics = data,

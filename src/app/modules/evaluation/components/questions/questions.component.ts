@@ -4,6 +4,8 @@ import { QuestionService } from '../../services/question.service';
 import { ActivatedRoute } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
 import { Quiz } from '../../models/quiz';
+import { Reponse } from '../../models/reponse';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-questions',
@@ -17,15 +19,37 @@ export class QuestionsComponent {
   timer: any;
   timeRemaining: number;
 
-  constructor(private qs:QuestionService,private Act: ActivatedRoute,private qzs:QuizService){
+  quizForm: FormGroup; 
+  
+  constructor(
+    private qs:QuestionService,
+    private Act: ActivatedRoute,
+    private qzs:QuizService,
+    private formBuilder: FormBuilder
+  ){
+    this.quizForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
-    this.id=this.Act.snapshot.params['id'];    
-    this.questions=this.getAll(this.id) as any;
+    this.id = this.Act.snapshot.params['id'];
+    this.getAll(this.id);
     this.getQuizDuration(this.id);
   }
+/*********validators form**** */
+radioButtonValidator(control: AbstractControl): { [key: string]: any } | null {
+  const selectedOptions = Object.values(control.value);
+  if (selectedOptions.includes('')) {
+    return { 'required': true };
+  } else {
+    return null;
+  }
+}
 
+initForm(): void {
+  this.questions.forEach((question, index) => {
+    this.quizForm.addControl(`selectedOption_${index}`, this.formBuilder.control('', Validators.required));
+  });
+}
 /***********timer********** */
 getQuizDuration(quizId: number): void {
   this.qzs.getDureeByQuiz(quizId).subscribe(
@@ -57,35 +81,26 @@ formatTime(seconds: number): string {
 }
 /******end timer************* */
 /*********getAll********************* */
-getAll(id: number){
-  this.qs.getAllQuestions(id).subscribe(
-    { next: (data)=>this.questions = data,
-      error:(err)=> console.log(err),
-      complete:()=> console.log('getAll() done')
-    });
+getAll(id: number): void {
+  this.qs.getAllQuestions(id).subscribe({
+    next: (data) => {
+      this.questions = data;
+      this.initForm();
+    },
+    error: (err) => console.error(err),
+    complete: () => console.log('getAll() done')
+  });
 }
-currentQuestionIndex: number = 0;
-userAnswers: any = {};
-// onNext(): void {
-//   if (this.currentQuestionIndex < this.questions.length - 1) {
-//     this.currentQuestionIndex++;
-//   }
-// }
-
-// onPrevious(): void {
-//   if (this.currentQuestionIndex > 0) {
-//     this.currentQuestionIndex--;
-//   }
-// }
 
 saveQuiz(): void {
   clearTimeout(this.timer);
   console.log('Quiz saved!');
-  // Logique pour soumettre les réponses et calculer le score
-  // Vous pouvez ajouter votre logique ici pour calculer le score en fonction des réponses de l'utilisateur
-  console.log(this.userAnswers);
+  const responses: { [key: string]: string } = {};
+  this.questions.forEach((question, index) => {
+    responses[`Question ${index + 1}`] = this.quizForm.get(`selectedOption_${index}`).value;
+  });
+  console.log('Quiz responses:', responses);
 }
-
 
 
 
