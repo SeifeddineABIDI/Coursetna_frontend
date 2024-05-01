@@ -8,6 +8,8 @@ import { Answer } from '../../models/answer';
 import { AnswerService } from '../../services/answer.service';
 import { concat } from 'rxjs';
 import Swal from 'sweetalert2';
+import { ScoreService } from '../../services/score.service';
+import { Score } from '../../models/score';
 
 @Component({
   selector: 'app-questions',
@@ -29,7 +31,8 @@ export class QuestionsComponent {
     private qzs:QuizService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private as: AnswerService
+    private as: AnswerService,
+    private ss: ScoreService
   ){
     this.quizForm = this.formBuilder.group({});
   }
@@ -75,6 +78,7 @@ startTimer(): void {
       clearInterval(this.timer);
       alert('Quiz time is up!');
       // Implement code to close the quiz or navigate away
+      this.saveQuiz();
     }
   }, 1000); // Update every second
 }
@@ -112,9 +116,11 @@ saveQuiz(): void {
     showConfirmButton: false,
     timer: 1500
   }).then(() => {
+    this.calculScore(this.id,1); //calcule score
     this.router.navigate(['/quizList']);
   });
   console.log('Quiz saved!');
+
 }
 
 addReponse(reponse: Answer, questionId: number, userId: number): void {
@@ -126,6 +132,17 @@ addReponse(reponse: Answer, questionId: number, userId: number): void {
         console.error('Error occurred while adding answer :', error);
       }
     );
+}
+
+calculScore(numQuiz: number,userId:number){
+  this.ss.addScore(numQuiz, userId).subscribe(
+    (response: Score) => {
+      console.log('Score added successfully:', response);
+    },
+    (error: any) => {
+      console.error('Error adding score:', error);
+    }
+  );
 }
 
 }
