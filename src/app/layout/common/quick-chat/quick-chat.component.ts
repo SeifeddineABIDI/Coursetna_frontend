@@ -1119,7 +1119,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     forwarding() {
         
         if (confirm('Are you sure to share this message to the discussion '+ this.currentDiscussionTitle +'?')) {
-            this.sendMessageo =  this.forwardingo;
+            this.sendMessageo =  "(forwarded) "+ this.forwardingo;
             this.sendMessage();
         } 
         this.forwardins = false ;
