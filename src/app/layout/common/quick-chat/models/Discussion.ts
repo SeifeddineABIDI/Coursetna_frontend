@@ -7,6 +7,7 @@ export interface Discussion {
     dateStart: Date;
     typeDiscussion: TypeDiscussion;
     users: User[];
+    admins: User[];
     community: Discussion[];
     photo: string;
     archived: boolean;

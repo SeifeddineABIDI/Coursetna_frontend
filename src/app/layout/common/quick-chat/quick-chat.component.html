@@ -141,12 +141,6 @@
 
 
 
-
-
-
-
-
-
 <div class="modal" [ngClass]="{'hidden': !showModalb}"
     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999;">
     <div class="modal-overlay"
@@ -188,7 +182,7 @@
                         </mat-form-field>
                         <h3 style="margin: 0;">Insert image for Community:</h3>
                         <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
-                        <div *ngIf="imageData; else fallback">
+                        <div *ngIf="imageData != ' ' else fallback">
                             <img [src]="imageData" alt="Uploaded Image"
                                 style="width: 70px; height: 70px; border-radius: 50%;">
                         </div>
@@ -222,6 +216,128 @@
 </div>
 
 
+<div class="modal" [ngClass]="{'hidden': !showModald}"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <div class="modal-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+    </div>
+    <div class="modal-content dark:bg-hover bg-white"
+        style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 90%; max-width: 1000px; z-index: 10000;">
+        <h2 style="margin-bottom: 20px; text-align: center;">Create a Community</h2>
+        <div style="display: flex; flex-direction: row; gap: 20px;">
+            
+            <!-- User List 1 -->
+            <div style="flex: 1; overflow-y: auto; max-height: 500px;">
+                <h3 style="margin: 0;">Existing students:</h3>
+                <div *ngFor="let user of existingUsers" (click)="toggleUserSelection(user)"
+                    [ngClass]="{'bg-primary-400': isUserSelected(user)}"
+                    style="border: 1px solid lightgray; border-radius: 8px; padding: 10px; margin-bottom: 5px; display: flex; align-items: center; cursor: pointer;">
+                    <img [src]="user.photo"
+                        style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;" alt="{{user.prenom}} {{user.nom}}">
+                    <span>{{ user.prenom }} {{ user.nom }}</span>
+                </div>
+            </div>
+
+            <!-- User List 2 -->
+            <div style="flex: 1; overflow-y: auto; max-height: 500px;">
+                <div *ngFor="let user of users" (click)="toggleUserSelection(user)"
+                    [ngClass]="{'bg-primary-400': isUserSelected(user)}"
+                    style="border: 1px solid lightgray; border-radius: 8px; padding: 10px; margin-bottom: 5px; display: flex; align-items: center; cursor: pointer;">
+                    <img [src]="user.photo"
+                        style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;" alt="{{user.prenom}} {{user.nom}}">
+                    <span>{{ user.prenom }} {{ user.nom }}</span>
+                </div>
+            </div>
+
+            <!-- Option List -->
+            <div style="flex: 1; padding-right: 20px;">
+                <h3 style="margin: 0;"><- Search for students</h3>
+                <mat-form-field class="fuse-mat-bold fuse-mat-dense w-full" style="margin-bottom: 20px;">
+                    <input type="text" matInput placeholder="Insert student name here">
+                    <button style="padding: 10px; margin-left: 10px;"><span>🔍</span></button>
+                </mat-form-field>
+                <h3 style="margin: 0;">Community title:</h3>
+                <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
+                    <input type="text" matInput [(ngModel)]="inputTitle" placeholder="Insert community title here">
+                </mat-form-field>
+                <h3 style="margin: 0;">Insert image for Community:</h3>
+                <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
+                <div *ngIf="imageDatam !== ' ' else fallback">
+                    <img [src]="imageDatam" alt="Uploaded Image" style="width: 70px; height: 70px; border-radius: 50%;">
+                </div>
+                <ng-template #fallback>
+                    <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'" 
+                    alt="Default Image" style="width: 70px; height: 70px; border-radius: 50%;">
+                </ng-template>
+            </div>
+
+            <!-- Channel List -->
+            <div style="flex: 1; overflow-y: auto; max-height: 300px;">
+                <h3 style="margin: 0;">Channels:</h3>
+                <div *ngFor="let channel of existingChannels; let i=index">
+                    <mat-form-field class="fuse-mat-bold w-full">
+                        <input type="text" matInput [(ngModel)]="existingChannels[i]" placeholder="Channel {{ i + 1 }}">
+                    </mat-form-field>
+                </div>
+                <div>
+                  <button (click)="addChannel()" style="margin-right: 10px;">+</button>
+                  <button (click)="removeChannel()" style="margin-right: 10px;">-</button>
+                </div>
+              </div>
+              
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="bg-primary-400 hover:bg-hover" (click)="modifyCommunity()" 
+                style="border-radius: 8%; border: 4px; padding: 10px 20px;">Confirm</button>
+            <button class="bg-gray-200 hover:bg-hover" (click)="closeModald()" 
+                style="border-radius: 8%; border: 4px; padding: 10px 20px;">Close</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" [ngClass]="{'hidden': !showModale}"
+    style="box-shadow: -2px 0px 8px rgba(0,0,0,0.1); position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <div class="modal-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+    </div>
+    <div class="modal-content dark:bg-hover bg-white"
+        style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 26%; max-width: 800px; z-index: 10000;">
+        <h2 style="margin-bottom: 20px; text-align: center;">Students of {{currentDiscussionTitle}} discussion :</h2>
+        <div style="display: flex; flex-direction: row;">
+            <!-- Duplicate this section to create three columns -->
+            <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px;">
+                <div *ngFor="let user of existingUsers" (click)="toggleUserSelection(user)"
+                    [ngClass]="{'bg-primary-400': isUserSelected(user)}"
+                    style="border: 1px solid lightgray; border-radius: 8px; padding: 10px; margin-bottom: 5px; display: flex; align-items: center; cursor: pointer;">
+
+                    <div style="display: flex; align-items: center;">
+                        <img [src]="user.photo"
+                            style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"
+                            alt="{{user.prenom}} {{user.nom}}">
+                        <span>{{ user.prenom }} {{ user.nom }}</span>
+                    </div>
+
+                </div>
+            </div>
+
+            
+        </div>
+
+        <br>
+
+        <div class="modal-footer" style="display: flex; justify-content: flex-end;">
+            <h3 style="margin: 0;">Checked students are admins :  </h3>
+            <button class="bg-primary-400 hover:bg-hover" (click)="addAdmins()"
+                style="border-radius: 8%; border: 4px; padding: 10px 20px; margin-right: 10px;">Add Admins</button>
+            <button class="bg-gray-200 hover:bg-hover" (click)="closeModale()"
+                style="border-radius: 8%; border: 4px; padding: 10px 20px;">Close</button>
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -245,7 +361,7 @@
 
                     <div>
 
-                    <div (click)="toggle()" class="text-lg font-medium text-secondary">{{currentDiscussionTitle}}</div>
+                    <div (click)="toggle()" class="text-lg font-medium text-secondary">{{currentCommunityTitle}}{{currentDiscussionTitle}}</div>
                     <button (click)="showPins()" class="ml-auto mr-4" mat-icon-button [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover':  showPinsB,
                     'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': showPinsB}">
                         📌
@@ -253,12 +369,25 @@
 
        
 
-                        <button [disabled]="currentDiscussionType == 'Duo'" (click)="openModalc()" class="ml-auto mr-4" mat-icon-button [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover':  showModalc,
-                    'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': showModalc}">
+                        <button [disabled]="currentDiscussionType == 'Duo'" (click)="handlemodclick()" class="ml-auto mr-4" mat-icon-button [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover':  showModald,
+                    'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': showModald}">
                             🔧
                         </button>
 
-                        
+
+                        <button  [disabled]="currentDiscussionType == 'Duo'" (click)="leaveDiscussion()" class="ml-auto mr-4" mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
+                            👋
+                        </button>
+
+
+                        <button [disabled]="currentDiscussionType == 'Duo'" (click)="openModale()" class="ml-auto mr-4" mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
+                            👨‍👩‍👧‍👦
+                        </button>
+
+                        <button (click)="deleteDiscussion()" class="ml-auto mr-4" mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
+                            ❌
+                        </button>
+
                         <button (click)="askQuestion(sendMessageo)" class="ml-auto mr-4" mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
                             🤖
                         </button>
@@ -307,7 +436,7 @@
                             <ng-container *ngIf="discussion.typeDiscussion === 'Duo'; else titleTemplate">
 
 
-                                <ng-container *ngIf="currentUser === discussion.users[0].id; else titleeTemplate">
+                                <ng-container *ngIf="currentUserId === discussion.users[0].id; else titleeTemplate">
 
                                     <div class="relative flex flex-0 items-center justify-center w-12 h-12">
 
@@ -380,12 +509,12 @@
                             class="flex flex-col"
                             [ngClass]="{
                               'items-center': message.message.startsWith('🤖'),
-                              'items-end': message.user.id === currentUser && !message.message.startsWith('🤖'),
-                              'items-start': message.user.id !== currentUser && !message.message.startsWith('🤖')
+                              'items-end': message.user.id === currentUserId && !message.message.startsWith('🤖'),
+                              'items-start': message.user.id !== currentUserId && !message.message.startsWith('🤖')
                             }"
                           >
                             <!-- Display user name if not 'Duo' and the message is on the left -->
-                            <ng-container *ngIf="currentDiscussionType !== 'Duo' && message.user.id !== currentUser">
+                            <ng-container *ngIf="currentDiscussionType !== 'Duo' && message.user.id !== currentUserId">
                               <div class="text-xs text-secondary mb-1">
                                 {{ message.user.prenom }} {{ message.user.nom }}
                               </div>
@@ -423,8 +552,8 @@
                               class="relative max-w-60 px-3 py-2 rounded-lg"
                               [ngClass]="{
                                 'bg-green-500 text-green-50': message.message.startsWith('🤖'),
-                                'bg-primary-500 text-primary-50': message.user.id === currentUser && !message.message.startsWith('🤖'),
-                                'bg-gray-500 text-gray-50': message.user.id !== currentUser && !message.message.startsWith('🤖')
+                                'bg-primary-500 text-primary-50': message.user.id === currentUserId && !message.message.startsWith('🤖'),
+                                'bg-gray-500 text-gray-50': message.user.id !== currentUserId && !message.message.startsWith('🤖')
                               }"
                             >
                               <!-- Speech bubble tail -->
@@ -432,8 +561,8 @@
                                 class="absolute bottom-0 w-3"
                                 [ngClass]="{
                                   'hidden': message.message.startsWith('🤖'),
-                                  'text-primary-500 -right-1 -mr-px mb-px': message.user.id === currentUser && !message.message.startsWith('🤖'),
-                                  'text-gray-500 -left-1 -ml-px mb-px -scale-x-1': message.user.id !== currentUser && !message.message.startsWwith('🤖')
+                                  'text-primary-500 -right-1 -mr-px mb-px': message.user.id === currentUserId && !message.message.startsWith('🤖'),
+                                  'text-gray-500 -left-1 -ml-px mb-px -scale-x-1': message.user.id !== currentUserId && !message.message.startsWith('🤖')
                                 }"
                               >
                                 <ng-container *ngTemplateOutlet="speechBubbleExtension"></ng-container>
@@ -455,13 +584,13 @@
                       
                             <!-- Timestamp -->
                             <ng-container
-                              *ngIf="first || last || (messages[i - 1]?.user.id === currentUser) !== (message.user.id === currentUser) || messages[i + 1]?.dateSent !== message.dateSent"
+                              *ngIf="first || last || (messages[i - 1]?.user.id === currentUserId) !== (message.user.id === currentUserId) || messages[i + 1]?.dateSent !== message.dateSent"
                             >
                               <div
                                 class="my-0.5 text-sm font-medium text-secondary"
                                 [ngClass]="{
-                                  'mr-3': message.user.id === currentUser,
-                                  'ml-3': message.user.id !== currentUser
+                                  'mr-3': message.user.id === currentUserId,
+                                  'ml-3': message.user.id !== currentUserId
                                 }"
                               >
                                 {{ message.dateSent | date:'HH:mm' }}
@@ -546,7 +675,7 @@
                                       'hover:bg-gray-400 bg-gray-400 dark:hover:bg-hover dark:bg-hover ': currentCommunity == community.id}"
                             (click)="selectCommunity(community.id)">
                             <div class="relative flex flex-0 items-center justify-center w-8 h-8">
-                                <ng-container *ngIf="community.photo != '' else noIx">
+                                <ng-container *ngIf="community.photo != ' ' else noIx">
 
                                     <div class="relative flex flex-0 items-center justify-center w-12 h-12">
 
@@ -619,18 +748,18 @@
     <div style="display: flex; justify-content: space-between; margin-top: 8px; flex-wrap: wrap;">
         <!-- Delete, Modify, Reply -->
         <button (click)="deleteMessage(currentMessage.id)" [ngClass]="{
-        'bg-gray-500': currentMessage.user.id !== currentUser,
-        'bg-gray-200': currentMessage.user.id === currentUser
+        'bg-gray-500': currentMessage.user.id !== currentUserId,
+        'bg-gray-200': currentMessage.user.id === currentUserId
       }" style="padding: 8px 12px; border-radius: 50%; font-size: large;"
-            [disabled]="currentMessage.user.id !== currentUser">
+            [disabled]="currentMessage.user.id !== currentUserId">
             🗑️
         </button>
 
         <button (click)="modifyMessage(currentMessage.id)" [ngClass]="{
-        'bg-gray-500': currentMessage.user.id !== currentUser,
-        'bg-gray-200': currentMessage.user.id === currentUser
+        'bg-gray-500': currentMessage.user.id !== currentUserId,
+        'bg-gray-200': currentMessage.user.id === currentUserId
       }" style="padding: 8px 12px; border-radius: 50%; font-size: large;"
-            [disabled]="currentMessage.user.id !== currentUser">
+            [disabled]="currentMessage.user.id !== currentUserId">
             ✏️
         </button>
 
