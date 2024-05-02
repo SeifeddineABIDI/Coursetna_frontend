@@ -75,6 +75,84 @@
     </div>
     <!-- end model d'ajout -->
 
+
+    <!-- Modèle d'ajout d'une question -->
+    <div class="add-modal" *ngIf="showModalQuestion">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Question</h5>
+                    <button type="button" class="btn-close" (click)="toggleModalQuestion(false)" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="questionForm">
+                        <div class="mb-3">
+                            <label  class="form-label">Question</label>
+                            <input type="text" class="form-control" placeholder="question" formControlName="question" >
+
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('question')?.hasError('required') && questionForm.get('question')?.touched">
+                                Question is required
+                            </div>
+                        </div>
+                
+                        <div class="mb-3">
+                            <label  class="form-label">choice1</label>
+                            <input type="text" class="form-control" placeholder="choice1" formControlName="choice1">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice1')?.hasError('required') && questionForm.get('choice1')?.touched">
+                                choice1 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">choice2</label>
+                            <input type="text" class="form-control" placeholder="choice2" formControlName="choice2">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice2')?.hasError('required') && questionForm.get('choice2')?.touched">
+                                choice2 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">choice3</label>
+                            <input type="text" class="form-control" placeholder="choice3" formControlName="choice3">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice3')?.hasError('required') && questionForm.get('choice3')?.touched">
+                                choice3 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">correctAnswer</label>
+                            <input type="text" class="form-control" placeholder="correctAnswer" formControlName="correctAnswer">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('correctAnswer')?.hasError('required') && questionForm.get('correctAnswer')?.touched">
+                                correctAnswer is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">points</label>
+                            <input type="text" class="form-control" placeholder="points" formControlName="points">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('points')?.hasError('required') && questionForm.get('points')?.touched">
+                                points is required
+                            </div>
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('points')?.hasError('pattern') && questionForm.get('points')?.touched">
+                                points must be number
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="toggleModalQuestion(false)">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="saveNewQusetion()" [disabled]="questionForm.invalid">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model d'ajout -->
     <!-- Tableau de données -->
     <table id="example" class="table table-striped custom-table">
         <thead>
@@ -93,11 +171,11 @@
                 <td>{{q.duree}}</td>
                 <td>
                     <button class="btn btn-primary me-2" [routerLink]="['/listquestion',q.numQuiz]"><i class="fas fa-info-circle"></i></button>
-                    <button class="btn btn-primary me-2" [routerLink]="['/addquestion',q.numQuiz]" ><i class="fas fa-add"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-primary me-2" (click)="toggleModalQuestion(true)" (click)="selectedQuizId=q.numQuiz" ><i class="fas fa-add"></i></button> <!-- Icône de modification -->
 
                     <button class="btn btn-primary me-2" (click)="editModel(q)"><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
                     <button class="btn btn-danger me-2" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
-                    <!-- <button class="btn btn-primary me-2" (click)="publishQuiz(q)" [disabled]="q.status"><i class="fas fa-check"></i></button> Bouton de publication -->
+                    <button class="btn btn-primary me-2" (click)="publishQuiz(q)" [disabled]="q.status"><i class="fas fa-check"></i></button>
 
                 </td>
             </tr>         

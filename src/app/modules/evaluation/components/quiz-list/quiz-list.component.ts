@@ -4,6 +4,7 @@ import { Quiz } from '../../models/quiz';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'app/modules/Ressource/models/topic';
+import { QuestionService } from '../../services/question.service';
 
 @Component({
   selector: 'app-quiz-list',
@@ -16,12 +17,24 @@ export class QuizListComponent{
 
   topic=new FormControl('',Validators.required);
   quizForm: FormGroup;
-  
-  constructor(private qs:QuizService,private fb:FormBuilder){
+  questionForm: FormGroup;
+
+  constructor(private qs:QuizService,private fb:FormBuilder,private questionService:QuestionService,
+  ){
     this.quizForm = this.fb.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       duree: new FormControl('', [Validators.required,Validators.pattern('[0-9]{1,3}')]),
+    })
+
+    this.questionForm = this.fb.group({
+      question: new FormControl('', [Validators.required]),
+      choice1: new FormControl('', [Validators.required]),
+      choice2: new FormControl('', [Validators.required]),
+      choice3: new FormControl('', [Validators.required]),
+      correctAnswer: new FormControl('', [Validators.required]),
+      points: new FormControl('', [Validators.required,Validators.pattern('[0-9]{1,3}')]),
+
     })
   };
 
@@ -163,4 +176,33 @@ publishQuiz(quiz: Quiz) {
       console.error('Error occurred while updating Status:', error);
     }
   );}
+/******** add Question *********** */
+selectedQuizId: number;
+showModalQuestion: boolean = false;
+toggleModalQuestion(status: boolean): void {
+  this.showModalQuestion = status;
+  this.questionForm.reset();
+}
+
+saveNewQusetion(){    
+this.questionService.addQuestionAndAssignToQuiz(this.questionForm.value,this.selectedQuizId).subscribe(
+    (result) => {
+      console.log('Qusetion added and assigned to Quiz successfully:', result);
+      this.showModalQuestion=false;
+      this.getAllQuizzes();
+      this.questionForm.reset();
+    },
+    (error) => {
+      console.error('Error occurred while adding Qusetion:', error);
+    }
+  );
+
+  Swal.fire({
+    icon: 'success',
+    title: 'Qusetion added successfully!',
+    showConfirmButton: false,
+    timer: 1500
+  })
+  console.log('Qusetion saved!');
+}
 }
