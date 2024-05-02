@@ -3,4 +3,6 @@ export class CreatePost {
     subforumName?: string;
     url?: string;
     description: string;
+    imageUrl: string;
+    email:string;
 }

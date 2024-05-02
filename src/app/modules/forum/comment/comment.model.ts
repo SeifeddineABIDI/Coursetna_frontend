@@ -3,4 +3,6 @@ export class Comment {
     postId: number;
     username?:string;
     duration?: string;
+    email?:string;
+    createdDate?: string;
 }

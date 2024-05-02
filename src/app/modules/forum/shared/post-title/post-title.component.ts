@@ -25,5 +25,8 @@ export class PostTitleComponent implements OnInit {
   goToPost(id: number): void {
     this.router.navigateByUrl('/view-post/' + id);
   }
+  getPostImageUrl(postId: number): string {
+    return 'http://localhost:9000/pidev/posts/' + postId + '/image';
+  }
 
 }

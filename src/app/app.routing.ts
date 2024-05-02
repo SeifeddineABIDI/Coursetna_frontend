@@ -3,6 +3,12 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
+import { CreatePostComponent } from './modules/forum/post/create-post/create-post.component';
+import { PostTitleComponent } from './modules/forum/shared/post-title/post-title.component';
+import { ViewPostComponent } from './modules/forum/post/view-post/view-post.component';
+import { HelpCenterComponent } from './modules/help-center/help-center.component';
+import { CreateSubforumComponent } from './modules/forum/subforum/create-subforum/create-subforum.component';
+import { ListSubforumComponent } from './modules/forum/subforum/list-subforum/list-subforum.component';
 
 
 // @formatter:off
@@ -83,8 +89,15 @@ export const appRoutes: Route[] = [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
 
             // {path: 'forum', component: HomeComponent },
-            // {path: 'view-posts', component: PostTitleComponent },
-            // {path: 'create-post', component: CreatePostComponent },
+            {path: 'view-post/:id', component: ViewPostComponent },
+            {path: 'create-post', component: CreatePostComponent },
+            {path: 'create-subforum', component: CreateSubforumComponent},
+            //{path: 'help-center', component: HelpCenterComponent },
+            {path: 'list-subforums', component: ListSubforumComponent},
+
+            // {path: 'create-subforum', component: CreateSubforumComponent },
+            {path: 'help-center', loadChildren: () => import('app/modules/help-center/help-center.module').then(m => m.HelpCenterModule)},
+
             
             {path: 'forum', loadChildren: () => import('app/modules/forum/forum.module').then(m => m.ForumModule)}
         

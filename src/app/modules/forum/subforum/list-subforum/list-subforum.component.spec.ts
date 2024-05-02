@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VoteButtonComponent } from './vote-button.component';
+import { ListSubforumComponent } from './list-subforum.component';
 
-describe('VoteButtonComponent', () => {
-  let component: VoteButtonComponent;
-  let fixture: ComponentFixture<VoteButtonComponent>;
+describe('ListSubforumComponent', () => {
+  let component: ListSubforumComponent;
+  let fixture: ComponentFixture<ListSubforumComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VoteButtonComponent ]
+      declarations: [ ListSubforumComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(VoteButtonComponent);
+    fixture = TestBed.createComponent(ListSubforumComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

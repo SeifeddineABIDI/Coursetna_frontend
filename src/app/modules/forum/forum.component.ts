@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostModel } from './shared/post-model.model';
 import { PostService } from './shared/post.service';
+import { HelpCenterMockApi } from 'app/mock-api/apps/help-center/api';
 
 @Component({
   selector: 'app-forum',
