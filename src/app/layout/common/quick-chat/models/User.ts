@@ -6,11 +6,13 @@ export interface User {
     password: string;
     role: TypeUser; // Assuming you have an enum defined for TypeUser
     photo: string;
+    isArchived: boolean;
+    isBanned: boolean;
 }
 
 export enum TypeUser {
-    Admin = "Admin",
-    Student = "Student"
+    ADMIN = "ADMIN",
+    STUDENT = "STUDENT"
 }
 
 export class UserClass implements User {
@@ -21,6 +23,9 @@ export class UserClass implements User {
     password: string;
     role: TypeUser;
     photo: string;
+    isArchived: boolean;
+    isBanned: boolean;
+    
 
     constructor(
         id: number,

@@ -33,6 +33,8 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     editreplyMessageo!: string;
     forwardingo!: string;
 
+    prenomInput!: string;
+    nomInput!: string;
     imageData: string | ArrayBuffer | null = " ";
     imageDatam: string | ArrayBuffer | null = " ";
 
@@ -156,6 +158,12 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
 
+        const currentUser = localStorage.getItem("currentUser") ;
+        const userObject = JSON.parse(currentUser);
+        this.currentUserId =  parseInt(userObject.id);
+        localStorage.setItem("currentUserId",this.currentUserId.toString());
+        
+
 
         this.usersPre = [
             {
@@ -164,8 +172,10 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 prenom: 'Mejri',
                 email: 'w@gmail.com',
                 password: 'w',
-                role: TypeUser.Admin,
-                photo: 'https://i.pinimg.com/736x/96/b8/40/96b8406b53c04aae7792dea99197ae4d.jpg'
+                role: TypeUser.ADMIN,
+                photo: 'https://i.pinimg.com/736x/96/b8/40/96b8406b53c04aae7792dea99197ae4d.jpg',
+                isArchived: false,
+                isBanned: false
             },
             {
                 id: 2,
@@ -173,8 +183,10 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 prenom: 'Mezni',
                 email: 'y@gmail.com',
                 password: 'y',
-                role: TypeUser.Admin,
-                photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Paramecium.jpg/640px-Paramecium.jpg'
+                role: TypeUser.ADMIN,
+                photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Paramecium.jpg/640px-Paramecium.jpg',
+                isArchived: false,
+                isBanned: false
             },
             {
                 id: 3,
@@ -182,8 +194,10 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 prenom: 'Seifeddine',
                 email: 'x@gmail.com',
                 password: 'x',
-                role: TypeUser.Admin,
-                photo: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg'
+                role: TypeUser.ADMIN,
+                photo: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg',
+                isArchived: false,
+                isBanned: false
             },
             {
                 id: 4,
@@ -191,10 +205,15 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 prenom: 'Rahmoni',
                 email: 'w@gmail.com',
                 password: 'w',
-                role: TypeUser.Admin,
-                photo: 'https://i.pinimg.com/736x/f3/1e/a0/f31ea05d300cfe3aebfc0576d0faba10.jpg'
+                role: TypeUser.ADMIN,
+                photo: 'https://i.pinimg.com/736x/f3/1e/a0/f31ea05d300cfe3aebfc0576d0faba10.jpg',
+                isArchived: false,
+                isBanned: false
+           
             },
         ];
+
+        this.usersPre = [];
 
         this.usersPre = this.usersPre.filter((user) => user.id !== this.currentUserId);
 
@@ -202,7 +221,6 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentDiscussionTitle = "Discussions";
         this.currentCommunityTitle = "";
 
-        this.retrieveAllCommunities();
 
         if (localStorage.getItem('currentCommunity')) {
             this.selectCommunity(parseInt(localStorage.getItem('currentCommunity')!))
@@ -548,6 +566,14 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     isUserSelected(user: any) {
         return this.userDiscussion.includes(user);
+    }
+
+    retrieveUsersForDiscussion() {
+        const id = this.currentUserId;
+        this.discussionService.retrieveUsersForDiscussion(this.prenomInput,this.nomInput)
+            .subscribe(users => this.users = users);
+            this.users = this.users.filter((user) => user.id !== this.currentUserId);
+
     }
 
     startDiscussion() {
