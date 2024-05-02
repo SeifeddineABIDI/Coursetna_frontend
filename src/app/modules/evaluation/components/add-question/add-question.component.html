@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centered Form</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    width: 50%; /* increase width */
+    height: 55%; /* increase height */
+    background-color: white; /* set background color */
+    padding: 20px; /* optional: add padding for better visual */
+    border-radius: 8px; /* optional: add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* optional: add shadow */
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <form [formGroup]="questionForm">
+    <div class="form-group">
+      <label for="question">Question</label>
+      <input type="text" class="form-control" id="question" placeholder="Enter question" formControlName="question">
+      <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('question')?.hasError('required') && questionForm.get('question')?.touched">
+        Question is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="choice1">Choice 1</label>
+      <input type="text" class="form-control" id="choice1" placeholder="Enter choice 1" formControlName="choice1">
+    </div>
+    <div class="form-group">
+      <label for="choice2">Choice 2</label>
+      <input type="text" class="form-control" id="choice2" placeholder="Enter choice 2" formControlName="choice2">
+    </div>
+    <div class="form-group">
+      <label for="choice3">Choice 3</label>
+      <input type="text" class="form-control" id="choice3" placeholder="Enter choice 3" formControlName="choice3">
+    </div>
+    <div class="form-group">
+      <label for="correctAnswer">Correct Answer</label>
+      <input type="text" class="form-control" id="correctAnswer" placeholder="Enter correct answer" formControlName="correctAnswer">
+    </div>
+    <div class="form-group">
+      <label for="points">Points</label>
+      <input type="number" class="form-control" id="points" placeholder="Enter points" formControlName="points">
+    </div>
+   
+    <br>
+    <button type="submit" class="btn btn-primary"(click)="saveNewQusetion()">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>

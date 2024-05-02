@@ -14,15 +14,15 @@ export class QuestionService {
   getAllQuestions(id :number): Observable<Question[]>{
     return this.http.get<Question[]>(`${this.apiurl}/getAllQuestions/${id}`);
   }
-
+  addQuestionAndAssignToQuiz(Question: Question, quizId: number): Observable<Question>{
+    return this.http.post<Question>(`${this.apiurl}/addQuestionAndAssignToQuiz/${quizId}`, Question);
+  }
 
   
   // deleteQuestion(id :number): Observable<void>{
   //   return this.http.delete<void>(`${this.apiurl}/removeQuestion/${id}`);
   // }
-  // addQuestionAndAssignToTopic(Question: Question, topicId: number): Observable<Question>{
-  //   return this.http.post<Question>(`${this.apiurl}/addQuestionAndAssignToTopic/${topicId}`, Question);
-  // }
+
   // updateQuestion(Question: Question) {
   //   console.log("service Question Question:",Question);
   //   return  this.http.put<Question>(`${this.apiurl}/updateQuestion`,Question);

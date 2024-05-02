@@ -117,7 +117,7 @@ saveQuiz(): void {
     timer: 1500
   }).then(() => {
     this.calculScore(this.id,1); //calcule score
-    this.router.navigate(['/quizList']);
+    //this.router.navigate(['/quizList']);
   });
   console.log('Quiz saved!');
 
@@ -153,7 +153,7 @@ displayScore(): void {
       Swal.fire({
         icon: 'success',
         title: 'Quiz completed!',
-        text: `Your score: ${score.score}%`,
+        text: `Your score: ${score.score}`,
         confirmButtonText: 'OK'
       }).then((result) => {
         if (result.isConfirmed) {
@@ -166,5 +166,4 @@ displayScore(): void {
     }
   );
 }
-
 }

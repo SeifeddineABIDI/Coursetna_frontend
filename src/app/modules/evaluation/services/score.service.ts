@@ -14,4 +14,8 @@ export class ScoreService {
     return this.http.get<Score>(`${this.apiurl}/addScore/${numQuiz}/${userId}`);
   }
 
+  getScore(userId:number,numQuiz: number):Observable<Score>{
+    return this.http.get<Score>(`${this.apiurl}/getScoreByUserAndQuiz/${userId}/${numQuiz}`);
+  }
+
 }

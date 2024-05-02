@@ -129,7 +129,7 @@ save(){
     this.saveNewQuiz();
   }
 }
-/********************************* */
+/***********Add Quiz********************** */
 saveNewQuiz(){
   const selectedTopicId: number = parseInt(this.topic.value, 10); // interprets the string as a decimal number.
     if (this.quizForm.valid) {
@@ -150,6 +150,5 @@ saveNewQuiz(){
     this.quizForm.markAllAsTouched();
   }
 }
-
 
 }
