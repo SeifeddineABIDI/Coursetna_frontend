@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
+</head>
+<body>
+
+    <!-- Tableau de données -->
+    <table id="example" class="table table-striped custom-table">
+        <thead>
+            <tr>
+                <th>question</th>
+                <th>choice1</th>
+                <th>choice2</th>
+                <th>choice3</th>
+                <th>correct Answer</th>
+                <th>points</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody >
+            <!-- Contenu de la table -->
+            <tr *ngFor="let q of questions">
+                <td>{{q.question}}</td>
+                <td>{{q.choice1}}</td>
+                <td>{{q.choice2}}</td>
+                <td>{{q.choice3}}</td>
+                <td>{{q.correctAnswer}}</td>
+                <td>{{q.points}}</td>
+                <td>
+                    <button class="btn btn-primary" ><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-danger" ><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
+                </td>
+            </tr>         
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -77,6 +77,7 @@ export const appRoutes: Route[] = [
         {path: 'quiz', loadChildren: () => import('app/modules/evaluation/components/quiz.module').then(m => m.QuizModule)},
         {path: 'questions/:id', loadChildren: () => import('app/modules/evaluation/components/questions.module').then(m => m.QuestionsModule)},
         {path: 'addquestion/:id', loadChildren: () => import('app/modules/evaluation/components/addquestion.module').then(m => m.AddQuestionModule)},
+        {path: 'listquestion/:id', loadChildren: () => import('app/modules/evaluation/components/listquestion.module').then(m => m.ListQuestionModule)},
 
         ]
     }

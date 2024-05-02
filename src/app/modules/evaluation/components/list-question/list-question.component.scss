@@ -1,0 +1,29 @@
+.custom-table {
+    max-width: 95%; /* Largeur maximale de la table */
+    margin: 2% auto; /* Centrer la table horizontalement */
+}
+.add-button {
+top: 2%; /* Adjust top position as needed */
+right: 1px; /* Adjust right position as needed */
+max-width: 10%; /* Set the maximum width of the button */
+margin: 2%; /* Set the margin */
+}
+
+
+ /* Style for the modal */
+ .add-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    z-index: 9999;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* Style to hide the table when modal is displayed */
+.modal-open {
+    overflow: hidden;
+}

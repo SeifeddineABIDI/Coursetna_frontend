@@ -17,6 +17,9 @@ export class QuestionService {
   addQuestionAndAssignToQuiz(Question: Question, quizId: number): Observable<Question>{
     return this.http.post<Question>(`${this.apiurl}/addQuestionAndAssignToQuiz/${quizId}`, Question);
   }
+  getQuestionsByQuiz(id :number): Observable<Question[]>{
+    return this.http.get<Question[]>(`${this.apiurl}/getAllQuestions/${id}`);
+  }
 
   
   // deleteQuestion(id :number): Observable<void>{
