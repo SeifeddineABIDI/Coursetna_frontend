@@ -1,66 +1,14 @@
-<div class="container">
-    <div class="table-wrapper">
-      <div class="table-title">
-        <div class="row">
-          <div class="col-sm-6">
-            <h2> <b>internships</b></h2>
-          </div>
-      
-          <div class="col-sm-6">
-            <a href="#" class="btn btn-success" data-toggle="modal"  (click)="open()" >
-              <i class="material-icons">&#xE147;</i> <span>Apply for internship</span>
-              
-            </a>
-            	
-          </div>
-        </div>
-      </div>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-
-            <th>Title</th>
-            <th>Description</th>
-            <th>Location</th>
-            <th>Company</th>
-            <th>Duration</th>
-            <th>Publication Date</th>
-          
-          </tr>
-        </thead>
-        <tbody>
-        
-            <tr *ngFor="let stage of stagesResults">
-          
-            <td>{{ stage.title }}</td>
-            <td>{{ stage.description }}</td>
-            <td>{{ stage.location }}</td>
-            <td>{{ stage.company }}</td>
-            <td>{{ stage.duration }}</td>
-            <td>{{ stage.publicationDate| date}}</td>
-         
-         
-              
-            
-          </tr>
-        </tbody>
-      </table>
-   
-    </div>
-  </div>
   
-  <!-- Add/Edit Stage Modal -->
-  <div class="modal fade" id="stageModal" tabindex="-1" role="dialog" aria-labelledby="stageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-  
+  <div class="card-group">
+    <div class="card" style="width: 18rem;" *ngFor="let stage of stagesResults">
+      <div class="card-body">
+        <h5 class="card-title">{{ stage.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{ stage.company }}</h6>
+        <p class="card-text">{{ stage.description }}</p>
+        <p class="card-text">{{ stage.location }}</p>
+        <p class="card-text">{{ stage.duration }}</p>
+        <p class="card-text">{{ stage.publicationDate| date}}</p>
+        <a href="#" class="card-link">Apply for internship</a>
       </div>
     </div>
   </div>
-
-
-<!--call the popup-->
-  <app-modal-form></app-modal-form>
-
-
-  

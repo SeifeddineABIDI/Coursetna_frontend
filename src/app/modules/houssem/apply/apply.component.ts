@@ -23,17 +23,14 @@ export class ApplyComponent implements OnInit {
   public stagesResults: Stage[] = [];
 
 
-  constructor(private stageService: StageService,private router:Router) { }
+  constructor(private stageService: StageService) { }
+
+
 
 
   ngOnInit() {
     this.getStages(); 
-   
   }
-
-  
-  
-
 
   public getStages(): void {
     this.stageService.getStages().subscribe(
@@ -47,21 +44,15 @@ export class ApplyComponent implements OnInit {
     );
   }
 
- open(): void {
-    $('#myModal').modal('show'); // Show the modal using jQuery
-  }
-  closeModal(): void {
-    $('#myModal').modal('hide'); // Hide the modal using jQuery
-  }
-
-
-
-
-
-
-  
-  
 
 
 
 }
+
+
+
+  
+  
+
+
+

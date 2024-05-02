@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-declare var $: any;
+import { Stage } from '../modals/stage';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StageService } from '../services/stage.service';
+
 
 
 
@@ -10,28 +13,28 @@ declare var $: any;
 })
 export class FormApplyComponent implements OnInit{
 
+  public stagesResults: Stage[] = [];
+
+  constructor(private stageService: StageService) { }
 
 
-  constructor() { }
 
-  ngOnInit(): void {
+
+  ngOnInit() {
+    this.getStages(); 
   }
 
-  open(): void {
-    $('#myModal').modal('show'); // Show the modal using jQuery
+  public getStages(): void {
+    this.stageService.getStages().subscribe(
+      (response: Stage[]) => {
+        this.stagesResults = response;
+        console.log(this.stagesResults);
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Error fetching stages:', error);
+      }
+    );
   }
-  close(): void {
-    $('#myModal').modal('hide'); // Hide the modal using jQuery
-  }
-
-  submit(): void {
-    // Implement form submission logic here (e.g., data validation, HTTP request)
-    console.log('Form submitted');
-    // Close the modal after form submission
-    this.close();
-  }
-
-
 
 
 
