@@ -1,0 +1,142 @@
+<div class="container">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2>Manage <b>Stages</b></h2>
+          </div>
+      
+          <div class="col-sm-6">
+            <a href="#" class="btn btn-success" data-toggle="modal" (click)="openModal()">
+              <i class="material-icons">&#xE147;</i> <span>Add New Stage</span>
+            </a>
+            <form class="form" (submit)="onSubmit()">
+              <button>
+                  <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                      <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+              </button>
+              <input class="input" [(ngModel)]="titreFilter" name="titreFilter" placeholder="Type your text" required="" type="text">
+              <button class="search-button" (click)="searchStages()">Search</button>
+                            <button class="reset" type="reset">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+  </svg>
+</button>
+
+          </form>					
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>
+              <span class="custom-checkbox">
+                <input type="checkbox" id="selectAll">
+                <label for="selectAll"></label>
+              </span>
+            </th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Company</th>
+            <th>Duration</th>
+            <th>Publication Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stage of filteredStages">
+
+            <td>
+              <span class="custom-checkbox">
+                <input type="checkbox" [id]="'checkbox' + stage.offreid" name="options[]" [value]="stage.offreid">
+                <label [for]="'checkbox' + stage.offreid"></label>
+              </span>
+            </td>
+            <td>{{ stage.title }}</td>
+            <td>{{ stage.description }}</td>
+            <td>{{ stage.location }}</td>
+            <td>{{ stage.company }}</td>
+            <td>{{ stage.duration }}</td>
+            <td>{{ stage.publicationDate| date}}</td>
+            <td>
+              
+              <a class="edit" (click)="editStage(stage.offreid)">
+                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+              </a>
+              
+
+              <a href="/list" class="delete" (click)="onDeleteStage(stage.offreid)">
+                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+              </a>
+              
+              
+              
+              
+              </td>
+              
+            
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="clearfix">
+        <div class="hint-text">Showing <b>{{ stagesResults.length }}</b> out of <b>{{ totalStages }}</b> entries</div>
+        <Pagination controls (if needed) -->
+      <!-- </div> -->
+    </div>
+  </div>
+  
+  <!-- Add/Edit Stage Modal -->
+  <div class="modal fade" id="stageModal" tabindex="-1" role="dialog" aria-labelledby="stageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <!--<form (ngSubmit)="submitStageForm()" #stageForm="ngForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="stageModalLabel">{{ modalTitle }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" id="title" name="title" [(ngModel)]="currentStage.title" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea class="form-control" id="description" name="description" [(ngModel)]="currentStage.description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" class="form-control" id="location" name="location" [(ngModel)]="currentStage.location" required>
+            </div>
+            <div class="form-group">
+              <label for="company">Company</label>
+              <input type="text" class="form-control" id="company" name="company" [(ngModel)]="currentStage.compagny" required>
+            </div>
+            <div class="form-group">
+              <label for="duration">Duration</label>
+              <input type="text" class="form-control" id="duration" name="duration" [(ngModel)]="currentStage.duration" required>
+            </div>
+            <div class="form-group">
+              <label for="publicationDate">Publication Date</label>
+              <input type="text" class="form-control" id="publicationDate" name="publicationDate" [(ngModel)]="currentStage.publicationdate" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">{{ modalAction }}</button>
+          </div>
+        </form>-->
+      </div>
+    </div>
+  </div>
+
+
+<!--call the popup-->
+  <app-modal-form></app-modal-form>
+
+
+  
