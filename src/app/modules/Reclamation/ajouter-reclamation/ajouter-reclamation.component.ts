@@ -3,8 +3,8 @@ import { ReclamationService } from '../services/reclamation.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'app/modules/Ressource/models/topic';
 import { Reclamation } from '../models/Reclamation.models';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ajouter-reclamation',
@@ -39,39 +39,25 @@ export class AjouterReclamationComponent implements OnInit {
   }
   addreclamation() {
     const userid = 2;
-    const selectedTopicId: number = parseInt(this.topic.value, 10); // interprets the string as a decimal number.
-    console.log('topicId: ', selectedTopicId);
-    
-
-    if (this.reclamationform.valid) {
-      if (this.reclamationform.valid) {
+    const selectedTopicId: number = parseInt(this.topic.value, 10); // interprets the string as a decimal number.    
         this.reclamationService.addReclamation(this.reclamationform.value, userid, selectedTopicId).subscribe(
-          (result) => {
-            console.log('reclamation added and assigned to topic successfully:');
+          (result:any) => {
+            console.log('mtaa swalll :' , result);
             Swal.fire({
               title: 'Added!',
               text: 'Your reclamation has been added successfully.',
               icon: 'success'
-            }).then(() => {
+            }).then((result) => {
+              // Check if the Swal promise is resolved
+              console.log('Swal closed:', result);
               // Redirection vers une autre page après l'ajout de la réclamation
               this.router.navigate(['/reclamation']);
             });
-      
-          },
-          (error) => {
-            console.error('Error occurred while adding topic:', error);
           }
+          
         );
-      } else {
-        this.reclamationform.markAllAsTouched();
-      }
-
-
-    // this.reclamationService.addReclamation(this.reclamation, userid, topicId).subscribe((res: any) => {
-    //   console.log('ajoutavecsuccess', res);
-    // });
-
-  }
+      } 
   
+
 }
-}
+

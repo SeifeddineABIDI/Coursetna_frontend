@@ -1,0 +1,56 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">id reclamation</th>
+            <th scope="col">titre</th>
+            <th scope="col">description</th>
+            <th scope="col">creationDate</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let rec of listreclamation">
+            <td>#{{ rec.idrec }}</td>
+            <td>{{ rec.titre }}</td>
+            <td>{{ rec.description }}</td>
+            <td>{{ rec.creationDate }}</td>
+            <td> <button type="button" class="btn btn-success">{{ rec.status }}</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user"
+                    (click)="getByid(rec.idrec)">
+                    details of answer </button>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+<div class="modal fade" id="user" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">{{ reclam?.titre }}</h5> <!-- Utilisation de la variable "reclam" pour afficher le titre -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-2">
+                    <div class="col-md-6" *ngFor="let rep of reclam?.responses">
+                        <h6>{{ rep.contenuRep }}</h6> <!-- Utilisation de la variable "reclam" pour afficher la description -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+

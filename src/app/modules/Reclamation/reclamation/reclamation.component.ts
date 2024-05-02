@@ -3,6 +3,7 @@ import { ReclamationService } from '../services/reclamation.service';
 import { Subscription, interval } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reclamation',
@@ -14,14 +15,21 @@ export class ReclamationComponent implements OnInit, OnDestroy {
   reclamationsTraitees: number = 0;
   reclamationsNonTraitees: number = 0;
   reclamationForm: FormGroup;
+  reponseForm : FormGroup ; 
+  reclam: any ;
+  id : any ; 
+  reponse : any ;
   private statsSubscription: Subscription;
 
   constructor(
     private listrec: ReclamationService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder, 
+    private activatedRoute: ActivatedRoute
+    ) {}
 
   ngOnInit(): void {
+    this.getByid(this.id); 
+    this.getByidReclam(this.id); 
     this.reclamationForm = this.formBuilder.group({
       id: ['', Validators.required],
       location: ['', Validators.required],
@@ -29,11 +37,22 @@ export class ReclamationComponent implements OnInit, OnDestroy {
       creationDate: ['', Validators.required],
       titre: ['', Validators.required],
     });
+    this.reponseForm = this.formBuilder.group({
+      id: ['', Validators.required],
+      contenuRep: ['', Validators.required],
+    });
     this.getallreclmation();
     this.fetchStatistics(); // Fetch statistics initially
-    // Fetch statistics every 5 seconds
     this.statsSubscription = interval(5000).subscribe(() => {
       this.fetchStatistics();
+      this.id = this.activatedRoute.snapshot.params['id'];
+
+      // Vérifier si l'ID est défini avant d'appeler getByid()
+      if (this.id) {
+          // Appeler getByid() seulement si l'ID est défini
+          this.getByid(this.id);
+      }
+  
     });
   }
 
@@ -50,7 +69,18 @@ export class ReclamationComponent implements OnInit, OnDestroy {
       console.log('liste', this.listreclamation);
     });
   }
-
+  getByidReclam(id: any) {
+    this.listrec.getonereclamation(id).subscribe(
+        (res: any) => {
+            this.reclam = res; // Assurez-vous d'avoir une variable "reclam" dans votre composant pour stocker les détails de la réclamation
+            console.log('Reclamation details:', this.reclam);
+        },
+        (error: any) => {
+            console.error('Failed to fetch reclamation details:', error);
+            // Handle the error
+        }
+    );
+}
   deleteReclamation(id: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -106,4 +136,32 @@ export class ReclamationComponent implements OnInit, OnDestroy {
       }
     );
   }
+  getByid(id: any) {
+    this.listrec.getonereclamation(id).subscribe(
+        (res: any) => {
+            this.reponse = res; // Assurez-vous d'avoir une variable "reclam" dans votre composant pour stocker les détails de la réclamation
+            console.log('reponse details:', this.reponse);
+        },
+        (error: any) => {
+            console.error('Failed to fetch reclamation details:', error);
+            // Handle the error
+        }
+    );
+}
+
+  addReponse() {
+    // Now add the response
+    const rep = this.reponse.idrec ; 
+    this.listrec.addreponse(this.reponseForm.value,rep).subscribe((res: any) => {
+      console.log('Response added:', res);
+      this.reponse = res;
+      Swal.fire(
+        'CONFIRMED !',
+        'You answered to this reclamation, thank you.',
+        'success'
+      );
+    });
+  }
+  
+  
 }

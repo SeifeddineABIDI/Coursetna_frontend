@@ -38,7 +38,7 @@
         "quill": "^2.0.0",
         "rxjs": "7.8.0",
         "sweetalert": "^2.1.2",
-        "sweetalert2": "^11.6.13",
+        "sweetalert2": "^11.10.8",
         "tslib": "2.4.1",
         "zone.js": "0.12.0"
     },

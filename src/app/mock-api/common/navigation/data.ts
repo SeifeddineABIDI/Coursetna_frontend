@@ -37,6 +37,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/reponse'
+    },
+    {
+        id   : 'listReclamation',
+        title: 'listReclamation',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/listReclamation'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
