@@ -20,16 +20,13 @@ export class QuestionService {
   getQuestionsByQuiz(id :number): Observable<Question[]>{
     return this.http.get<Question[]>(`${this.apiurl}/getAllQuestions/${id}`);
   }
+  deleteQuestion(id :number): Observable<void>{
+    return this.http.delete<void>(`${this.apiurl}/removeQuestion/${id}`);
+  }
 
-  
-  // deleteQuestion(id :number): Observable<void>{
-  //   return this.http.delete<void>(`${this.apiurl}/removeQuestion/${id}`);
-  // }
-
-  // updateQuestion(Question: Question) {
-  //   console.log("service Question Question:",Question);
-  //   return  this.http.put<Question>(`${this.apiurl}/updateQuestion`,Question);
-  // }
+  updateQuestion(Question: Question,id :number) {
+    return  this.http.put<Question>(`${this.apiurl}/updateQuestion/${id}`,Question);
+  }
 
   // getQuestionById(id:number): Observable<Question>{
   //   return this.http.get<Question>(`${this.apiurl}/getQuestion/${id}`);

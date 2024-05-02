@@ -33,9 +33,9 @@ export class QuizService {
     return  this.http.put<Quiz>(`${this.apiurl}/updateQuiz`,quiz);
   }
 
-  // getQuizById(id:number): Observable<Quiz>{
-  //   return this.http.get<Quiz>(`${this.apiurl}/getQuiz/${id}`);
-  // }
+  getQuizById(id:number): Observable<Quiz>{
+    return this.http.get<Quiz>(`${this.apiurl}/getQuiz/${id}`);
+  }
 
 /*****END CRUD********* */
 

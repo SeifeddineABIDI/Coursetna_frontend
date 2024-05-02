@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ListQuestionComponent } from './list-question/list-question.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const exampleRoutes: Route[] = [
     {
@@ -17,6 +18,8 @@ const exampleRoutes: Route[] = [
     imports     : [
         RouterModule.forChild(exampleRoutes),
         CommonModule,
+        ReactiveFormsModule,
+
         
     ]
 })

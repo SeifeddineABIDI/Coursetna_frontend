@@ -150,5 +150,17 @@ saveNewQuiz(){
     this.quizForm.markAllAsTouched();
   }
 }
-
+/********************************* */
+publishQuiz(quiz: Quiz) {
+  quiz.status = true; // Mettre à jour le statut du quiz à true
+  this.qs.updateQuiz(quiz).subscribe(
+    (result) => {
+      console.log('Status updated successfully:', result);
+      
+      this.getAllQuizzes();
+    },
+    (error) => {
+      console.error('Error occurred while updating Status:', error);
+    }
+  );}
 }

@@ -11,6 +11,7 @@ export interface Quiz{
     title?:string;
     description?:string;
     duree?:number;
+    status?:boolean; // true = published, false = draft
     listQuestion?:Question[];//relation OneToMany
     listScore?:Score[];//relation OneToMany
 }

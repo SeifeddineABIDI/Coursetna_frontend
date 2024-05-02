@@ -8,7 +8,9 @@ right: 1px; /* Adjust right position as needed */
 max-width: 10%; /* Set the maximum width of the button */
 margin: 2%; /* Set the margin */
 }
-
+.me-2{
+    margin: 0.5px;
+}
 
  /* Style for the modal */
  .add-modal {

@@ -92,11 +92,13 @@
                 <td>{{q.description}}</td>
                 <td>{{q.duree}}</td>
                 <td>
-                    <button class="btn btn-primary" [routerLink]="['/listquestion',q.numQuiz]"><i class="fas fa-info-circle"></i></button>
-                    <button class="btn btn-primary" [routerLink]="['/addquestion',q.numQuiz]" ><i class="fas fa-add"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-primary me-2" [routerLink]="['/listquestion',q.numQuiz]"><i class="fas fa-info-circle"></i></button>
+                    <button class="btn btn-primary me-2" [routerLink]="['/addquestion',q.numQuiz]" ><i class="fas fa-add"></i></button> <!-- Icône de modification -->
 
-                    <button class="btn btn-primary" (click)="editModel(q)"><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
-                    <button class="btn btn-danger" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
+                    <button class="btn btn-primary me-2" (click)="editModel(q)"><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-danger me-2" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
+                    <!-- <button class="btn btn-primary me-2" (click)="publishQuiz(q)" [disabled]="q.status"><i class="fas fa-check"></i></button> Bouton de publication -->
+
                 </td>
             </tr>         
         </tbody>
