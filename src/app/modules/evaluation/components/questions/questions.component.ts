@@ -108,7 +108,7 @@ saveQuiz(): void {
     const questionId = this.questions[i].numQuestion;
     const rep: Answer = { selectedChoice: selectedOption };
 
-    this.addReponse(rep, questionId, 1);
+    this.addReponse(rep, questionId, 2);
   }
   Swal.fire({
     icon: 'success',
@@ -116,7 +116,7 @@ saveQuiz(): void {
     showConfirmButton: false,
     timer: 1500
   }).then(() => {
-    this.calculScore(this.id,1); //calcule score
+    this.calculScore(this.id,2); //calcule score
     this.router.navigate(['/quizList']);
   });
   console.log('Quiz saved!');
@@ -147,7 +147,7 @@ calculScore(numQuiz: number,userId:number){
 }
 displayScore(): void {
   // Retrieve score from the server
-  this.ss.getScore(1,this.id).subscribe(
+  this.ss.getScore(2,this.id).subscribe(
     (score: Score) => {
       // Display score in a SweetAlert popup
       Swal.fire({

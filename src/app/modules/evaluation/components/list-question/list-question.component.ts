@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuizService } from '../../services/quiz.service';
 import { Quiz } from '../../models/quiz';
+import { StatService } from '../../services/stat.service';
 
 @Component({
   selector: 'app-list-question',
@@ -21,6 +22,7 @@ export class ListQuestionComponent {
   constructor(
     private qs:QuestionService,
     private quizService:QuizService,
+    private statService:StatService,
     private Act: ActivatedRoute,
     private fb:FormBuilder
   ){
@@ -105,4 +107,34 @@ editQuestion(){
   );
 }
 /******************************End Edit Question************************ */
+showModalStat: boolean = false;
+toggleModalStat(status: boolean): void {
+  this.showModalStat = status;
+}
+
+totalCorrectAnswers: number = 0;
+TotalAnswers: number = 0;
+
+getTotalCorrectAnswersForQuestion(questionId: number): void {
+  this.showModalStat = true;
+
+  this.statService.getTotalCorrectAnswersForQuestion(questionId).subscribe(
+    (result) => {
+      this.totalCorrectAnswers = result;
+    },
+    (error) => {
+      console.error('Error fetching total correct answers:', error);
+    }
+  );
+
+  this.statService.getTotalAnswersForQuestion(questionId).subscribe(
+    (result) => {
+      this.TotalAnswers = result;
+    },
+    (error) => {
+      console.error('Error fetching total Answers:', error);
+    }
+  );
+
+}
 }

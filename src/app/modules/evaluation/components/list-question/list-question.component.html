@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
 </head>
 <body>
-    <!-- Modèle d'ajout -->
+    <!-- Modèle d'edit -->
     <div class="add-modal" *ngIf="showModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -82,7 +82,31 @@
             </div>
         </div>
     </div>
-    <!-- end model d'ajout -->
+    <!-- end model d'edit -->
+
+
+        <!-- Modèle de stat sur une question -->
+        <div class="add-modal" *ngIf="showModalStat">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Statistique :</h5>
+                        <button type="button" class="btn-close" (click)="toggleModalStat(false)" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Total correct answers: {{ totalCorrectAnswers }}</p>
+                    
+                        <p>Total answers: {{ TotalAnswers }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="toggleModalStat(false)">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Modèle de stat sur une question -->
+
+
 
     <!-- Tableau de données -->
     <table id="example" class="table table-striped custom-table">
@@ -107,12 +131,34 @@
                 <td>{{q.correctAnswer}}</td>
                 <td>{{q.points}}</td>
                 <td>
+                    
+                    <button class="btn btn-primary" (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><i class="fas fa-info-circle"></i></button> <!-- Icône de modification -->
                     <button class="btn btn-primary" (click)="editModel(q)" ><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
                     <button class="btn btn-danger" (click)="delQuestion(q.numQuestion)" ><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
                 </td>
             </tr>         
         </tbody>
     </table>
+
+
+    <!-- Modèle pour afficher le résultat -->
+<!-- <div class="modal" *ngIf="showStatModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Total Correct Answers</h5>
+                <button type="button" class="close" (click)="toggleStatModal(false)" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Total correct answers: {{ totalCorrectAnswers }}</p>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
 
 </body>
 </html>
