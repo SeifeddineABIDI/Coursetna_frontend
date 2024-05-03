@@ -10,14 +10,14 @@
         <mat-icon
             *ngIf="!showAvatar || !user.avatar"
             [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-        <!-- <span
+        <span
             class="absolute right-0 bottom-0 w-2 h-2 rounded-full"
             [ngClass]="{'mr-px mb-px': !showAvatar || !user.avatar,
                           'bg-green-500': user.status === 'online',
                           'bg-amber-500': user.status === 'away',
                           'bg-red-500': user.status === 'busy',
                           'bg-gray-400': user.status === 'not-visible'}"
-        ></span> -->
+        ></span>
     </span>
 </button>
 
@@ -35,17 +35,16 @@
         <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
         <span>Profile</span>
     </button>
-    <button mat-menu-item [routerLink]="['/settings']">
+    <button mat-menu-item>
         <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
         <span>Settings</span>
     </button>
-    
-    <!-- <button
+    <button
         mat-menu-item
         [matMenuTriggerFor]="userStatus">
         <mat-icon [svgIcon]="'heroicons_outline:dots-circle-horizontal'"></mat-icon>
         <span>Status</span>
-    </button> -->
+    </button>
     <mat-divider class="my-2"></mat-divider>
     <button
         mat-menu-item

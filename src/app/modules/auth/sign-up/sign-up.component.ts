@@ -8,7 +8,6 @@ import { AuthService } from 'app/core/auth/auth.service';
 @Component({
     selector     : 'auth-sign-up',
     templateUrl  : './sign-up.component.html',
-    styleUrls    : ['./sign-up.component.css'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
@@ -45,12 +44,10 @@ export class AuthSignUpComponent implements OnInit
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-                firstname      : ['', Validators.required],
-                lastname      : ['', Validators.required],
-                email     : ['', [Validators.required]],
+                name      : ['', Validators.required],
+                email     : ['', [Validators.required, Validators.email]],
                 password  : ['', Validators.required],
-                image  : [''],
-
+                company   : [''],
                 agreements: ['', Validators.requiredTrue]
             }
         );
@@ -70,40 +67,22 @@ export class AuthSignUpComponent implements OnInit
         {
             return;
         }
-        const nom = this.signUpForm.get('firstname').value;
-        const prenom = this.signUpForm.get('lastname').value;
-        const email = this.signUpForm.get('email').value;
-        const password = this.signUpForm.get('password').value;
-        const photo: File = this.imageFile;      
+
         // Disable the form
         this.signUpForm.disable();
 
         // Hide the alert
         this.showAlert = false;
+
         // Sign up
-        this._authService.signUp(nom, prenom, email, password, photo)
+        this._authService.signUp(this.signUpForm.value)
             .subscribe(
-                
                 (response) => {
-                    console.log(response);
-                    this.signUpForm.enable();
-                    
-                    // Reset the form
-                    this.signUpForm.reset();
-                    if (response.error) {
-                        // Set the alert
-                        this.alert = {
-                            type: 'error',
-                            message: response.error
-                        };
-                        // Show the alert
-                        this.showAlert = true;
-                    // Set the alert
-                }else{
+
                     // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');}
+                    this._router.navigateByUrl('/confirmation-required');
                 },
-                (error) => {
+                (response) => {
 
                     // Re-enable the form
                     this.signUpForm.enable();
@@ -122,13 +101,4 @@ export class AuthSignUpComponent implements OnInit
                 }
             );
     }
-    imageUrl: string | ArrayBuffer | null = null;
-    imageFile: File;
-    onFileSelected(event: any) {
-        const file: File = event.target.files[0];
-        this.imageFile = file;
-        this.signUpForm.patchValue({
-          photo: file
-        });
-      }
 }

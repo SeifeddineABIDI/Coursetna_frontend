@@ -1,4 +1,3 @@
-import { AuthResetPasswordModule } from './modules/auth/reset-password/reset-password.module';
 import { Route } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
@@ -12,7 +11,7 @@ export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
     {path: '', pathMatch : 'full', redirectTo: 'example'},
-    
+
     // Redirect signed-in user to the '/example'
     //
     // After the user signs in, the sign-in page will redirect the user to the 'signed-in-redirect'
@@ -33,7 +32,7 @@ export const appRoutes: Route[] = [
             {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule)},
             {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
             {path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},
-            {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)},
+            {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)}
         ]
     },
 
@@ -47,8 +46,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
-            {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule)},
-
+            {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule)}
         ]
     },
 
@@ -74,12 +72,13 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
-            {path: 'example2', loadChildren: () => import('app/modules/admin/example2/example2.module').then(m => m.Example2Module)},
-            {path: 'settings', loadChildren: () => import('app/modules/settings/settings.module').then(m => m.SettingsModule)},
-            {path: 'forgot', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
-            {path: '**', pathMatch : 'full', redirectTo: 'example'},
-
-
+            { path: 'ressources-by-topic/:topicId', loadChildren: () => import('./modules/ressources/ressourceList.module').then(m => m.RessourceListModule) },
+            { path: 'acceuil', loadChildren: () => import('./modules/ressources/homeList.module').then(m => m.HomeListModule) },
+            { path: 'ressource/:id', loadChildren: () => import('./modules/ressources/RessourceDetail.module').then(m => m.RessourceDetailModule) },
+            { path: 'topic/:option', loadChildren: () => import('./modules/ressources/topicList.module').then(m => m.TopicListModule) },
+            { path: 'addTopic', loadChildren: () => import('./modules/ressources/topicAdd.module').then(m => m.TopicAddModule) },
+            { path: 'add', loadChildren: () => import('./modules/ressources/ressourceAdd.module').then(m => m.RessourceAddModule) },
+            { path: 'detailRs/:id', loadChildren: () => import('./modules/ressources/newRessource.module').then(m => m.DetailNewRessourceModule) }
         ]
     }
 ];

@@ -16,6 +16,14 @@
                 </a>
             </div>
 
+            <!-- Alert -->
+            <fuse-alert
+                class="mt-8"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="'info'">
+                You are browsing <strong>Fuse Demo</strong>. Click on the "Sign in" button to access the Demo and Documentation.
+            </fuse-alert>
 
             <!-- Alert -->
             <fuse-alert
@@ -90,7 +98,7 @@
                         [routerLink]="['/forgot-password']">Forgot password?
                     </a>
                 </div>
-      
+
                 <!-- Submit button -->
                 <button
                     class="fuse-mat-button-large w-full mt-6"
