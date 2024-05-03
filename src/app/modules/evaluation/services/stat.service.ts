@@ -10,10 +10,6 @@ export class StatService {
   apiurl = 'http://localhost:9000/pidev';
   constructor(private http:HttpClient) { }
 
-  getScore(userId:number,numQuiz: number):Observable<Score>{
-    return this.http.get<Score>(`${this.apiurl}/getScoreByUserAndQuiz/${userId}/${numQuiz}`);
-  }
-
   getTotalCorrectAnswersForQuestion(questionId: number): Observable<number> {
     return this.http.get<number>(`${this.apiurl}/answer/getTotalCorrectAnswersForQuestion/${questionId}`);
   }

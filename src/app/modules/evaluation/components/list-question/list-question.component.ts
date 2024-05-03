@@ -107,6 +107,7 @@ editQuestion(){
   );
 }
 /******************************End Edit Question************************ */
+/******************************Stat Question************************ */
 showModalStat: boolean = false;
 toggleModalStat(status: boolean): void {
   this.showModalStat = status;
@@ -135,6 +136,7 @@ getTotalCorrectAnswersForQuestion(questionId: number): void {
       console.error('Error fetching total Answers:', error);
     }
   );
-
 }
+/******************************Stat Question************************ */
+
 }

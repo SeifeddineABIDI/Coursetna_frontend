@@ -29,6 +29,7 @@
         "@popperjs/core": "^2.11.8",
         "apexcharts": "3.36.3",
         "bootstrap": "^5.3.3",
+        "chart.js": "^4.4.2",
         "crypto-js": "^4.2.0",
         "highlight.js": "11.7.0",
         "lodash-es": "4.17.21",

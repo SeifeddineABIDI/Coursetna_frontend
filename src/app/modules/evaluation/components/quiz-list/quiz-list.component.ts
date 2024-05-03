@@ -12,6 +12,7 @@ import { QuestionService } from '../../services/question.service';
   styleUrls: ['./quiz-list.component.css']
 })
 export class QuizListComponent{
+  searchTerm: string = ''; // Variable to hold the search term
   quizzes: Quiz[] =[];
   topics: Topic[]=[];
 

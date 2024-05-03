@@ -6,9 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
 </head>
 <body>
-    <!-- Bouton "Add" -->
-    <button class="btn btn-primary add-button" type="button"  (click)="toggleAddModal(true)"><i class="fas fa-plus"></i> Add</button>
-    
     <!-- Modèle d'ajout -->
     <div class="add-modal" *ngIf="showAddModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -153,6 +150,17 @@
         </div>
     </div>
     <!-- end model d'ajout -->
+
+
+    <h1 class="title">Manage Your Quizzes</h1>
+
+   
+    <!-- Search input -->
+    <div class="search-container">
+        <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
+        <button class="btn btn-primary add-button2" type="button" (click)="toggleAddModal(true)"><i class="fas fa-plus"></i> Add</button>
+      </div>
+      
     <!-- Tableau de données -->
     <table id="example" class="table table-striped custom-table">
         <thead>
@@ -165,7 +173,7 @@
         </thead>
         <tbody >
             <!-- Contenu de la table -->
-            <tr *ngFor="let q of quizzes">
+            <tr *ngFor="let q of quizzes | filter: searchTerm">
                 <td>{{q.title}}</td>
                 <td>{{q.description}}</td>
                 <td>{{q.duree}}</td>
