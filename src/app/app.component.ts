@@ -13,4 +13,8 @@ export class AppComponent
     constructor()
     {
     }
+    filterListCriteriaByValue(list:any[],criteria:string,value:number)
+    {
+        return list.filter((item) => item[criteria] == value);
+    }
 }

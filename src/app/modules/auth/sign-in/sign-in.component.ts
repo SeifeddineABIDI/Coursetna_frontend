@@ -21,6 +21,7 @@ export class AuthSignInComponent implements OnInit
     };
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
+    token: string|undefined;
 
     /**
      * Constructor
@@ -32,8 +33,18 @@ export class AuthSignInComponent implements OnInit
         private _router: Router
     )
     {
+        this.token = undefined;
     }
-
+    public send(form: NgForm): void {
+        if (form.invalid) {
+          for (const control of Object.keys(form.controls)) {
+            form.controls[control].markAsTouched();
+          }
+          return;
+        }
+    
+        console.debug(`Token [${this.token}] generated`);
+      }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
