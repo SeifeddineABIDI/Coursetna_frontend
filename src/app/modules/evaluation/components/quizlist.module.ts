@@ -15,7 +15,7 @@ const exampleRoutes: Route[] = [
 @NgModule({
     declarations: [
         QuizListComponent,
-        FilterPipe
+        FilterPipe,
     ],
     imports     : [
         RouterModule.forChild(exampleRoutes),

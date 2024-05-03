@@ -14,6 +14,8 @@ import { StatService } from '../../services/stat.service';
   styleUrls: ['./list-question.component.scss']
 })
 export class ListQuestionComponent {
+  searchTerm: string = ''; // Variable to hold the search term
+
   questions: Question[] =[];
   id!:number;
   questionForm: FormGroup;

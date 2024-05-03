@@ -5,7 +5,7 @@ import { Quiz } from '../../models/quiz';
   name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
-  transform(quizzes: Quiz[], searchTerm: string): Quiz[] {
+  transform(quizzes: any[], searchTerm: string): any[] {
     if (!quizzes || !searchTerm) {
       return quizzes;
     }

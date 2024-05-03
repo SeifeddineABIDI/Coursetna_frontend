@@ -106,6 +106,13 @@
         </div>
         <!-- end Modèle de stat sur une question -->
 
+
+    <h1 class="title">Manage Your Questions</h1>   
+ <!-- Search input -->
+ <div class="search-container">
+    <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
+</div>
+          
     <!-- Tableau de données -->
     <table id="example" class="table table-striped custom-table">
         <thead>
@@ -121,7 +128,7 @@
         </thead>
         <tbody >
             <!-- Contenu de la table -->
-            <tr *ngFor="let q of questions">
+            <tr *ngFor="let q of questions | filter: searchTerm">
                 <td>{{q.question}}</td>
                 <td>{{q.choice1}}</td>
                 <td>{{q.choice2}}</td>
