@@ -7,6 +7,7 @@ import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { CurrentUser } from 'app/core/user/CurrentUser';
 
 @Component({
     selector     : 'classy-layout',
@@ -19,6 +20,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     navigation: Navigation;
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    imageUrl: string;
+    id_user: number;
 
     /**
      * Constructor
@@ -54,7 +57,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void
-    {
+    {   
+
+
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -68,7 +73,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             .subscribe((user: User) => {
                 this.user = user;
             });
-
+            this.id_user = JSON.parse(localStorage.getItem('currentUser')).id;
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -77,6 +82,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+            this.getImageUrl(this.id_user);
+
     }
 
     /**
@@ -108,5 +115,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             // Toggle the opened status
             navigation.toggle();
         }
+    }
+    getImageUrl(userId: number): void {
+        this.imageUrl = `http://localhost:9000/pidev/api/v1/auth/${userId}/image`;
+        
     }
 }

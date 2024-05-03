@@ -32,21 +32,30 @@
                 class="mt-8"
                 [formGroup]="signUpForm"
                 #signUpNgForm="ngForm">
-
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Full name</mat-label>
+                    <mat-label>Prenom</mat-label>
                     <input
-                        id="name"
+                        id="lastname"
                         matInput
-                        [formControlName]="'name'">
-                    <mat-error *ngIf="signUpForm.get('name').hasError('required')">
-                        Full name is required
+                        [formControlName]="'lastname'">
+                    <mat-error *ngIf="signUpForm.get('lastname').hasError('required')">
+                        Last name is required
                     </mat-error>
                 </mat-form-field>
-
-                <!-- Email field -->
+                <!-- Name field -->
                 <mat-form-field class="w-full">
+                    <mat-label>Nom</mat-label>
+                    <input
+                        id="firstname"
+                        matInput
+                        [formControlName]="'firstname'">
+                    <mat-error *ngIf="signUpForm.get('firstname').hasError('required')">
+                        First name is required
+                    </mat-error>
+                </mat-form-field>
+                <!-- Email field -->
+                <!-- <mat-form-field class="w-full">
                     <mat-label>Email address</mat-label>
                     <input
                         id="email"
@@ -58,6 +67,24 @@
                     <mat-error *ngIf="signUpForm.get('email').hasError('email')">
                         Please enter a valid email address
                     </mat-error>
+                </mat-form-field> -->
+                
+                <mat-form-field
+                    class="fuse-mat-emphasized-affix w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Email address</mat-label>
+                    <div
+                        class="text-secondary"
+                        matSuffix>
+                        @esprit.tn
+                    </div>
+                    <input
+                        id="email"
+                        matInput
+                        [formControlName]="'email'">
+                        <mat-error *ngIf="signUpForm.get('email').hasError('required')">
+                            Email address is required
+                        </mat-error>
                 </mat-form-field>
 
                 <!-- Password field -->
@@ -89,13 +116,18 @@
                 </mat-form-field>
 
                 <!-- Company field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Company</mat-label>
+                <div class="w-full">
+                    <mat-label>Image</mat-label>
                     <input
-                        id="company-confirm"
-                        matInput
-                        [formControlName]="'company'">
-                </mat-form-field>
+                    id="image"
+                    type="file"
+                    (change)="onFileSelected($event)"
+                    accept="image/*"
+                >
+                    <div *ngIf="imageUrl" class="image-preview">
+                        <img [src]="imageUrl" alt="Selected Image">
+                      </div>
+                </div>
 
                 <!-- ToS and PP -->
                 <div class="inline-flex items-end w-full mt-1.5">
