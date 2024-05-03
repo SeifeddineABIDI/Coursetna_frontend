@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { QuizComponent } from './quiz/quiz.component';
+import { FormsModule } from '@angular/forms';
+import { FilterQuizPipe } from './quiz/filter.pipe';
 
 const exampleRoutes: Route[] = [
     {
@@ -12,11 +14,13 @@ const exampleRoutes: Route[] = [
 
 @NgModule({
     declarations: [
-        QuizComponent
+        QuizComponent,
+        FilterQuizPipe
     ],
     imports     : [
         RouterModule.forChild(exampleRoutes),
         CommonModule,
+        FormsModule,
         
     ]
 })

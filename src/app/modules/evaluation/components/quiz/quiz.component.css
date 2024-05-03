@@ -3,3 +3,23 @@
     margin-top: 30px;
     margin-left: 50px;
 }
+
+
+
+/* Style pour l'entrée de recherche */
+.short-input {
+    margin-left: 2%;
+    border-radius: 20px; /* Ajoute une bordure arrondie */
+    width: 25%;
+}
+.search-container {
+    margin-top: 2%;
+    display: flex; /* Enable flexbox for the container */
+  }
+ /* Center the title text horizontally */
+ .title {
+    margin-top: 2%;
+    text-align: center;
+    padding: 20px;
+    color: rgb(26, 46, 102); /* Change the color to blue */
+  }

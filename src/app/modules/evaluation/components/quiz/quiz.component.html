@@ -1,5 +1,32 @@
+<!-- <div class="top-bar">
+  <div class="search-container">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm">
+  </div>
+  <div class="filter-container">
+    <select class="form-control" (change)="onTopicChange($event.target.value)">
+      <option value="">All Topics</option>
+      <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.nom }}</option>
+    </select>
+  </div>
+</div> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
+</head>
+<body>
+  
+    <h1 class="title">Test Your Knowledge</h1>  
+
+ <!-- Search input -->
+ <div class="search-container">
+    <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
+</div>
 <div class="row">
-  <div class="col-sm-6" *ngFor="let q of quizzes">
+  <div class="col-sm-6" *ngFor="let q of quizzes | filter: searchTerm">
     <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h5 class="card-title">{{q.title}}</h5>
@@ -10,3 +37,6 @@
     </div>
   </div>
 </div>
+</body>
+</html>
+
