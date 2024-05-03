@@ -1,3 +1,4 @@
+import { AuthResetPasswordModule } from './modules/auth/reset-password/reset-password.module';
 import { Route } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
@@ -33,8 +34,6 @@ export const appRoutes: Route[] = [
             {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
             {path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},
             {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)},
-            {path: 'tfa', loadChildren: () => import('app/modules/auth/tfa/tfa.module').then(m => m.TfaModule)},
-
         ]
     },
 
@@ -77,6 +76,7 @@ export const appRoutes: Route[] = [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
             {path: 'example2', loadChildren: () => import('app/modules/admin/example2/example2.module').then(m => m.Example2Module)},
             {path: 'settings', loadChildren: () => import('app/modules/settings/settings.module').then(m => m.SettingsModule)},
+            {path: 'forgot', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
             {path: '**', pathMatch : 'full', redirectTo: 'example'},
 
 

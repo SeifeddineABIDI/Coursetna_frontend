@@ -22,6 +22,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/settings'
+    },
+    {
+        id   : 'forgot',
+        title: 'Forgot-password',
+        type : 'basic',
+        icon : 'heroicons_outline:Home',
+        link : '/forgot'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [

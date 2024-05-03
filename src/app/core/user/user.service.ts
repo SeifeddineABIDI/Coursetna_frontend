@@ -82,4 +82,16 @@ export class UserService
       // Send an HTTP PUT request to update the user
       return this._httpClient.put<User>('http://localhost:9000/pidev/user/update', user, { headers });
     }
+    getAll(token: string): Observable<User> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+  
+      // Modify the endpoint URL as per your backend API
+      return this._httpClient.get<User>(`localhost:9000/pidev/user/all`, { headers }).pipe(
+        tap((user: User) => {
+          this._user.next(user);
+        })
+      );
+    }
 }

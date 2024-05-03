@@ -5,9 +5,38 @@
     
         <!-- CONTENT GOES HERE -->
         <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
-            <!-- <button>   
-                <a [routerLink]="['/example2']" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go to Example2</a>
-             </button>      -->
+            <fuse-card class="flex flex-col items-center max-w-80 w-full p-8 pb-6 filter-info">
+                <img
+                    class="w-32 h-32 rounded-full"
+                    src="assets/images/avatars/male-04.jpg"
+                    alt="Card cover image">
+                <div class="text-2xl font-semibold leading-tight text-center mt-8">Brian Hughes</div>
+                <div class="text-secondary leading-tight text-center mt-1">London, UK</div>
+                <hr class="w-full border-t mt-8 mb-0">
+                <div class="w-full flex items-center justify-between my-4 px-2">
+                    <div class="flex flex-col items-center">
+                        <span class="font-bold">1.2k</span>
+                        <span class="text-sm font-medium text-secondary">POSTS</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="font-bold">200k</span>
+                        <span class="text-sm font-medium text-secondary">FOLLOWERS</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="font-bold">1.2k</span>
+                        <span class="text-sm font-medium text-secondary">FOLLOWING</span>
+                    </div>
+                </div>
+                <hr class="w-full border-t mt-0 mb-8">
+                <div class="text-center text-secondary">I’m a friendly kitchen assistant who suffers from a severe phobia of buttons</div>
+                <a
+                    class="px-6 mt-4"
+                    mat-button
+                    [color]="'primary'"
+                    [routerLink]="['./']">
+                    More about Brian
+                </a>
+            </fuse-card>   
         </div>
                  
     </div>
