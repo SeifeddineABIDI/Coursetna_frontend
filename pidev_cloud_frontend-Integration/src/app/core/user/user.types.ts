@@ -13,6 +13,7 @@ export interface User
     status?: string;
     access_token?: string;
     refresh_token?: string;
+    // bababa
 }
 export class User {
     static currentUser: User | null = null;
