@@ -1,0 +1,56 @@
+.forum-body {
+    padding: 20px;
+}
+
+.posts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.post {
+    --post-line-color: #ccc;    
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #878A8C;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.post-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.post-title a {
+    color: black;
+}
+
+.post-info {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.post-description {
+    margin-bottom: 10px;
+}
+
+.btn-comments {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    color: #555;
+    cursor: pointer;
+}
+
+.btn-comments:hover {
+    background-color: #ddd;
+}
+
+/* Adjust image size */
+.sidebar img {
+    width: 100px; /* Change this value to adjust the width */
+    height: auto; /* Maintain aspect ratio */
+}
