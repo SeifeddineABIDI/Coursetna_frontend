@@ -100,11 +100,13 @@ export const appRoutes: Route[] = [
             // {path: 'create-subforum', component: CreateSubforumComponent },
             {path: 'help-center', loadChildren: () => import('app/modules/help-center/help-center.module').then(m => m.HelpCenterModule)},
 
+            {path: 'forum', loadChildren: () => import('app/modules/forum/forum.module').then(m => m.ForumModule)},
+            {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+            {path: 'example2', loadChildren: () => import('app/modules/admin/example2/example2.module').then(m => m.Example2Module)},
             {path: 'settings', loadChildren: () => import('app/modules/settings/settings.module').then(m => m.SettingsModule)},
-            {path: 'forum', loadChildren: () => import('app/modules/forum/forum.module').then(m => m.ForumModule)}
-        
+            {path: 'forgot', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
+            {path: '**', pathMatch : 'full', redirectTo: 'example'},
 
-            // {path: 'example2', loadChildren: () => import('app/modules/admin/example2/example2.module').then(m => m.Example2Module)},
             
 
 
