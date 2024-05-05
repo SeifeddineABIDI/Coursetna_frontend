@@ -90,6 +90,7 @@ export const appRoutes: Route[] = [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
 
         /*****evaluation**** */
+            {path: 'statistique', loadChildren: () => import('app/modules/evaluation/components/stat.module').then(m => m.StatModule)},
             {path: 'quizList', loadChildren: () => import('app/modules/evaluation/components/quizlist.module').then(m => m.QuizlistModule)},
             {path: 'questions/:id', loadChildren: () => import('app/modules/evaluation/components/questions.module').then(m => m.QuestionsModule)},
             {path: 'addquestion/:id', loadChildren: () => import('app/modules/evaluation/components/addquestion.module').then(m => m.AddQuestionModule)},

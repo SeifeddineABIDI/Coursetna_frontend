@@ -17,4 +17,13 @@ export class StatService {
   getTotalAnswersForQuestion(questionId: number): Observable<number> {
     return this.http.get<number>(`${this.apiurl}/answer/getTotalAnswersForQuestion/${questionId}`);
   }
+  
+/////////////////////////
+  getPercentageCorrectAnswers(): Observable<number> {
+    return this.http.get<number>(`${this.apiurl}/answer/percentageCorrect`);
+  }
+
+  getAverageScore(): Observable<number> {
+    return this.http.get<number>(`${this.apiurl}/score/Average`);
+  }
 }
