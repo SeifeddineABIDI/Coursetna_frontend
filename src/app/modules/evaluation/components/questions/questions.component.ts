@@ -6,7 +6,6 @@ import { QuizService } from '../../services/quiz.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Answer } from '../../models/answer';
 import { AnswerService } from '../../services/answer.service';
-import { concat } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ScoreService } from '../../services/score.service';
 import { Score } from '../../models/score';
@@ -17,6 +16,7 @@ import { Score } from '../../models/score';
   styleUrls: ['./questions.component.css']
 })
 export class QuestionsComponent {
+  currentUser: any;
   questions: Question[] =[];
   id!:number;
 
@@ -38,6 +38,7 @@ export class QuestionsComponent {
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));//recuperer l'utilisateur connecté
     this.id = this.Act.snapshot.params['id'];
     this.getAll(this.id);
     this.getQuizDuration(this.id);
@@ -108,16 +109,16 @@ saveQuiz(): void {
     const questionId = this.questions[i].numQuestion;
     const rep: Answer = { selectedChoice: selectedOption };
 
-    this.addReponse(rep, questionId, 2);
+    this.addReponse(rep, questionId, this.currentUser.id);
   }
   Swal.fire({
     icon: 'success',
-    title: 'Quiz added successfully!',
+    title: 'Quiz completed!',
     showConfirmButton: false,
     timer: 1500
   }).then(() => {
-    this.calculScore(this.id,2); //calcule score
-    this.router.navigate(['/quizList']);
+    this.calculScore(this.id,this.currentUser.id); //calcule score
+    this.router.navigate(['/quiz']);
   });
   console.log('Quiz saved!');
 
@@ -145,15 +146,29 @@ calculScore(numQuiz: number,userId:number){
     }
   );
 }
+
 displayScore(): void {
-  // Retrieve score from the server
-  this.ss.getScore(2,this.id).subscribe(
+  this.ss.getScore(this.currentUser.id,this.id).subscribe(
     (score: Score) => {
-      // Display score in a SweetAlert popup
+      let message = '';
+      let imageUrl = '';
+
+      if (score.score >= 70) {
+        message = 'Congratulations! You passed the quiz.';
+        imageUrl = '../../../../../assets/icons/congrat.jpg';
+
+      } else {
+        message = 'Unfortunately, you did not pass the quiz.';
+        imageUrl = '../../../../../assets/icons/jimmy.gif';
+
+      }
+      // Define the URL of the image you want to display
       Swal.fire({
-        icon: 'success',
-        title: 'Quiz completed!',
-        text: `Your score: ${score.score}%`,
+        imageUrl: imageUrl,
+        imageWidth: 400, // Adjust the width of the image
+        imageHeight: 200, // Adjust the height of the image
+        title: `Your score: ${score.score}%`,
+        text: `${message}`,
         confirmButtonText: 'OK'
       }).then((result) => {
         if (result.isConfirmed) {
@@ -166,5 +181,6 @@ displayScore(): void {
     }
   );
 }
+
 
 }
