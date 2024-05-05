@@ -161,24 +161,40 @@ saveNewQuiz(){
   }
 }
 /********************************* */
-oldQuiz :Quiz;
-publishQuiz(Numquiz: number) {
-  // this.qs.getQuizById(Numquiz).subscribe((result) => {
-  //   console.log('getQuizById :', result);
-  //   this.oldQuiz=result;
-  // })
-
-  // this.oldQuiz.status = true; // Mettre à jour le statut du quiz à true
-  // this.qs.updateQuiz(this.oldQuiz).subscribe(
-  //   (result) => {
-  //     console.log('Status updated successfully:', result);
-  //     this.getAllQuizzes();
-  //   },
-  //   (error) => {
-  //     console.error('Error occurred while updating Status:', error);
-  //   }
-  // );
+publishQuiz(numQuiz: number) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to publish this quiz!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085D6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, publish it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.qs.activateQuiz(numQuiz).subscribe(
+        (res) => {
+          console.log("Status updated successfully");
+          this.getAllQuizzes();
+          Swal.fire(
+            'Published!',
+            'This quiz has been published.',
+            'success'
+          );
+        },
+        (error) => {
+          console.error("Error while publishing quiz:", error);
+          Swal.fire(
+            'Error!',
+            'Failed to publish the quiz.',
+            'error'
+          );
+        }
+      );
+    }
+  });
 }
+
 /******** add Question *********** */
 selectedQuizId: number;
 showModalQuestion: boolean = false;

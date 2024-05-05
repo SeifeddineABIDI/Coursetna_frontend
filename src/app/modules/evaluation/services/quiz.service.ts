@@ -33,6 +33,12 @@ export class QuizService {
     return  this.http.put<Quiz>(`${this.apiurl}/updateQuiz`,quiz);
   }
 
+  activateQuiz(quizId :number) {
+    console.log("status quiz :",quizId);
+    return this.http.put<void>(`${this.apiurl}/activateQuiz/${quizId}`,null);
+  }
+  
+
   getQuizById(id:number): Observable<Quiz>{
     return this.http.get<Quiz>(`${this.apiurl}/getQuiz/${id}`);
   }
