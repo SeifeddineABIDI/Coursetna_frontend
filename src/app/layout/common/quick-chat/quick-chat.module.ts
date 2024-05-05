@@ -8,6 +8,7 @@ import { FuseDrawerModule } from '@fuse/components/drawer';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { SharedModule } from 'app/shared/shared.module';
 import { QuickChatComponent } from 'app/layout/common/quick-chat/quick-chat.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { QuickChatComponent } from 'app/layout/common/quick-chat/quick-chat.comp
     ],
     exports     : [
         QuickChatComponent
-    ]
+    ],
+    providers: [ DatePipe],
 })
 export class QuickChatModule
 {

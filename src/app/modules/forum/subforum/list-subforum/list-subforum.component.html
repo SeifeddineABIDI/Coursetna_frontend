@@ -1,0 +1,21 @@
+<div class="row">
+    <hr />
+    <div class="col-md-9">
+        <h2>List of Subforums</h2>
+        <div class="card">
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li *ngFor="let subforum of subforums">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ subforum.name }}</h5>
+                                <p class="card-text">{{ subforum.description }}</p>
+                                <p class="card-text">Number of Posts: {{ subforum.numberOfPosts }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

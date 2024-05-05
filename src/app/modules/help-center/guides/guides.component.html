@@ -1,0 +1,57 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+        <div class="flex flex-col w-full max-w-4xl">
+            <div class="-ml-4 sm:mt-8">
+                <a href="help-center/faqs" class="flex items-center text-primary">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                    <span class="ml-2">Back to FAQs</span>
+                </a>
+            </div>
+            <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
+                Create Subforum
+            </div>
+            <!-- Form -->
+            <div class="mt-8 sm:mt-12 p-6 pb-7 sm:p-10 sm:pb-7 shadow rounded-2xl bg-card">
+                <fuse-alert
+                    class="mb-8"
+                    *ngIf="alert"
+                    [type]="alert.type"
+                    [showIcon]="false">
+                    {{alert.message}}
+                </fuse-alert>
+                <form class="space-y-3" [formGroup]="createSubforumForm">
+                    <div class="mb-6">
+                        <div class="text-2xl font-bold tracking-tight">Create a new subforum</div>
+                        <div class="text-secondary">Fill in the form below to create a new subforum.</div>
+                    </div>
+                    <!-- Subforum Name -->
+                    <mat-form-field class="w-full">
+                        <input matInput formControlName="title" required>
+                        <mat-label>Subforum Name</mat-label>
+                        <mat-error *ngIf="createSubforumForm.get('title').hasError('required')">Required</mat-error>
+                    </mat-form-field>
+                    <!-- Description -->
+                    <mat-form-field class="w-full">
+                        <textarea matInput formControlName="description" required rows="5" cdkTextareaAutosize></textarea>
+                        <mat-label>Description</mat-label>
+                        <mat-error *ngIf="createSubforumForm.get('description').hasError('required')">Required</mat-error>
+                    </mat-form-field>
+                    <!-- Email -->
+                    <mat-form-field class="w-full">
+                        <input type="email" matInput formControlName="email" required>
+                        <mat-label>Email</mat-label>
+                        <mat-error *ngIf="createSubforumForm.get('email').hasError('required')">Required</mat-error>
+                        <mat-error *ngIf="createSubforumForm.get('email').hasError('email')">Enter a valid email address</mat-error>
+                    </mat-form-field>
+                
+                    <!-- Actions -->
+                    <div class="flex items-center justify-end">
+                        <button mat-button color="accent" [disabled]="createSubforumForm.pristine || createSubforumForm.untouched" (click)="discard()">Clear</button>
+                        <button mat-flat-button color="primary" [disabled]="createSubforumForm.pristine || createSubforumForm.invalid" (click)="createSubforum()">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

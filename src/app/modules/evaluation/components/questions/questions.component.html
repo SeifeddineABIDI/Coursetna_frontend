@@ -15,7 +15,7 @@
         <span class="timer-label">Time Remaining:</span>
         <span class="timer-value">{{ formatTime(timeRemaining) }}</span>
         <span class="icon-container">
-          <img src="../../../../../assets/images/avatars/hourglass.png" alt="Hourglass Icon" class="icon" [ngClass]="{'spinning': timeRemaining > 1}" >
+          <img src="../../../../../assets/icons/hourglass.png" alt="Hourglass Icon" class="icon" [ngClass]="{'spinning': timeRemaining > 1}" >
         </span>
       </div>
     
@@ -34,6 +34,7 @@
         </section>
       </form>
     
+      <!-- Move the button below the quiz section -->
       <div class="button-container">
         <button class="btn btn-primary" (click)="saveQuiz()" [disabled]="quizForm.invalid">Save Quiz</button>
       </div>

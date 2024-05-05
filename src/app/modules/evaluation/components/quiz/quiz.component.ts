@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { QuizService } from '../../services/quiz.service';
 import { Quiz } from '../../models/quiz';
-import { Topic } from 'app/modules/Ressource/models/topic';
+import { Topic } from 'app/modules/ressources/models/topic';
 
 @Component({
   selector: 'app-quiz',
@@ -26,7 +26,6 @@ export class QuizComponent {
     return this.qs.getQuizNotEmpty().subscribe(
     { next: (data)=>{
       this.quizzes = data;
-      //this.applyFilters();
     },
       error:(err)=> console.log(err),
       complete:()=> console.log(' getQuizNotEmpty done')
@@ -43,15 +42,5 @@ export class QuizComponent {
     );
   }
 
-  // onTopicChange(topicId: number): void {
-  //   this.selectedTopicId = topicId;
-  //   //this.applyFilters();
-  // }
-
-  // // applyFilters(): void {
-  // //   this.filteredQuizzes = this.quizzes.filter((q) =>
-  // //     q.title.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-  // //     (this.selectedTopicId === '' || q.topicId === this.selectedTopicId)
-  // //   );
-  // // }
+  
 }

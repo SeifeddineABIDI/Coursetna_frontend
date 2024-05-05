@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil</title>
+  <link rel="stylesheet" href="home-ressource.component.css">
+</head>
+<body>
+
+  <!-- Hero section -->
+  <header class="hero">
+    <div class="container">
+
+      <h1>Bienvenue sur notre plateforme d'apprentissage en ligne</h1>
+      <p>Explorez nos cours et programmes pour développer vos compétences.</p>
+      <a href="#" class="btn btn-primary">Commencer</a>
+    </div>
+
+      
+  </header>
+
+  <!-- Features section -->
+  <section class="features">
+    <div class="container">
+      <div class="feature">
+        <div class="options">
+            <div class="options">
+                <div class="options">
+                    <div *ngFor="let option of getOptionKeys()" class="option">
+                        <img [src]="getOptionImagePath(option)" [alt]="getOptionName(option)">
+                        <h3>{{ getOptionName(option) }}</h3>
+                        <button class="learn-more" (click)="loadRessourcesByOptionByTopic(option)" >Learn More</button>
+                     
+                      </div>            
+               </div>                      
+         </div>           
+                </div>  
+        </div>
+        <div class="feature">
+          <div *ngIf="topRatedResources && topRatedResources.length > 0">
+            <h2>Top Rated Resources 🏆</h2>
+            <div class="loader">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                class="star star1"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"
+                ></path>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                class="star star2"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"
+                ></path>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                class="star star3"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"
+                ></path>
+              </svg>
+            </div>
+            
+        
+            <div class="container1">
+              <div *ngFor="let resource of topRatedResources.slice(0, 1000)" class="card">
+                <p class="title">{{ resource.titre }}</p>
+                <star-rating [rating]="resource.rating ?? 0"></star-rating>
+                <a class="card-button" [routerLink]="['/ressource', resource.id]">More info</a>
+              </div>
+            </div>
+          </div>
+          <!-- <div *ngIf="topRatedResources && topRatedResources.length === 0">
+            <p>No top rated resources found.</p>
+          </div> -->
+        </div>
+        
+    </div>
+  </section>
+

@@ -16,7 +16,10 @@ main {
 
 .topics {
   border: 1px solid #ddd;
+  background-color: #fff;
   padding: 10px;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .topics ul {
@@ -27,8 +30,6 @@ main {
 .topics li {
   margin-bottom: 10px;
 }
-
-
 
 .timer {
   display: flex;
@@ -44,26 +45,34 @@ main {
 }
 
 .timer-value {
-  color: #ff5722; /* Orange color */
+  color: #ff5722;
 }
-/* Adjust image size to make it similar to an icon */
+
 .icon {
-  width: 30; /* Adjust width as needed */
-  height: 24px; /* Adjust height as needed */
-  vertical-align: middle; /* Align image vertically with text */
+  width: 30px;
+  height: 24px;
+  vertical-align: middle;
 }
-/* Ajoutez une marge à droite pour créer de l'espace entre le temps et l'image */
+
 .icon-container {
-  margin-left: 8px; /* Ajustez la valeur selon vos préférences */
-}
-/* Animation pour faire tourner l'image */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  margin-left: 8px;
 }
 
-/* Appliquer l'animation à l'image */
 .spinning {
-  animation: spin 1s linear infinite; /* Fait tourner l'image indéfiniment */
+  animation: spin 1.65s linear infinite;
 }
 
+.button-container {
+  text-align: center; /* Center the button */
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px; /* Add some spacing between the quiz and the button */
+}

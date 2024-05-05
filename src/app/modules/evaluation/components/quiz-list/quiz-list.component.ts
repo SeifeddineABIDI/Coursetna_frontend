@@ -3,8 +3,8 @@ import { QuizService } from '../../services/quiz.service';
 import { Quiz } from '../../models/quiz';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Topic } from 'app/modules/Ressource/models/topic';
 import { QuestionService } from '../../services/question.service';
+import { Topic } from 'app/modules/ressources/models/topic';
 
 @Component({
   selector: 'app-quiz-list',
@@ -89,12 +89,8 @@ export class QuizListComponent{
   }
   editQuiz(){
     if (this.quizForm.valid) {
-      const editedQuiz: Quiz = {
-        numQuiz:this.idEditedQuiz ,
-        title:this.quizForm.value.title,
-        description:this.quizForm.value.description,
-        duree:this.quizForm.value.duree,
-      };
+      const editedQuiz: Quiz=this.quizForm.value;
+      editedQuiz.numQuiz=this.idEditedQuiz ;
 
       this.qs.updateQuiz(editedQuiz).subscribe(
         (result) => {
@@ -165,18 +161,24 @@ saveNewQuiz(){
   }
 }
 /********************************* */
-publishQuiz(quiz: Quiz) {
-  quiz.status = true; // Mettre à jour le statut du quiz à true
-  this.qs.updateQuiz(quiz).subscribe(
-    (result) => {
-      console.log('Status updated successfully:', result);
-      
-      this.getAllQuizzes();
-    },
-    (error) => {
-      console.error('Error occurred while updating Status:', error);
-    }
-  );}
+oldQuiz :Quiz;
+publishQuiz(Numquiz: number) {
+  // this.qs.getQuizById(Numquiz).subscribe((result) => {
+  //   console.log('getQuizById :', result);
+  //   this.oldQuiz=result;
+  // })
+
+  // this.oldQuiz.status = true; // Mettre à jour le statut du quiz à true
+  // this.qs.updateQuiz(this.oldQuiz).subscribe(
+  //   (result) => {
+  //     console.log('Status updated successfully:', result);
+  //     this.getAllQuizzes();
+  //   },
+  //   (error) => {
+  //     console.error('Error occurred while updating Status:', error);
+  //   }
+  // );
+}
 /******** add Question *********** */
 selectedQuizId: number;
 showModalQuestion: boolean = false;

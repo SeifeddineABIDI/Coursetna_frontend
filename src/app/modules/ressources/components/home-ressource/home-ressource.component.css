@@ -1,0 +1,286 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+nav {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+}
+
+.nav-links {
+  list-style: none;
+}
+
+.nav-links li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.hero {
+    background-image: url('https://png.pngtree.com/thumb_back/fh260/back_our/20190617/ourmid/pngtree-blue-technology-e-commerce-learning-education-business-poster-banner-image_123753.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+    animation: moveBackground 5s linear infinite;
+    width: 100%; 
+    height: 80vh;
+  }  
+  @keyframes moveBackground {
+    0% {
+      background-position: left;
+    }
+    100% {
+      background-position: right;
+    }
+  }
+  
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+.options {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  flex-wrap: nowrap; 
+  overflow-x: auto; 
+  transition: transform 0.3s ease-in-out;
+}
+
+.option {
+  width: 300px;
+padding: 20px;
+  margin: 20px;
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 8px;
+  text-align: center;
+}
+/* Définir l'animation */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Appliquer l'animation au bouton */
+button.learn-more {
+  animation: blink 1s infinite; 
+}
+
+
+.option img {
+  width: 100px;
+  height: 100px;
+}
+
+.option h3 {
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+.option p {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.option button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #b4c1cf;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+}
+
+.option button:hover {
+  background-color: #cdd6de;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #4a8cd3;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Features section */
+.features {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.feature {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.feature img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+footer p {
+  font-size: 14px;
+}
+.container1 {
+  overflow: auto;
+  margin-left: 150px;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+  white-space: nowrap;
+  -ms-overflow-style: none; 
+}
+
+.container1::-webkit-scrollbar {
+  display: none; 
+  margin-right: 390px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 1rem;
+  min-width: 200px; 
+ 
+}
+
+
+/* .container:hover > :not(:hover) {
+opacity: 0.2;
+} */
+
+.title {
+width: 100%;
+display: inline-block;
+word-break: break-all;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+text-align: center;
+margin: 1rem auto;
+}
+.card-button {
+text-decoration: none;
+text-align: center;
+-webkit-transform: translate(-50%, 125%);
+-ms-transform: translate(-50%, 125%);
+transform: translate(-50%, 125%);
+width: 70%;
+border-radius: 1rem;
+border: none;
+background-color: #6c00f8;
+color: #fff;
+font-size: 1rem;
+padding: .5rem 1rem;
+position: absolute;
+left: 50%;
+bottom: 0;
+opacity: 0;
+-webkit-transition: 0.3s ease-out;
+transition: 0.3s ease-out;
+cursor: pointer;
+font-family: 'Courier New', Courier, monospace;
+}
+
+.card:hover {
+border-color: #6c00f8;
+-webkit-box-shadow: 10px 5px 18px 0 rgba(255, 255, 255, 0.877);
+box-shadow: 10px 5px 18px 0 rgba(255, 255, 255, 0.877);
+}
+
+.card:hover .card-button {
+-webkit-transform: translate(-50%, 50%);
+-ms-transform: translate(-50%, 50%);
+transform: translate(-50%, 50%);
+opacity: 1;
+}
+.loader {
+user-select: none;
+}
+
+.star {
+opacity: 0;
+fill: #d0b711;
+animation: loader 2s infinite alternate;
+}
+
+.star2 {
+height: 20px;
+margin-left: -10px;
+animation-delay: 0.25s;
+}
+
+.star3 {
+height: 16px;
+margin-left: -15px;
+animation-delay: 0.5s;
+}
+
+@keyframes loader {
+0% {
+  opacity: 0;
+  transform: translateY(0) translateX(50px) rotate (0deg);
+}
+10% {
+  opacity: 0;
+  transform: translateY(0) translateX(50px) rotate(0deg);
+}
+100% {
+  opacity: 1;
+  transform: translateY(-20px) translateX(0) rotate(360deg);
+}
+}

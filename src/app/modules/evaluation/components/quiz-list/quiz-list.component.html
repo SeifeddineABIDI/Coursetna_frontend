@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,8 +152,30 @@
     </div>
     <!-- end model d'ajout -->
 
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Header -->
+       <div class="relative pt-4 pb-12 px-4 sm:pt-10 sm:pb-24 sm:px-16 overflow-hidden bg-gray-800 dark:bg-gray-900 dark">
+         <!-- Background - @formatter:off -->
+         <!-- Rings -->
+         <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
+             preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+             <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                 <circle r="234" cx="196" cy="23"></circle>
+                 <circle r="234" cx="790" cy="491"></circle>
+             </g>
+         </svg>
+         <!-- @formatter:on -->
+         <div class="z-10 relative flex flex-col items-center">
+             <h2 class="text-lg font-semibold">Manage Your Quizzes</h2>
+             <div class="mt-1 text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-center">
+                How can we help you today?
+             </div>             
+         </div>
+       </div>
+    </div>
 
-    <h1 class="title">Manage Your Quizzes</h1>   
+
+
     <!-- Search input -->
     <div class="search-container">
         <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
@@ -181,7 +204,7 @@
 
                     <button class="btn btn-primary me-2" (click)="editModel(q)"><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
                     <button class="btn btn-danger me-2" (click)="delQuiz(q.numQuiz)"><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
-                    <button class="btn btn-primary me-2" (click)="publishQuiz(q)" [disabled]="q.status"><i class="fas fa-check"></i></button>
+                    <button class="btn btn-primary me-2" (click)="publishQuiz(q.numQuiz)" [disabled]="q.status"><i class="fas fa-check"></i></button>
 
                 </td>
             </tr>         

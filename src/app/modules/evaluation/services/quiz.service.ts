@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Quiz } from '../models/quiz';
-import { Topic } from 'app/modules/Ressource/models/topic';
+import { Topic } from 'app/modules/ressources/models/topic';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +42,6 @@ export class QuizService {
 getAllTopics(): Observable<Topic[]>{
   return this.http.get<Topic[]>(`http://localhost:9000/pidev/topic/getAll`);
 }
+
 
 }

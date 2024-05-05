@@ -1,0 +1,91 @@
+.container {
+    /* max-width: 1000px; */
+    max-height: 1100px;
+    margin: 55px auto 0;
+    margin-left: 50px;
+    padding: 40px; /* Added padding */
+    /* border-radius: 15px; Increased border-radius for a rounded look */
+    /* background-color: #f9f9f9; Light gray background */
+    /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); Soft shadow effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+     height: 82vh; /*80% of the viewport height */
+    position: relative;
+    /* box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%); */
+ /* Added position relative for absolute positioning */
+}
+
+/* Add a pseudo-element for painting */
+.container::before {
+    content: '';
+    /* position: absolute; */
+    height: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom right, #010203, #0F172A); /* Gradient colors */
+    opacity: 0.2; /* Adjust the opacity as needed */
+    z-index: -1; /* Send the painting to the background */
+}
+
+.content-container {
+    width: 100%;
+    max-width: 400px; /* Adjust as needed */
+    position: relative; /* Added position relative for stacking */
+    z-index: 1; /* Ensure content is above the painting */
+}
+
+.title {
+    color: #2c3e50;
+    font-size: 32px; /* Larger font size */
+    font-weight: bold;
+    margin-bottom: 30px; /* Increased margin */
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Change font family */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add text shadow effect */
+}
+.reclamation {
+    color: #0F172A; /* Red color */
+}
+
+
+.form-label {
+    font-size: 20px; /* Larger font size */
+    font-weight: bold;
+    color: #0F172A; /* Red color */
+}
+
+.form-control, .form-select {
+    width: 100%;
+    padding: 15px; /* Increased padding */
+    margin-bottom: 25px; /* Increased margin */
+    border: 2px solid #3498db; /* Blue border */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 18px; /* Larger font size */
+    background-color: #fff; /* White background */
+    transition: border-color 0.3s ease; /* Smooth transition */
+}
+
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: #0F172A; /* Red border color on focus */
+}
+
+.btn-primary {
+    padding: 15px 25px; /* Increased padding */
+    background-color: #0F172A; /* Green color */
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px; /* Larger font size */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    margin-right: 150px;
+}
+
+.btn-primary:hover {
+    background-color: #2ecc71; /* Lighter green color on hover */
+}

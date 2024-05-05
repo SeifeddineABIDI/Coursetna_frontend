@@ -107,7 +107,28 @@
         <!-- end Modèle de stat sur une question -->
 
 
-    <h1 class="title">Manage Your Questions</h1>   
+        <div class="flex flex-col flex-auto min-w-0">
+            <!-- Header -->
+           <div class="relative pt-4 pb-12 px-4 sm:pt-10 sm:pb-24 sm:px-16 overflow-hidden bg-gray-800 dark:bg-gray-900 dark">
+             <!-- Background - @formatter:off -->
+             <!-- Rings -->
+             <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
+                 preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                 <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                     <circle r="234" cx="196" cy="23"></circle>
+                     <circle r="234" cx="790" cy="491"></circle>
+                 </g>
+             </svg>
+             <!-- @formatter:on -->
+             <div class="z-10 relative flex flex-col items-center">
+                 <h2 class="text-lg font-semibold">Manage Your Questions</h2>
+                 <div class="mt-1 text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-center">
+                    How can we help you today?
+                 </div>             
+             </div>
+           </div>
+        </div>
+
  <!-- Search input -->
  <div class="search-container">
     <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
@@ -117,12 +138,10 @@
     <table id="example" class="table table-striped custom-table">
         <thead>
             <tr>
-                <th>question</th>
-                <th>choice1</th>
-                <th>choice2</th>
-                <th>choice3</th>
-                <th>correct Answer</th>
-                <th>points</th>
+                <th>Question</th>
+                <th>Choices</th>
+                <th>Correct</th>
+                <th>Points</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -130,9 +149,7 @@
             <!-- Contenu de la table -->
             <tr *ngFor="let q of questions | filter: searchTerm">
                 <td>{{q.question}}</td>
-                <td>{{q.choice1}}</td>
-                <td>{{q.choice2}}</td>
-                <td>{{q.choice3}}</td>
+                <td><p>{{q.choice1}}</p><p>{{q.choice2}}</p><p>{{q.choice3}}</p></td>
                 <td>{{q.correctAnswer}}</td>
                 <td>{{q.points}}</td>
                 <td>
