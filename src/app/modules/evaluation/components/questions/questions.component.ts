@@ -77,7 +77,7 @@ startTimer(): void {
     this.timeRemaining--;
     if (this.timeRemaining <= 0) {
       clearInterval(this.timer);
-      alert('Quiz time is up!');
+      //alert('Quiz time is up!');
       // Implement code to close the quiz or navigate away
       this.saveQuiz();
     }
