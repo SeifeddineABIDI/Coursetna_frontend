@@ -40,10 +40,10 @@
 
             </div>
             <div class="flex items-center justify-center py-4 px-8 text-primary-500 dark:text-primary-400 bg-gray-50 dark:bg-transparent dark:border-t">
-                <a class="flex items-center" [routerLink]="['/questions',q.numQuiz]">
-                    <span class="absolute inset-0"></span>
-                    <span class="font-medium">Go to Quiz</span>
-                </a>
+              <a class="flex items-center" (click)="redirectToQuiz(q.numQuiz)">
+                <span class="absolute inset-0"></span>
+                <span class="font-medium">Go to Quiz</span>
+              </a>
             </div>
         </div> 
     </div>     

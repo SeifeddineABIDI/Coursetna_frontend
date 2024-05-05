@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuizService } from '../../services/quiz.service';
-import { Quiz } from '../../models/quiz';
 import { StatService } from '../../services/stat.service';
 
 @Component({

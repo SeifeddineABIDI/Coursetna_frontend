@@ -1,0 +1,31 @@
+<div class="container mt-5"> <!-- Increased top margin -->
+    <div class="card mx-auto" style="max-width: 900px;">
+      <div class="card-header bg-light">
+        <h2 class="m-0">Your Answers</h2>
+      </div>
+      <div class="card-body">
+        <div *ngIf="answers.length > 0; else noAnswers">
+          <ul class="list-group list-group-flush">
+            <ng-container *ngFor="let answer of answers; let i = index">
+              <li class="list-group-item">
+                <h5 class="mb-1">Question {{ i + 1 }}: {{ answer.question.question }}</h5>
+                <ul class="list-group">
+                  <li *ngFor="let choice of [answer.question.choice1, answer.question.choice2, answer.question.choice3]; let j = index" class="list-group-item d-flex justify-content-between">
+                    <span [ngClass]="{'text-success': choice === answer.selectedChoice && choice === answer.question.correctAnswer, 'text-danger': choice === answer.selectedChoice && choice !== answer.question.correctAnswer}">
+                      {{ j + 1 }}. {{ choice }}
+                    </span>
+                    <span *ngIf="choice === answer.selectedChoice && choice === answer.question.correctAnswer" class="text-success">&#10003; </span>
+                    <span *ngIf="choice === answer.selectedChoice && choice !== answer.question.correctAnswer" class="text-danger">&#10060; </span>
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+        <ng-template #noAnswers>
+          <p>No answers found for this quiz.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  

@@ -18,6 +18,10 @@ export class AnswerService {
     return this.http.post<Answer>(`${this.apiurl}/addReponseAndAssignToQuestionAndUser/${userId}/${questionId}`, Answer);
   }
 
+  getAnswersByUserAndQuiz(quizId: number,userId:number): Observable<Answer[]>{
+    return this.http.get<Answer[]>(`${this.apiurl}/getAnswersByUserAndQuiz/${userId}/${quizId}`);
+  }
+
 
   
   // deleteQuestion(id :number): Observable<void>{

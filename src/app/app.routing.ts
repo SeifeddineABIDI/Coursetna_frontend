@@ -96,7 +96,9 @@ export const appRoutes: Route[] = [
             {path: 'listquestion/:id', loadChildren: () => import('app/modules/evaluation/components/listquestion.module').then(m => m.ListQuestionModule)},
             //simple utilisateur routes/
             {path: 'quiz', loadChildren: () => import('app/modules/evaluation/components/quiz.module').then(m => m.QuizModule)},
-        /*****end evaluation**** */
+            {path: 'answers/:id', loadChildren: () => import('app/modules/evaluation/components/listanswer.module').then(m => m.ListAnswerModule)},
+
+            /*****end evaluation**** */
 
         /**********Ressources********** */
             { path: 'ressources-by-topic/:topicId', loadChildren: () => import('./modules/ressources/ressourceList.module').then(m => m.RessourceListModule) },
