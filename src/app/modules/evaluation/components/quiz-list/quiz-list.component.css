@@ -44,11 +44,9 @@
     margin-top: 2%;
     display: flex; /* Enable flexbox for the container */
   }
- /* Center the title text horizontally */
- .title {
-    margin-top: 2%;
-    text-align: center;
-    padding: 20px;
-    color: #333; /* Add color matching the template */
-  }
 
+/* CSS for the images */
+.btn img {
+    width: 20px; /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+}

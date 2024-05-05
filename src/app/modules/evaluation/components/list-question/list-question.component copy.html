@@ -1,4 +1,11 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome -->
+</head>
+<body>
     <!-- Modèle d'edit -->
     <div class="add-modal" *ngIf="showModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -77,55 +84,56 @@
     </div>
     <!-- end model d'edit -->
 
-    <!-- Modèle de stat sur une question -->
-    <div class="add-modal" *ngIf="showModalStat">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Statistique :</h5>
-                    <button type="button" class="btn-close" (click)="toggleModalStat(false)" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Total correct answers: {{ totalCorrectAnswers }}</p>
-                
-                    <p>Total answers: {{ TotalAnswers }}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="toggleModalStat(false)">Close</button>
+
+        <!-- Modèle de stat sur une question -->
+        <div class="add-modal" *ngIf="showModalStat">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Statistique :</h5>
+                        <button type="button" class="btn-close" (click)="toggleModalStat(false)" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Total correct answers: {{ totalCorrectAnswers }}</p>
+                    
+                        <p>Total answers: {{ TotalAnswers }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="toggleModalStat(false)">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end Modèle de stat sur une question -->
+        <!-- end Modèle de stat sur une question -->
 
 
-    <!-- Header -->
-    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
-        <!-- Background - @formatter:off -->
-        <!-- Rings -->
-        <svg class="absolute inset-0 pointer-events-none"
-             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
-                <circle r="234" cx="196" cy="23"></circle>
-                <circle r="234" cx="790" cy="491"></circle>
-            </g>
-        </svg>
-        <!-- @formatter:on -->
-        <div class="z-10 relative flex flex-col items-center">
-            <h2 class="text-xl font-semibold">COURSETNA</h2>
-            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
-              Here You Can Manage Your Questions
-            </div>
-            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
-            </div>
+        <div class="flex flex-col flex-auto min-w-0">
+            <!-- Header -->
+           <div class="relative pt-4 pb-12 px-4 sm:pt-10 sm:pb-24 sm:px-16 overflow-hidden bg-gray-800 dark:bg-gray-900 dark">
+             <!-- Background - @formatter:off -->
+             <!-- Rings -->
+             <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
+                 preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                 <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                     <circle r="234" cx="196" cy="23"></circle>
+                     <circle r="234" cx="790" cy="491"></circle>
+                 </g>
+             </svg>
+             <!-- @formatter:on -->
+             <div class="z-10 relative flex flex-col items-center">
+                 <h2 class="text-lg font-semibold">Manage Your Questions</h2>
+                 <div class="mt-1 text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-center">
+                    How can we help you today?
+                 </div>             
+             </div>
+           </div>
         </div>
-    </div>
 
-    <!-- Search input -->
-    <div class="search-container">
-        <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
-    </div>
-
+ <!-- Search input -->
+ <div class="search-container">
+    <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
+</div>
+          
     <!-- Tableau de données -->
     <table id="example" class="table table-striped custom-table">
         <thead>
@@ -146,12 +154,14 @@
                 <td>{{q.points}}</td>
                 <td>
                     
-                    <button class="btn btn-primary" (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/info.png"></button> <!-- Icône de modification -->
-                    <button class="btn btn-primary" (click)="editModel(q)" ><img src="../../../../../assets/icons/edit.png"></button> <!-- Icône de modification -->
-                    <button class="btn btn-danger" (click)="delQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/delete.png"></button> <!-- Icône de suppression -->
+                    <button class="btn btn-primary" (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><i class="fas fa-info-circle"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-primary" (click)="editModel(q)" ><i class="fas fa-edit"></i></button> <!-- Icône de modification -->
+                    <button class="btn btn-danger" (click)="delQuestion(q.numQuestion)" ><i class="fas fa-trash-alt"></i></button> <!-- Icône de suppression -->
                 </td>
             </tr>         
         </tbody>
     </table>
-    
-</div>
+
+
+</body>
+</html>
