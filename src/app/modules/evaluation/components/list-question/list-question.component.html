@@ -80,22 +80,46 @@
     <!-- Modèle de stat sur une question -->
     <div class="add-modal" *ngIf="showModalStat">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Statistique :</h5>
-                    <button type="button" class="btn-close" (click)="toggleModalStat(false)" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Total correct answers: {{ totalCorrectAnswers }}</p>
-                
-                    <p>Total answers: {{ TotalAnswers }}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="toggleModalStat(false)">Close</button>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" (click)="toggleModalStat(false)" aria-label="Close"></button>
             </div>
+            <div class="card-body">
+              <h5 class="card-title">Total Number of Answers</h5>
+              <div class="chart-container">
+                <canvas baseChart
+                        [chartType]="'bar'"
+                        [datasets]="[{ data: [TotalAnswers], label: 'Total Answers', backgroundColor: ['#97a7be'],hoverBackgroundColor: ['#97a7be'] }]"
+                        [labels]="['Total Answers']">
+                </canvas>
+              </div>
+            </div>
+      
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Percentage of Correct Answers</h5>
+                    <div class="chart-container">
+                      <canvas baseChart
+                              [chartType]="'pie'"
+                              [datasets]="[{ data: [percentageCorrectAnswers, 100 - percentageCorrectAnswers], backgroundColor: ['#0e948c', '#1e293b'], hoverBackgroundColor: ['#0e948c', '#1e293b'] }]"
+                              [labels]="['Correct Answers', 'Incorrect Answers']">
+                      </canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="toggleModalStat(false)">Close</button>
+            </div>
+          </div>
         </div>
     </div>
+      
+      
     <!-- end Modèle de stat sur une question -->
 
 
@@ -146,9 +170,9 @@
                 <td>{{q.points}}</td>
                 <td>
                     
-                    <button class="btn btn-primary me-2" (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/info.png"></button> <!-- Icône de modification -->
-                    <button class="btn btn-primary me-2" (click)="editModel(q)" ><img src="../../../../../assets/icons/edit.png"></button> <!-- Icône de modification -->
-                    <button class="btn btn-danger me-2" (click)="delQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/delete.png"></button> <!-- Icône de suppression -->
+                    <button class="btn  me-2" style="background-color: #2077f9;"  (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/info-white.png"></button> <!-- Icône de modification -->
+                    <button class="btn me-2" style="background-color: #2077f9;"  (click)="editModel(q)" ><img src="../../../../../assets/icons/edit-white.png"></button> <!-- Icône de modification -->
+                    <button class="btn me-2" style="background-color: #f92020;"  (click)="delQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/delete-white.png"></button> <!-- Icône de suppression -->
                 </td>
             </tr>         
         </tbody>

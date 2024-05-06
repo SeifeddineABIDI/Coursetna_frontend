@@ -168,7 +168,7 @@
         <!-- Search input -->
         <div class="search-container">
             <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
-            <button class="btn btn-primary add-button2" type="button" (click)="toggleAddModal(true)"><i class="fas fa-plus"></i> Add</button>
+            <button class="btn btn-primary add-button2" type="button" (click)="toggleAddModal(true)">Add</button>
         </div>
           
         <!-- Tableau de données -->
@@ -188,12 +188,12 @@
                     <td>{{q.description}}</td>
                     <td>{{q.duree}}</td>
                     <td>
-                        <button class="btn btn-primary me-2" [routerLink]="['/listquestion',q.numQuiz]"><img src="../../../../../assets/icons/info.png"></button>
-                        <button class="btn btn-primary me-2" (click)="toggleModalQuestion(true)" (click)="selectedQuizId=q.numQuiz" ><img src="../../../../../assets/icons/add.png"></button> <!-- Icône de modification -->
+                        <button class="btn me-2" [routerLink]="['/listquestion',q.numQuiz]" style="background-color: #2077f9;" ><img src="../../../../../assets/icons/info-white.png"></button>
+                        <button class="btn me-2" (click)="toggleModalQuestion(true)" style="background-color: #2077f9;"(click)="selectedQuizId=q.numQuiz" ><img src="../../../../../assets/icons/add-white.png"></button> <!-- Icône de modification -->
     
-                        <button class="btn btn-primary me-2" (click)="editModel(q)"><img src="../../../../../assets/icons/edit.png"></button> <!-- Icône de modification -->
-                        <button class="btn btn-danger me-2" (click)="delQuiz(q.numQuiz)"><img src="../../../../../assets/icons/delete.png"></button> <!-- Icône de suppression -->
-                        <button class="btn btn-primary me-2" (click)="publishQuiz(q.numQuiz)" [disabled]="q.status"><img src="../../../../../assets/icons/eye.png"></button>
+                        <button class="btn  me-2"style="background-color: #2077f9;" (click)="editModel(q)"><img src="../../../../../assets/icons/edit-white.png"></button> <!-- Icône de modification -->
+                        <button class="btn me-2" (click)="delQuiz(q.numQuiz)" style="background-color: #f92020;"><img src="../../../../../assets/icons/delete-white.png"></button> <!-- Icône de suppression -->
+                        <button class="btn me-2"style="background-color: #2077f9;" (click)="publishQuiz(q.numQuiz)" [disabled]="q.status"><img src="../../../../../assets/icons/upload-white.png"></button>
     
                     </td>
                 </tr>         

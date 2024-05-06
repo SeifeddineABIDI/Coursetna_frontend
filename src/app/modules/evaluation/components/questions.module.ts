@@ -19,6 +19,7 @@ const exampleRoutes: Route[] = [
         RouterModule.forChild(exampleRoutes),
         CommonModule,
         ReactiveFormsModule,
+
         
     ]
 })

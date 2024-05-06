@@ -7,7 +7,7 @@
           <div class="chart-container">
             <canvas baseChart
                     [chartType]="'bar'"
-                    [datasets]="[{ data: [totalQuizzes], label: 'Total Quizzes' }]"
+                    [datasets]="[{ data: [totalQuizzes], label: 'Total Quizzes', backgroundColor: ['#0e948c'], hoverBackgroundColor: ['#0e948c'] }]"
                     [labels]="['Total Quizzes']">
             </canvas>
           </div>
@@ -21,7 +21,7 @@
           <div class="chart-container">
             <canvas baseChart
                     [chartType]="'bar'"
-                    [datasets]="[{ data: [averageScore], label: 'Average Score' }]"
+                    [datasets]="[{ data: [averageScore], label: 'Average Score', backgroundColor: ['#79869c'], hoverBackgroundColor: ['#79869c'] }]"
                     [labels]="['Average Score']">
             </canvas>
           </div>
@@ -37,7 +37,7 @@
           <div class="chart-container">
             <canvas baseChart
                     [chartType]="'pie'"
-                    [datasets]="[{ data: [percentageCorrectAnswers, 100 - percentageCorrectAnswers], backgroundColor: ['#36a2eb', '#ff6384'], hoverBackgroundColor: ['#36a2eb', '#ff6384'] }]"
+                    [datasets]="[{ data: [percentageCorrectAnswers, 100 - percentageCorrectAnswers], backgroundColor: ['#0e948c', '#1e293b'], hoverBackgroundColor: ['#0e948c', '#1e293b'] }]"
                     [labels]="['Correct Answers', 'Incorrect Answers']">
             </canvas>
           </div>

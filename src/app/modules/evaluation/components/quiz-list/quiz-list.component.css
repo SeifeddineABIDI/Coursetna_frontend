@@ -27,12 +27,15 @@
     overflow: hidden;
 }
 /******************************search****************/
-/* Style pour le bouton "Add" */
 .add-button2 {
     margin-left: 1%; /* Ajoute un espacement à gauche */
     border-radius: 20px; /* Ajoute une bordure arrondie */
-    width: 10%;
+    width: 8%;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
+
 
 /* Style pour l'entrée de recherche */
 .short-input {

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ListQuestionComponent } from './list-question/list-question.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterQuestionPipe } from './list-question/filter.pipe';
+import { ChartsModule } from 'ng2-charts';
 
 
 const exampleRoutes: Route[] = [
@@ -23,7 +24,9 @@ const exampleRoutes: Route[] = [
         RouterModule.forChild(exampleRoutes),
         CommonModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        ChartsModule,   
+
         
 
         

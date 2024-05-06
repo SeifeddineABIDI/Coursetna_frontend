@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuizService } from '../../services/quiz.service';
 import { StatService } from '../../services/stat.service';
+import { Label } from 'ng2-charts';
+import { ChartOptions, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-list-question',
@@ -110,19 +112,27 @@ editQuestion(){
 /******************************End Edit Question************************ */
 /******************************Stat Question************************ */
 showModalStat: boolean = false;
+totalCorrectAnswers: number;
+TotalAnswers: number;
+percentageCorrectAnswers:number;
+
 toggleModalStat(status: boolean): void {
   this.showModalStat = status;
 }
 
-totalCorrectAnswers: number = 0;
-TotalAnswers: number = 0;
-
 getTotalCorrectAnswersForQuestion(questionId: number): void {
+  this.totalCorrectAnswers = 0;
+  this.TotalAnswers = 0;
+  this.percentageCorrectAnswers = 0;
   this.showModalStat = true;
+
+  console.log("questionId: ", questionId);
 
   this.statService.getTotalCorrectAnswersForQuestion(questionId).subscribe(
     (result) => {
       this.totalCorrectAnswers = result;
+      console.log("totalCorrectAnswers: ", this.totalCorrectAnswers);
+      this.calculatePercentageCorrectAnswers(); // Calculate percentage after getting total correct answers
     },
     (error) => {
       console.error('Error fetching total correct answers:', error);
@@ -132,12 +142,24 @@ getTotalCorrectAnswersForQuestion(questionId: number): void {
   this.statService.getTotalAnswersForQuestion(questionId).subscribe(
     (result) => {
       this.TotalAnswers = result;
+      console.log("TotalAnswers: ", this.TotalAnswers);
+      this.calculatePercentageCorrectAnswers(); // Calculate percentage after getting total answers
     },
     (error) => {
       console.error('Error fetching total Answers:', error);
     }
   );
 }
+
+private calculatePercentageCorrectAnswers(): void {
+  if (this.TotalAnswers === 0) {
+    this.percentageCorrectAnswers = 0;
+  } else {
+    this.percentageCorrectAnswers = (this.totalCorrectAnswers / this.TotalAnswers) * 100;
+  }
+  console.log("percentageCorrectAnswers: ", this.percentageCorrectAnswers);
+}
+
 /******************************Stat Question************************ */
 
 }
