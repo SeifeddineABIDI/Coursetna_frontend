@@ -170,9 +170,9 @@
                 <td>{{q.points}}</td>
                 <td>
                     
-                    <button class="btn  me-2" style="background-color: #2077f9;"  (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/info-white.png"></button> <!-- Icône de modification -->
-                    <button class="btn me-2" style="background-color: #2077f9;"  (click)="editModel(q)" ><img src="../../../../../assets/icons/edit-white.png"></button> <!-- Icône de modification -->
-                    <button class="btn me-2" style="background-color: #f92020;"  (click)="delQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/delete-white.png"></button> <!-- Icône de suppression -->
+                    <button title="Statistique" class="btn  me-2" style="background-color: #2077f9;"  (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/statistics-white.png"></button> <!-- Icône de modification -->
+                    <button title="Edit this question" class="btn me-2" style="background-color: #2077f9;"  (click)="editModel(q)" ><img src="../../../../../assets/icons/edit-white.png"></button> <!-- Icône de modification -->
+                    <button title="Delete this question" class="btn me-2" style="background-color: #f92020;"  (click)="delQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/delete-white.png"></button> <!-- Icône de suppression -->
                 </td>
             </tr>         
         </tbody>
