@@ -1,0 +1,79 @@
+<div class="modal" id="myModalForEdit" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Edit Stage - {{ stageToUpdate.title ? stageToUpdate.title : 'N/A' }}
+        </h5>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+        <form (ngSubmit)="updateStage()" #editForm="ngForm" novalidate>
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" [(ngModel)]="stageToUpdate.title" required>
+            <small *ngIf="editForm.controls['title']?.invalid && editForm.controls['title']?.touched" class="error-message">
+              Title is required.
+            </small>
+          
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" [(ngModel)]="stageToUpdate.description" required minlength="10"></textarea>
+            <small *ngIf="editForm.controls['description']?.invalid && editForm.controls['description']?.touched" class="error-message">
+              Description is required and must be at least 10 characters.
+            </small>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" [(ngModel)]="stageToUpdate.location" required>
+            <small *ngIf="editForm.controls['location']?.invalid && editForm.controls['location']?.touched" class="error-message">
+              Location is required.
+            </small>
+          </div>
+
+          <!-- Company -->
+          <div class="form-group">
+            <label for="company">Company</label>
+            <input type="text" class="form-control" id="company" name="company" [(ngModel)]="stageToUpdate.company" required>
+            <small *ngIf="editForm.controls['company']?.invalid && editForm.controls['company']?.touched" class="error-message">
+              Company name is required.
+            </small>
+          </div>
+
+          <!-- Duration -->
+          <div class="form-group">
+            <label for="duration">Duration</label>
+            <input type="text" class="form-control" id="duration" name="duration" [(ngModel)]="stageToUpdate.duration" required>
+            <small *ngIf="editForm.controls['duration']?.invalid && editForm.controls['duration']?.touched" class="error-message">
+              Please provide a duration in the format: `5 days`, `2 weeks`, or `3 months`.
+            </small>
+          </div>
+
+          <!-- Publication Date -->
+          <div class="form-group">
+            <label for="publicationDate">Publication Date</label>
+            <input type="date" id="publicationDate" name="publicationDate" class="form-control" [(ngModel)]="stageToUpdate.publicationDate" required>
+            <small *ngIf="editForm.controls['publicationDate']?.invalid && editForm.controls['publicationDate']?.touched" class="error-message">
+              Publication date is required.
+            </small>
+          </div>
+
+          <button type="submit" class="btn-submit"   [disabled]="editForm.invalid">Update</button>
+          </div>
+        </form>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

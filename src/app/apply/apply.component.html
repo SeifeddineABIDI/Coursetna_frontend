@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                <h2>Apply For <b>INTERNSHIP</b></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let stage of stages">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ stage.title }}</h5>
+          <p class="card-text">{{ stage.company }}</p>
+          <p class="card-text">Location: {{ stage.location }}</p>
+          <p class="card-text">Publication Date: {{ stage.publicationDate| date:'yyyy-MM-dd' }}</p>
+          <!-- Bouton "Ajouter un commentaire" avec une meilleure apparence en gris moyen -->
+          <button class="btn btn-secondary btn-lg">Ajouter un commentaire</button>
+          <hr>
+          <h5>Commentaires</h5>
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text">Contenu</p>
+              <!-- Utilisez des classes Bootstrap pour les boutons et des classes Font Awesome pour les icônes -->
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-dark mr-2 btn-like-dislike">
+                  Like <!-- Texte "Like" dans le bouton -->
+                  <i class="fas fa-arrow-alt-circle-up"></i> <!-- Icône de flèche vers le haut pour "Like" -->
+                </button>  
+                <button class="btn btn-outline-danger btn-like-dislike">
+                  Dislike <!-- Texte "Dislike" dans le bouton -->
+                  <i class="fas fa-arrow-alt-circle-down"></i> <!-- Icône de flèche vers le bas pour "Dislike" -->
+                </button>
+              </div>
+            </div>
+          </div>               
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
