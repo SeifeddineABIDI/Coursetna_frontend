@@ -15,19 +15,19 @@ declare var $: any;
 })
 export class ApplyComponent implements OnInit {
   stages: Stage[] = [];
-  //seuilDislikes: number = 2;
   totalStages: number | undefined;
+  isFileUploaded = true;
+  isFileSent = false; // Ajouter cette ligne
 
   constructor(
     private router: Router,
     private stageService: StageService,
-    //private commentaireService: CommentaireService
   ) { }
 
   ngOnInit(): void {
     this.getStages();
-
   }
+
   goToList() {
     this.router.navigate(['/list']);
   }
@@ -44,18 +44,16 @@ export class ApplyComponent implements OnInit {
       }
     );
   }
-  
- 
+
   onFileChanged(event: any): void {
     const file = event.target.files[0];
     // Perform operations with the file here
   }
- 
+
+  sendFile() {
+    // Logique pour envoyer le fichier
+    console.log('Fichier envoyé!');
+    this.isFileSent = true; // Mettre à jour l'indicateur après l'envoi du fichier
+    setTimeout(() => this.isFileSent = false, 3000); // Optionnel: Réinitialiser l'indicateur après 3 secondes
+  }
 }
-  
-
-  
-  
-
-
-

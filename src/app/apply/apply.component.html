@@ -14,19 +14,22 @@
 </div>
 
 <div class="container">
-<div class="row">
-  <div class="col-md-4" *ngFor="let stage of stages">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{ stage.title }}</h5>
-        <p class="card-text">{{ stage.company }}</p>
-        <p class="card-text">Location: {{ stage.location }}</p>
-        <p class="card-text">Publication Date: {{ stage.publicationDate| date:'yyyy-MM-dd' }}</p>
-        <hr>
-        <h5>Upload CV</h5>
-        <input type="file" (change)="onFileChanged($event)" />
+  <div class="row">
+    <div class="col-md-4" *ngFor="let stage of stages">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ stage.title }}</h5>
+          <p class="card-text">{{ stage.company }}</p>
+          <p class="card-text">Location: {{ stage.location }}</p>
+          <p class="card-text">Publication Date: {{ stage.publicationDate | date:'yyyy-MM-dd' }}</p>
+          <hr>
+          <h5>Upload CV</h5>
+          <input type="file" (change)="onFileChanged($event)" />
+          <button id="btnenvoyer" type="button" class="btn btn-success" *ngIf="isFileUploaded" (click)="sendFile()">Envoyer</button>
+          <div *ngIf="isFileSent" class="alert alert-success mt-2">Fichier envoyé avec succès !</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
+```
