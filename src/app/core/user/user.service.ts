@@ -51,7 +51,7 @@ export class UserService
         });
     
         // Modify the endpoint URL as per your backend API
-        return this._httpClient.get<User>(`localhost:9000/pidev/api/v1/auth/current`, { headers }).pipe(
+        return this._httpClient.get<User>(`${environment.apiUrl}/api/v1/auth/current`, { headers }).pipe(
           tap((user: User) => {
             this._user.next(user);
           })
@@ -71,4 +71,18 @@ export class UserService
             })
         );
     }
+      getAll(token: string):Observable<User[]> {
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    
+        // Modify the endpoint URL as per your backend API
+        return this._httpClient.get<User[]>(`${environment.apiUrl}/user/all`, { headers }).pipe(
+          tap((users: User[]) => {
+            // Handle the response here
+           
+            // You can perform additional processing here if needed
+          })
+        );
+      }
 }

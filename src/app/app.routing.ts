@@ -132,6 +132,7 @@ export const appRoutes: Route[] = [
             {path: 'listReclamation', loadChildren: () => import('app/modules/Reclamation/list-reclamation.module').then(m => m.ListReclamationModule) },
 
         /*********end Reclamation ******** */
+
             // {path: 'forum', component: HomeComponent },
             {path: 'view-post/:id', component: ViewPostComponent },
             {path: 'create-post', component: CreatePostComponent },
@@ -149,9 +150,7 @@ export const appRoutes: Route[] = [
             {path: 'forgot', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
             {path: '**', pathMatch : 'full', redirectTo: 'example'},
 
-            
-            
-
+        
 
         ]
     }

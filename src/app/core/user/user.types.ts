@@ -28,7 +28,7 @@ export interface User
     listReclamtions?:Reclamation[];
     /*********************** */
 
-    // bababa
+
 }
 export class User {
     static currentUser: User | null = null;

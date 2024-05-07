@@ -11,4 +11,6 @@ export class PostModel {
     duration: string;
     upVote: boolean;
     downVote: boolean;
+    nom: string;
+    userId: number;
 }

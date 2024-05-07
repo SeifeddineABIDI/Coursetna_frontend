@@ -23,6 +23,9 @@ export class HelpCenterSupportComponent implements OnInit
     supportForm: UntypedFormGroup;
     postPayload: CreatePost;
     subforums: Array<Subforum>;
+    currentUserString = localStorage.getItem('currentUser');
+    currentUser = JSON.parse(this.currentUserString);
+    token: string;
 
     /**
      * Constructor
@@ -37,7 +40,6 @@ export class HelpCenterSupportComponent implements OnInit
     {
         this.postPayload = {
             postName: '',
-            url: '',
             description: '',
             imageUrl: '',
             email: '',
@@ -57,10 +59,8 @@ export class HelpCenterSupportComponent implements OnInit
         // Create the support form
         this.supportForm = this._formBuilder.group({
             postName: ['', Validators.required],
-            url: ['', Validators.required],
             subforumName: ['', Validators.required],
             description: ['', Validators.required],
-            email: ['', Validators.required],
             file: [null]
         });
         this.subforumService.getAllSubforums().subscribe((data) => {
@@ -89,10 +89,9 @@ export class HelpCenterSupportComponent implements OnInit
     sendForm(): void {
         // Retrieve form values
         this.postPayload.postName = this.supportForm.get('postName').value;
-        this.postPayload.url = this.supportForm.get('url').value;
         this.postPayload.subforumName = this.supportForm.get('subforumName').value;
         this.postPayload.description = this.supportForm.get('description').value;
-        this.postPayload.email = this.supportForm.get('email').value;
+        this.postPayload.email = this.currentUser.email;
         
         // Retrieve the image file
         const imageFile = this.supportForm.get('file').value;
@@ -100,8 +99,7 @@ export class HelpCenterSupportComponent implements OnInit
         // Create a FormData object to send both the post payload and the image file
         const formData = new FormData();
         formData.append('postName', this.supportForm.get('postName').value);
-        formData.append('email', this.supportForm.get('email').value);
-        formData.append('url', this.supportForm.get('url').value);
+        formData.append('email', this.currentUser.email);
         formData.append('subforumName', this.supportForm.get('subforumName').value);
         formData.append('description', this.supportForm.get('description').value);
         formData.append('file', imageFile);

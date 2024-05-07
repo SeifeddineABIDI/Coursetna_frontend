@@ -15,7 +15,7 @@ export class CommentService {
   }
 
   postComment(commentPayload: Comment): Observable<any> {
-    return this.httpClient.post<any>('http://localhost:9000/pidev/comments/', commentPayload);
+    return this.httpClient.post<any>('http://localhost:9000/pidev/comments', commentPayload);
   }
 
   getAllCommentsByUser(name: string) {

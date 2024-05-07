@@ -37,14 +37,7 @@
                         <mat-label>Description</mat-label>
                         <mat-error *ngIf="createSubforumForm.get('description').hasError('required')">Required</mat-error>
                     </mat-form-field>
-                    <!-- Email -->
-                    <mat-form-field class="w-full">
-                        <input type="email" matInput formControlName="email" required>
-                        <mat-label>Email</mat-label>
-                        <mat-error *ngIf="createSubforumForm.get('email').hasError('required')">Required</mat-error>
-                        <mat-error *ngIf="createSubforumForm.get('email').hasError('email')">Enter a valid email address</mat-error>
-                    </mat-form-field>
-                
+    
                     <!-- Actions -->
                     <div class="flex items-center justify-end">
                         <button mat-button color="accent" [disabled]="createSubforumForm.pristine || createSubforumForm.untouched" (click)="discard()">Clear</button>

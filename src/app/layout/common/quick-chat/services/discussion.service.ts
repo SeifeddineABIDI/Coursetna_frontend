@@ -3,15 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Discussion } from '../models/Discussion';
 import { User } from '../models/User';
+import { environment } from 'app/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiscussionService {
-  private baseUrl = 'http://localhost:9000/pidev/discussion';
+  private baseUrl = `${environment.apiUrl}/discussion`;
   constructor(private http: HttpClient) { }
-
-
 
 
 
@@ -32,7 +32,7 @@ export class DiscussionService {
   }
 
   modifyDiscussionCommunity(discussion: number, userStart: number, title: string, userList: string, discussionList: string, admin: number, image: string | ArrayBuffer): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/modifyDiscussionCommunity?discussion=${discussion}&userStart=${userStart}&title=${title}&userList=${userList}&discussionList=${discussionList}&userList=${admin}`, image, { responseType: 'text' as 'json' });
+    return this.http.put<any>(`${this.baseUrl}/modifyDiscussionCommunity?discussion=${discussion}&userStart=${userStart}&title=${title}&userList=${userList}&discussionList=${discussionList}&admin=${admin}`, image, { responseType: 'text' as 'json' });
   }
 
   addAdminsToDiscussion(discussion: number, admin: number, userList: string): Observable<any> {
@@ -48,10 +48,7 @@ export class DiscussionService {
   }
 
   retrieveAllDiscussions(id: number): Observable<Discussion[]> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-    });
-    return this.http.get<Discussion[]>(`${this.baseUrl}/retrieveAllDiscussions?id=${id}`,{headers});
+    return this.http.get<Discussion[]>(`${this.baseUrl}/retrieveAllDiscussions?id=${id}`);
   }
 
   retrieveAllCommunities(id: number): Observable<Discussion[]> {
