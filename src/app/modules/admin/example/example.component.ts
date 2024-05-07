@@ -21,16 +21,10 @@ export class ExampleComponent
         const token = localStorage.getItem("access_token");
         console.log(token);
         // Call the getAll function from UserService
-        this.userService.getAll(token).subscribe(
-          (user: User) => {
-            // Assuming the response is a single User object
-            // You may need to modify this part based on the actual response structure
-            this.users.push(user);
-          },
-          (error) => {
-            console.error('Error fetching users:', error);
-          }
-        );
+        this.userService.getAll(token).subscribe(users => {
+            this.users = users;
+          });
+        console.log(this.users,"zzz");
       }
 }
 

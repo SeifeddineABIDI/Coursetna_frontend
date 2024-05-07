@@ -13,7 +13,8 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { ExampleComponent } from 'app/modules/admin/example/example.component';
 import { Example2Component } from '../example2/example2.component';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 const exampleRoutes: Route[] = [
     
     {
@@ -41,7 +42,9 @@ const exampleRoutes: Route[] = [
         MatProgressBarModule,
         MatTooltipModule,
         FuseCardModule,
-        SharedModule
+        SharedModule,
+        MatTableModule,
+        MatTabsModule,
     ]
 })
 export class ExampleModule

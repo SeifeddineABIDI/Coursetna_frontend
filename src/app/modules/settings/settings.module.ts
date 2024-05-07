@@ -28,7 +28,6 @@ import { settingsRoutes } from 'app/modules/settings/settings.routing';
         SettingsTeamComponent
     ],
     imports     : [
-        
         RouterModule.forChild(settingsRoutes),
         MatButtonModule,
         MatFormFieldModule,
@@ -39,9 +38,7 @@ import { settingsRoutes } from 'app/modules/settings/settings.routing';
         MatSidenavModule,
         MatSlideToggleModule,
         FuseAlertModule,
-        SharedModule,
-        
-        
+        SharedModule
     ]
 })
 export class SettingsModule

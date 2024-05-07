@@ -1,0 +1,107 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+        <div class="flex flex-col w-full max-w-4xl">
+            <div class="-ml-4 sm:mt-8">
+                <a href="help-center/faqs" class="flex items-center text-primary">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                    <span class="ml-2">Back to FAQs</span>
+                </a>
+            </div>
+            <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
+                Create Post
+            </div>
+            <!-- Form -->
+            <div class="mt-8 sm:mt-12 p-6 pb-7 sm:p-10 sm:pb-7 shadow rounded-2xl bg-card">
+                <!-- Alert -->
+                <fuse-alert
+                    class="mb-8"
+                    *ngIf="alert"
+                    [type]="alert.type"
+                    [showIcon]="false">
+                    {{alert.message}}
+                </fuse-alert>
+                <form class="space-y-3" [formGroup]="supportForm" #supportNgForm="ngForm">
+                    <div class="mb-6">
+                        <div class="text-2xl font-bold tracking-tight">Create a new post</div>
+                        <div class="text-secondary">Fill in the form below to create a new post.</div>
+                    </div>
+                    <!-- Post Name -->
+                    <mat-form-field class="w-full">
+                        <input matInput [formControlName]="'postName'" [required]="true">
+                        <mat-label>Post Name</mat-label>
+                        <mat-error *ngIf="supportForm.get('postName').hasError('required')">
+                            Required
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- URL -->
+                    <mat-form-field class="w-full">
+                        <input matInput [formControlName]="'url'" [required]="true">
+                        <mat-label>URL</mat-label>
+                        <mat-error *ngIf="supportForm.get('url').hasError('required')">
+                            Required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- Subforum -->
+                    <div class="w-full">
+                        <label for="subforumName" class="font-semibold">Subforum</label>
+                        <div class="mt-1 form-input">
+                            <select id="subforumName" formControlName="subforumName" required>
+                                <option *ngFor="let subforum of subforums" [value]="subforum.name">
+                                    {{ subforum.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="supportForm.get('subforumName').hasError('required')" class="text-red-500 mt-1">
+                            Required
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <mat-form-field class="w-full">
+                        <textarea matInput [formControlName]="'description'" [required]="true" [rows]="5"
+                            cdkTextareaAutosize></textarea>
+                        <mat-label>Description</mat-label>
+                        <mat-error *ngIf="supportForm.get('description').hasError('required')">
+                            Required
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- Email -->
+                    <mat-form-field class="w-full">
+                        <input type="email" matInput [formControlName]="'email'" [required]="true">
+                        <mat-label>Email</mat-label>
+                        <mat-error *ngIf="supportForm.get('email').hasError('required')">
+                            Required
+                        </mat-error>
+                        <mat-error *ngIf="supportForm.get('email').hasError('email')">
+                            Enter a valid email address
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- Image -->
+                    <div class="flex items-left justify-left">
+                        <input type="file" (change)="onImageSelected($event)" />
+                        
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center justify-end">
+                        <button
+                            mat-button
+                            [color]="'accent'"
+                            [disabled]="supportForm.pristine || supportForm.untouched"
+                            (click)="clearForm()">
+                            Clear
+                        </button>
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="supportForm.pristine || supportForm.invalid"
+                            (click)="sendForm()">
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

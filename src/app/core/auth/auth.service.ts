@@ -13,7 +13,7 @@ export class AuthService
 {
     private _authenticated: boolean = false;
     user: User;
-    
+
     /**
      * Constructor
      */
@@ -23,6 +23,7 @@ export class AuthService
     )
     {
     }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
@@ -100,6 +101,28 @@ export class AuthService
             })
         );
     }
+
+    // login(email: string, password: string): Observable<any> {
+    //     console.log(email, password)
+    //     // Send POST request to authenticate endpoint with email and hashed password
+    //     return this._httpClient.post<any>(
+    //       `${environment.apiUrl}/api/v1/auth/authenticate`,
+    //       { email: email, password: password }
+    //     ).pipe(
+    //       map(user => {
+    //         console.log(user)
+    //         // Check if the response contains a valid access token
+    //         if (user && user.access_token) {
+    //           // Store user details and access token in local storage
+    //           localStorage.setItem('currentUser', JSON.stringify(user));
+    //           this.accessToken = user.access_token;
+    //           this._authenticated = true;
+    //           this._userService.user =user;
+    //         }
+    //         return user;
+    //       })
+    //     );
+    //   }
     /**
      * Sign in using the access token
      */
@@ -150,15 +173,15 @@ export class AuthService
         // Remove the access token from the local storage
         localStorage.removeItem('access_token');
         localStorage.removeItem('currentUser');
-        console.log('signOut',  access_token);
+        console.log('signOut',  access_token)
         // Set the authenticated flag to false
         this._authenticated = false;
-        if (access_token != null) {
+        if (access_token!=null) {
             // Create HttpHeaders with the access token
             const headers = new HttpHeaders({
                 'Authorization': `Bearer ${access_token}`
             });
-                
+    
             // Make a POST request to the logout endpoint with the access token in the headers
             return this._httpClient.post(`${environment.apiUrl}/api/v1/auth/logout`, {}, { headers });
         } else {

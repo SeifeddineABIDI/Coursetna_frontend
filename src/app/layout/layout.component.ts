@@ -22,6 +22,8 @@ export class LayoutComponent implements OnInit, OnDestroy
     scheme: 'dark' | 'light';
     theme: string;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    currentUserRole: string = 'ADMIN';
+    userLayout: Layout;
 
     /**
      * Constructor
@@ -47,6 +49,14 @@ export class LayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        try {
+            this.currentUserRole = JSON.parse(localStorage.getItem('currentUser')).role;
+          } catch (error) {
+            console.error("Error parsing current user from local storage:", error);
+            this.currentUserRole = 'ADMIN'; // Set default to ADMIN if parsing fails
+          }        
+          if(this.currentUserRole == 'ADMIN'){this.userLayout='classy'}
+        else{this.userLayout='enterprise';}
         // Set the theme and scheme based on the configuration
         combineLatest([
             this._fuseConfigService.config$,
@@ -136,7 +146,7 @@ export class LayoutComponent implements OnInit, OnDestroy
         }
 
         // 1. Set the layout from the config
-        this.layout = this.config.layout;
+        this.layout = this.userLayout   ;
 
         // 2. Get the query parameter from the current route and
         // set the layout and save the layout to the config
