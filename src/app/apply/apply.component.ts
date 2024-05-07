@@ -14,10 +14,11 @@ declare var $: any;
   styleUrls: ['./apply.component.scss']
 })
 export class ApplyComponent implements OnInit {
+
   stages: Stage[] = [];
   totalStages: number | undefined;
   isFileUploaded = true;
-  isFileSent = false; // Ajouter cette ligne
+  filesSent: boolean[] = []; // Un tableau pour suivre les fichiers envoyés pour chaque stage
 
   constructor(
     private router: Router,
@@ -28,16 +29,12 @@ export class ApplyComponent implements OnInit {
     this.getStages();
   }
 
-  goToList() {
-    this.router.navigate(['/list']);
-  }
-
   getStages(): void {
     this.stageService.getStages().subscribe(
       (response: Stage[]) => {
         this.stages = response;
-        this.totalStages = this.stages.length; 
-        console.log(this.stages);
+        this.totalStages = this.stages.length;
+        this.filesSent = new Array(this.stages.length).fill(false); // Initialiser le tableau avec des valeurs false
       },
       (error: HttpErrorResponse) => {
         console.error('Error fetching stages:', error);
@@ -45,15 +42,32 @@ export class ApplyComponent implements OnInit {
     );
   }
 
+
+  sendFile(index: number) {
+    console.log('Fichier envoyé pour le stage', index);
+    this.filesSent[index] = true;
+  
+    setTimeout(() => {
+      this.filesSent[index] = false;
+      this.router.navigate(['/list']); 
+    }, 3000);
+  }
+  
+
+
   onFileChanged(event: any): void {
     const file = event.target.files[0];
     // Perform operations with the file here
   }
 
-  sendFile() {
-    // Logique pour envoyer le fichier
-    console.log('Fichier envoyé!');
-    this.isFileSent = true; // Mettre à jour l'indicateur après l'envoi du fichier
-    setTimeout(() => this.isFileSent = false, 3000); // Optionnel: Réinitialiser l'indicateur après 3 secondes
-  }
+
+  goToList() {
+    this.router.navigate(['/list']);
+    }
+
+
+
+
+
+  
 }
