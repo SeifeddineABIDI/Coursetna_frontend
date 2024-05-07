@@ -7,7 +7,7 @@ import { Cv } from '../modals/Cv';
   providedIn: 'root'
 })
 export class CvService {
-  private baseUrl = 'http://localhost:8080/cv';  // Modifiez selon votre configuration
+  private baseUrl = 'http://localhost:8098/cv';  // Modifiez selon votre configuration
 
   constructor(private http: HttpClient) { }
 
