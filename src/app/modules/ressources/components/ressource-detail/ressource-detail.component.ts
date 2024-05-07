@@ -5,7 +5,7 @@ import { CommentaireService } from '../../services/commentaire.service';
 import { Commentaire } from '../../models/commentaire';
 import { User } from '../../models/user';
 import { TypeUser } from '../../models/TypeUser';
-
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -14,6 +14,7 @@ import { TypeUser } from '../../models/TypeUser';
   styleUrls: ['./ressource-detail.component.css']
 })
 export class RessourceDetailComponent implements OnInit {
+  currentUser: any;
   @ViewChild('commentairesContainer') commentairesContainer!: ElementRef;
   id: number | null = null; 
   resourceDetails: any; 
@@ -38,7 +39,6 @@ export class RessourceDetailComponent implements OnInit {
     return this.commentaires ? this.commentaires.length : 0;
   }
   
-  
   ajouterCommentaire() {
     if (this.isCommentaireVide()) {
       console.error('Le commentaire est vide.');
@@ -61,11 +61,11 @@ export class RessourceDetailComponent implements OnInit {
             contenu: this.nouveauCommentaire,
             ressource: resource,
             auteur: auteur,
-          
           };
           this.commentaireService.addCommentaire(commentaire).subscribe(
             (resultat) => {
               if (this.id !== null && this.id !== undefined) {
+                this.navigateToRessourceDetail(this.id);
                 this.loadCommentaires(this.id);
               } else {
                 console.error('L\'ID de la ressource est null ou non défini.');
@@ -74,7 +74,18 @@ export class RessourceDetailComponent implements OnInit {
             },
             (erreur) => {
               console.error('Erreur lors de l\'ajout du commentaire : ', erreur);
-            }
+              if (erreur && erreur.error && erreur.error.includes("Profanity exists")) {
+                Swal.fire({
+                  title: 'Commentaire inapproprié détecté',
+                  text: 'Votre commentaire contient des mots inappropriés. Veuillez reformuler votre commentaire.',
+                  icon: 'warning'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    this.nouveauCommentaire = ''; 
+                  }
+                });  
+              }
+            }            
           );
         },
         (erreur) => {
@@ -85,7 +96,9 @@ export class RessourceDetailComponent implements OnInit {
       console.error('L\'ID de la ressource est null ou non défini.');
     }
   }
-  
+  navigateToRessourceDetail(id: number): void {
+    window.location.href = `/ressource/${id}`
+  }
   ajouterEmoji(emoji: string): void {
     this.nouveauCommentaire += emoji;
   }

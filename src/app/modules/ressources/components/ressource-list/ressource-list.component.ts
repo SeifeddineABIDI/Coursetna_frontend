@@ -37,6 +37,23 @@ ngOnInit(): void {
     }
   });
 }
+navigateToRessourceDetail(id: number): void {
+  window.location.href = `/ressource/${id}`
+}
+navigateToVersion(id: number): void {
+  window.location.href = `/ressources/${id}/versions`
+}
+filterResourcesByCategory(category: string): void {
+  if (this.topicId) {
+    this.resourceService.getRessourcesByCategoryAndTopicId(category, this.topicId).subscribe((resources: any[]) => {
+      this.filteredResources = resources;
+      console.log("euhhhh: ", this.filteredResources);
+    });
+  } else {
+    console.error('ID de sujet non défini.');
+  }
+}
+
 onPageChange(event: any) {
   const selectedPage = event.pageIndex;
   const pageSize = event.pageSize;
@@ -50,7 +67,6 @@ loadRessourcesByTopic(topicId: number): void {
     (resources: Ressource[]) => {
       this.ressourcesNonArchived = resources.filter(resource => !resource.archived);
       this.ressourcesArchived = resources.filter(resource => resource.archived);
-      
       this.filteredResources = this.ressourcesNonArchived.filter(resource => resource.categorie === 'COURS');
     },
     (error: any) => {
@@ -72,26 +88,16 @@ loadRessourcesByTopic(topicId: number): void {
     );
   }
 
-  filterResourcesByCategory(category: string): void {
-    if (this.topicId) {
-      this.resourceService.getRessourcesByCategoryAndTopicId(category, this.topicId).subscribe((resources: any[]) => {
-        this.filteredResources = resources;
-      });
-    } else {
-      console.error('ID de sujet non défini.');
-    }
-  }
   
   searchResourcesByTitle(): void {
-    const searchQuery = this.searchTitle.trim().toUpperCase();
+    const searchQuery = this.searchTitle.trim().toLowerCase();
+    console.log("salamammmamam : ",searchQuery);
     if (searchQuery) {
       this.filteredResources = this.ressourcesNonArchived.filter(resource => {
-        if (resource.titre) {
-          return resource.titre.toUpperCase().includes(searchQuery);
-        } else {
-          return false;
-        }
+      console.log("rererrer",resource.titre.toLowerCase().includes(searchQuery))
+      return resource.titre.toLowerCase().includes(searchQuery);
       });
+  
     } else {
       if (this.categorie) {
         this.filteredResources = this.ressourcesNonArchived.filter(resource => resource.categorie === this.categorie);
@@ -100,6 +106,7 @@ loadRessourcesByTopic(topicId: number): void {
       }
     }
   }
+  
   speakSearchText(): void {
     const searchText = this.searchTitle.trim();
     if (searchText) {
@@ -109,10 +116,11 @@ loadRessourcesByTopic(topicId: number): void {
   }  
   
 
-  loadRessourcesByOptionCategory(categorie: Categorie): void {
-    this.router.navigate(['list', categorie]); 
-  }
- 
+  // loadRessourcesByOptionCategory(categorie: Categorie): void {
+  //   this.router.navigate(['list', categorie]); 
+  // }
+
+
   
   
   }

@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
+// import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ConfirmationDialogService {
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class ConfirmationDialogService {
 
-  constructor() { }
+//   constructor() { }
 
-  showConfirmation(message: string): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
-      const confirmation = window.confirm(message);
-      resolve(confirmation);
-    });
-  }
-}
+//   showConfirmation(message: string): Promise<boolean> {
+//     return new Promise<boolean>((resolve) => {
+//       const confirmation = window.confirm(message);
+//       resolve(confirmation);
+//     });
+//   }
+// }

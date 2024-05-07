@@ -13,11 +13,20 @@ import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 //import { AngularFireModule } from '@angular/fire/compat'
 import { RessourceListComponent } from './components/ressource-list/ressource-list.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HomeRessourceComponent } from './components/home-ressource/home-ressource.component';
 import { SharedModule } from './SharedModule.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 
 const exampleRoute: Route[] = [{
@@ -40,10 +49,20 @@ const exampleRoute: Route[] = [{
         FormsModule,
         HttpClientModule,
         RouterModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        FuseAlertModule,
 
     ],
     providers: [
-      provideAnimations()
+      provideAnimations(),
+      { provide: LocationStrategy, useClass: HashLocationStrategy }
     ]
    
 })

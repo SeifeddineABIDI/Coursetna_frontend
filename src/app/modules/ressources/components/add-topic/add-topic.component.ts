@@ -3,6 +3,7 @@ import { Topic } from '../../models/topic';
 import { TopicService } from '../../services/topic.service';
 import { HttpClient } from '@angular/common/http';
 import { Route, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-topic',
@@ -19,7 +20,11 @@ export class AddTopicComponent {
       (existeDeja) => {
         if (existeDeja) {
    
-          alert('Le sujet existe déjà');
+          Swal.fire({
+            title: 'Sujet existant',
+            text: 'Ce sujet existe déjà. Veuillez en choisir un autre.',
+            icon: 'warning'
+          });
         } else {
           const formData: FormData = new FormData();
           formData.append('photo', this.selectedFile!);

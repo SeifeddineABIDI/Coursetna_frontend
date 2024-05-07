@@ -102,13 +102,26 @@ export const appRoutes: Route[] = [
             /*****end evaluation**** */
 
         /**********Ressources********** */
-            { path: 'ressources-by-topic/:topicId', loadChildren: () => import('./modules/ressources/ressourceList.module').then(m => m.RessourceListModule) },
-            { path: 'acceuil', loadChildren: () => import('./modules/ressources/homeList.module').then(m => m.HomeListModule) },
-            { path: 'ressource/:id', loadChildren: () => import('./modules/ressources/RessourceDetail.module').then(m => m.RessourceDetailModule) },
-            { path: 'topic/:option', loadChildren: () => import('./modules/ressources/topicList.module').then(m => m.TopicListModule) },
-            { path: 'addTopic', loadChildren: () => import('./modules/ressources/topicAdd.module').then(m => m.TopicAddModule) },
-            { path: 'add', loadChildren: () => import('./modules/ressources/ressourceAdd.module').then(m => m.RessourceAddModule) },
-            { path: 'detailRs/:id', loadChildren: () => import('./modules/ressources/newRessource.module').then(m => m.DetailNewRessourceModule) },
+        { path: 'ressources-by-topic/:topicId', loadChildren: () => import('./modules/ressources/ressourceList.module').then(m => m.RessourceListModule) },
+        // { 
+        //     path: 'ressources-by-topic/:topicId/:category', 
+        //     loadChildren: () => import('./modules/ressources/ressourceList.module').then(m => m.RessourceListModule) 
+        //   },
+        { path: 'acceuil', loadChildren: () => import('./modules/ressources/homeList.module').then(m => m.HomeListModule) },
+        { path: 'ressource/:id', loadChildren: () => import('./modules/ressources/RessourceDetail.module').then(m => m.RessourceDetailModule) },
+        { path: 'topic/:option', loadChildren: () => import('./modules/ressources/topicList.module').then(m => m.TopicListModule) },
+        { path: 'addTopic', loadChildren: () => import('./modules/ressources/topicAdd.module').then(m => m.TopicAddModule) },
+        { path: 'add', loadChildren: () => import('./modules/ressources/ressourceAdd.module').then(m => m.RessourceAddModule) },
+        { path: 'detailRs/:id', loadChildren: () => import('./modules/ressources/newRessource.module').then(m => m.DetailNewRessourceModule) },
+        { path: 'stat', loadChildren: () => import('./modules/ressources/statRessource.module').then(m => m.statRessource) },
+        { path: 'ressources/:id/versions', loadChildren: () => import('./modules/ressources/versionRessource.module').then(m => m.VersionRessourceModule) },
+        { path: 'ressources/:id/versions', loadChildren: () => import('./modules/ressources/versionRessource.module').then(m => m.VersionRessourceModule) },
+        { path: 'delete/:id/versions', loadChildren: () => import('./modules/ressources/versionRessourceDelete.module').then(m => m.VersionDeleteModule) },
+        { path: 'ajouter-version/:id', loadChildren: () => import('./modules/ressources/addVersion.module').then(m => m.AddVersionModule) },
+        { path: 'espaceUser', loadChildren: () => import('./modules/ressources/espaceRessource.module').then(m => m.EspaceRessourceUserModule) },
+        { path: 'delete/:id/versions', loadChildren: () => import('./modules/ressources/versionRessourceDelete.module').then(m => m.VersionDeleteModule) },
+
+
         /*******end Ressources*************** */
 
         /******Reclamation ************** */

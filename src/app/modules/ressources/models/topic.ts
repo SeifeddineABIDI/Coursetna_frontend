@@ -1,5 +1,5 @@
-import { Quiz } from "app/modules/evaluation/models/quiz";
 import { Ressource } from "./ressource";
+import { Quiz } from "../../evaluation/models/quiz";
 
 
 export class Topic {
@@ -11,7 +11,6 @@ export class Topic {
     ressources: Ressource[] | undefined;
 
     listQuiz?:Quiz[];//relation OneToMany
-
 
     
   constructor(data?: any) {

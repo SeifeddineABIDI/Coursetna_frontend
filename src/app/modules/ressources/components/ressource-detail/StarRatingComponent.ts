@@ -19,19 +19,24 @@ import { ResourceService } from '../../services/resource.service';
 })
 export class StarRatingComponent {
   message: string | undefined;
+  currentUser: any;
+
 
   @Input() rating: number = 0;
   @Input() id: number | null = null; 
 
   stars: number[] = [1, 2, 3, 4, 5];
-  userId: number = 1;
 
   constructor(private resourceService: ResourceService,private changeDetectorRef: ChangeDetectorRef
     ) {}
+    
+  ngOnInit(): void {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));//recuperer l'utilisateur connecté
+  }
 
     addRating(rating: number): void {
       if (this.id !== null) {
-        this.resourceService.addRating(this.userId, this.id, rating).subscribe(
+        this.resourceService.addRating( this.currentUser.id, this.id, rating).subscribe(
           () => {
             this.changeDetectorRef.detectChanges();
            this.rating = rating ?? 0;

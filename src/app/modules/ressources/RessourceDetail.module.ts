@@ -11,7 +11,6 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-//import { AngularFireModule } from '@angular/fire/compat'
 import { RessourceListComponent } from './components/ressource-list/ressource-list.component';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -21,6 +20,7 @@ import { StarRatingComponent } from './components/ressource-detail/StarRatingCom
 import { SharedModule } from './SharedModule.module';
 import { RessourceDetailComponent } from './components/ressource-detail/ressource-detail.component';
 import { ReadMoreDirective } from './components/ressource-detail/appReadMore';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const exampleRoute: Route[] = [{
@@ -31,9 +31,9 @@ const exampleRoute: Route[] = [{
 
 @NgModule({
     declarations: [
-      RessourceDetailComponent,
-      ReadMoreDirective,
-        
+     RessourceDetailComponent,
+     ReadMoreDirective
+     
     ],
     imports     : [
         SharedModule,    
@@ -42,7 +42,8 @@ const exampleRoute: Route[] = [{
         FormsModule,
         HttpClientModule,
         RouterModule,
-        MatDialogModule  
+        MatDialogModule,
+        MatIconModule 
     ],
     providers: [
       provideAnimations()

@@ -11,7 +11,6 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-//import { AngularFireModule } from '@angular/fire/compat'
 import { RessourceListComponent } from './components/ressource-list/ressource-list.component';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -21,6 +20,7 @@ import { StarRatingComponent } from './components/ressource-detail/StarRatingCom
 import { SharedModule } from './SharedModule.module';
 import { ListTopicComponent } from './components/list-topic/list-topic.component';
 import { NewRessourceDetailComponent } from './components/new-ressource-detail/new-ressource-detail.component';
+import { ReadMoreDirective } from './components/ressource-detail/appReadMore';
 
 
 const exampleRoute: Route[] = [{
@@ -32,11 +32,10 @@ const exampleRoute: Route[] = [{
 @NgModule({
     declarations: [
       NewRessourceDetailComponent,
-  
         
     ],
     imports     : [
-        SharedModule,    
+        SharedModule,  
         RouterModule.forChild(exampleRoute),
         CommonModule,
         FormsModule,
