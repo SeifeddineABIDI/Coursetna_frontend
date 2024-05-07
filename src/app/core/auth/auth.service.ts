@@ -174,6 +174,8 @@ export class AuthService
         localStorage.removeItem('access_token');
         localStorage.removeItem('currentUser');
         console.log('signOut',  access_token)
+        localStorage.clear();
+
         // Set the authenticated flag to false
         this._authenticated = false;
         if (access_token!=null) {

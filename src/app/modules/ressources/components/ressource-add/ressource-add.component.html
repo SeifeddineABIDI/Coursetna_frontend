@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Formulaire d'ajout de ressource</title>
+   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="ressource-add.component.css">
+      </head>
+      
+<body>
+    <form class="card" #myForm="ngForm" (ngSubmit)="ajouterRessource()">
+      <button class="Btn" (click)="navigateToAddTopic()">
+    <div class="sign"><svg viewBox="0 0 512 512"><path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"></path></svg></div>
+  
+    <div class="text">Ajouter topic</div>
+</button>
+  
+        <div *ngIf="errorMessage" class="alert alert-danger">
+            <span>{{ errorMessage }}</span>
+            <span class="closebtn" (click)="closeError()">&times;</span>
+        </div>
+        
+        <div *ngIf="successMessage" class="alert alert-success">
+            <span>{{ successMessage }}</span>
+            <span class="closebtn" (click)="closeSuccess()">&times;</span>
+        </div>
+        
+        <div class="card-header">Ajouter une ressource</div>
+        <div class="form-group">
+            <!-- <div class="form-group">
+                <label for="titre">Titre :</label>
+                <input type="text" id="titre" [(ngModel)]="titre" name="titre" class="form-control" required 
+                    [ngClass]="{'is-invalid': myForm.submitted && myForm.controls['titre'].invalid && !successMessage, 'animated shake': myForm.submitted && myForm.controls['titre'].invalid && !successMessage}">
+            </div> -->
+    
+            <div class="form-group">
+                <label for="description">Description*</label>
+                <textarea id="description" [(ngModel)]="description" name="description" rows="4" class="form-control" required
+                    [ngClass]="{'is-invalid': myForm.submitted && myForm.controls['description'].invalid && !successMessage, 'animated shake': myForm.submitted && myForm.controls['description'].invalid && !successMessage}"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="option">Options*</label>
+                <select id="option" [(ngModel)]="options" name="option" class="form-control" required
+                    [ngClass]="{'is-invalid': myForm.submitted && !options && !successMessage, 'animated shake': myForm.submitted && !options && !successMessage}">
+                    <option value="" disabled selected>Sélectionnez une option</option>
+                    <option *ngFor="let op of optionss" [value]="op">{{ op }}</option>
+                </select>
+            </div>
+            <div class="header"> 
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier"> 
+                      <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> 
+                    </g>
+                  </svg>
+                  <label for="file" class="footer"> 
+                    <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path>
+                        <path d="M18.153 6h-.009v5.342H23.5v-.002z"></path>
+                      </g>           
+                    </svg> 
+                    <p>{{ file ? file.name : 'Not selected file' }}</p> 
+                    <svg (click)="deleteFile()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_iconCarrier">
+                          <path d="M5.16565 10.1534C5.07629 8.99181 5.99473 8 7.15975 8H16.8402C18.0053 8 18.9237 8.9918 18.8344 10.1534L18.142 19.1534C18.0619 20.1954 17.193 21 16.1479 21H7.85206C6.80699 21 5.93811 20.1954 5.85795 19.1534L5.16565 10.1534Z" stroke="#000000" stroke-width="2"></path>
+                          <path d="M19.5 5H4.5" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+                          <path d="M10 3C10 2.44772 10.4477 2 11 2H13C13.5523 2 14 2.44772 14 3V5H10V3Z" stroke="#000000" stroke-width="2"></path>
+                        </g>
+                      </svg>                      
+                    <input type="file" #fileInput id="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.txt" class="form-control" 
+                            required
+                            [ngClass]="{'is-invalid': myForm.submitted&& myForm.controls['description'].invalid && !successMessage, 'animated shake': myForm.submitted && myForm.controls['description'].invalid && !successMessage}">   
+                  </label>
+              </div> 
+             
+              
+        </div>
+       
+            <div class="form-group">
+                <label for="selectedTopic">Sélectionnez un topic*</label>
+                <select id="selectedTopic" [(ngModel)]="selectedTopicName" name="selectedTopicName" class="form-control" required
+                [ngClass]="{'is-invalid': myForm.submitted && !selectedTopicName && !successMessage, 'animated shake': myForm.submitted && !selectedTopicName && !successMessage}">
+                <option value="" disabled selected>Le topic</option>
+                    <option *ngFor="let name of topicNames" [value]="name">{{ name }}</option>
+                </select>
+            </div>      
+        
+        <div class="form-group">
+            <label for="categorie">Catégorie*</label>
+            <select id="categorie" [(ngModel)]="categorie" name="categorie" class="form-control" required
+                [ngClass]="{'is-invalid': myForm.submitted && !categorie && !successMessage, 'animated shake': myForm.submitted && !categorie && !successMessage}">
+                <option value="" disabled selected>Sélectionnez une catégorie</option>
+                <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+        </div>
+      
+    
+        <button type="submit" class="continue-application" (click)="ajouterRessource()">
+            <div>
+                <div class="pencil"></div>
+                <div class="folder">
+                    <div class="top">
+                        <svg viewBox="0 0 24 27">
+                            <path d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"></path>
+                        </svg>
+                    </div>
+                    <div class="paper"></div>
+                </div>
+            </div>
+          Ajouter Ressource
+        </button>
+        
+                <div *ngIf="showConfirmationDialog" class="confirmation-dialog">
+            <h2>Confirmation</h2>
+            <p>Êtes-vous sûr de vouloir ajouter la ressource ?</p>
+            <button (click)="confirmAddResource()" class="animated-button">
+                <i class="fas fa-check"></i> Confirmer
+            </button>
+            <button (click)="cancelAddResource()" class="animated-button">
+                <i class="fas fa-times"></i> Annuler
+            </button>
+            
+            
+        </div>
+
+    
+    </form>
+    
+</body>

@@ -1,0 +1,21 @@
+.star-rating {
+    font-size: 24px; /* Taille des étoiles */
+  }
+  
+  .star {
+    color: gray; /* Couleur des étoiles vides */
+    cursor: pointer;
+  }
+  
+  .star.filled {
+   
+      
+      color: rgba(201, 153, 8, 0.699);
+      text-shadow: 0 2px 2px rgba(250, 227, 133, 1);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      background-size: 100% 100%;
+      background-position: center;
+    }
+    
+  

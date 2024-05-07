@@ -1,0 +1,13 @@
+/* Style pour l'entrée de recherche */
+.short-input {
+    margin-left: 2%;
+    border-radius: 20px; /* Ajoute une bordure arrondie */
+    background-color: white; /* Add white background */
+    width: 150%;
+    height: 80%;
+}
+
+.search-container {
+    margin-top: 2%;
+    display: flex; /* Enable flexbox for the container */
+  }

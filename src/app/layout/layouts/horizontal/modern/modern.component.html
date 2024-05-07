@@ -30,13 +30,16 @@
         <ng-container *ngIf="!isScreenSmall">
             <!-- Logo -->
             <div class="flex items-center mx-2 lg:mr-8">
-                <div class="hidden lg:flex">
+                <div class="relative w-12 h-12">
                     <img
-                        class="dark:hidden w-24"
-                        src="assets/images/logo/logo-text.svg">
-                    <img
-                        class="hidden dark:flex w-24"
-                        src="assets/images/logo/logo-text-on-dark.svg">
+                        class="w-full h-full rounded-full"
+                        *ngIf="imageUrl"
+                        [src]="imageUrl"
+                        alt="User avatar">
+                    <mat-icon
+                        class="icon-size-12"
+                        *ngIf="!imageUrl"
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </div>
                 <img
                     class="flex lg:hidden w-8"
@@ -58,6 +61,7 @@
         </ng-container>
         <!-- Components -->
         <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
+            
             <languages></languages>
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
             <search [appearance]="'bar'"></search>

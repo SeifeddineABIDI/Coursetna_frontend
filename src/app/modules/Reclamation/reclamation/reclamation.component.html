@@ -1,0 +1,142 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+  <!-- Header -->
+  <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+    <!-- Background - @formatter:off -->
+    <!-- Rings -->
+    <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
+      preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+        <circle r="234" cx="196" cy="23"></circle>
+        <circle r="234" cx="790" cy="491"></circle>
+      </g>
+    </svg>
+    <!-- @formatter:on -->
+    <div class="z-10 relative flex flex-col items-center">
+      <h2 class="text-xl font-semibold">COURSETNA</h2>
+      <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+        Here you can find all the reclamations
+      </div>
+      <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+      <!-- CONTENT GOES HERE -->
+      <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">id reclamation</th>
+              <th scope="col">titre</th>
+              <th scope="col">description</th>
+              <th scope="col">creationDate</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+
+
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rec of listreclamation">
+              <td>#{{ rec.idrec }}</td>
+              <td>{{ rec.titre }}</td>
+              <td>{{ rec.description }}</td>
+              <td> {{rec.creationDate|slice:0:10}} </td>
+
+
+              <td> <button type="button" class="btn btn-success" *ngIf="rec.status =='traite'">{{ rec.status }}</button>
+                <button type="button" class="btn btn-warning" *ngIf="rec.status =='non_traite'">{{ rec.status
+                  }}</button>
+
+              </td>
+              <td>
+
+                <div class="btn-group" role="group" aria-label="Actions">
+                  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#user"
+                    (click)="getByid(rec.idrec)">
+                    <i class="bi bi-reply"></i> Answer
+                  </button>
+
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#answer"
+                    (click)="getByidReclam(rec.idrec)">
+                    <i class="bi bi-info-circle"></i> Details
+                  </button>
+
+                  <button type="button" class="btn btn-danger" (click)="deleteReclamation(rec.idrec)">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+
+
+        <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">{{ reclam?.titre }}</h5>
+                <!-- Utilisation de la variable "reclam" pour afficher le titre -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row g-2">
+                  <div class="col-md-6" *ngFor="let rep of reclam?.responses">
+                    <h6>{{ rep.contenuRep }}</h6>
+                    <!-- Utilisation de la variable "reclam" pour afficher la description -->
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="user" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">Answer to this reclamation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>{{ reponse?.contenuRep }}</h6>
+
+          <form [formGroup]="reponseForm">
+            <div class="row g-2" *ngIf="reponse?.description && reponse.description.trim() !== ''">
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Answer" formControlName="contenuRep">
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" (click)="addReponse()">Answer</button>
+
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>

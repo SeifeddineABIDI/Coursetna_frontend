@@ -16,6 +16,8 @@ export class ModernLayoutComponent implements OnInit, OnDestroy
     isScreenSmall: boolean;
     navigation: Navigation;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    imageUrl: string;
+    id_user: any;
 
     /**
      * Constructor
@@ -66,6 +68,10 @@ export class ModernLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+            this.id_user = JSON.parse(localStorage.getItem('currentUser')).id;
+            this.getImageUrl(this.id_user);
+
+
     }
 
     /**
@@ -97,5 +103,9 @@ export class ModernLayoutComponent implements OnInit, OnDestroy
             // Toggle the opened status
             navigation.toggle();
         }
+    }
+    getImageUrl(userId: number): void {
+        this.imageUrl = `http://localhost:9000/pidev/api/v1/auth/${userId}/image`;
+        
     }
 }
