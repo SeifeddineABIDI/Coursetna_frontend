@@ -8,6 +8,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'example2',
+        title: 'Example2',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/example2'
+    },
+    {
+        id   : 'settings',
+        title: 'Settings',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/settings'
+    },
+    {
+        id   : 'forgot',
+        title: 'Forgot-password',
+        type : 'basic',
+        icon : 'heroicons_outline:Home',
+        link : '/forgot'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -35,5 +56,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'example2',
+        title: 'Example2',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/example2'
     }
 ];
