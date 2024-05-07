@@ -1,28 +1,4 @@
-.content{
-    margin-left: 290px;
-}
-.container {
-  display: flex;
-  width: 920px;
-  height: 80%;
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-top: 20px;
-  margin-left: 150px;
-  overflow: hidden;
-  background-color: #ffffff25;
-  border-radius: 15px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.03);
-  border: 0.1px solid rgba(128, 128, 128, 0.178);
-  background-color: transparent;
-  background-image: radial-gradient(#000000 1px, #ffffff 1px);
-  background-size: 30px 30px;
 
-}
 
 .card-titre {
   font-weight: 800;
@@ -36,13 +12,15 @@
 
 .card {
     position: relative;
-    width: 700px;
+    width: 800px;
     height: 400px;
     margin: 20px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    margin-left: 250px;
+    margin-top: 100px;
   }
   
   .card__image {
@@ -127,7 +105,7 @@
     overflow: hidden;
     position: relative;
     gap: 1px;
-    margin-left: 10px;
+ margin-left: 10px;
   }
   
   .svgIcon {
@@ -192,7 +170,7 @@
     overflow: hidden;
     position: relative;
     text-decoration: none !important;
-    margin-left: 200px;   
+    margin-left: 300px;   
   }
   
   .edit-svgIcon {

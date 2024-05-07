@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Options } from '../../models/options';
 import { ResourceService } from '../../services/resource.service';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ressource } from '../../models/ressource';
 
@@ -27,10 +28,15 @@ export class HomeRessourceComponent {
 
   ngOnInit(): void {
     this.loadResources();
+   
   }
+  
 
-  loadRessourcesByOptionByTopic(option: Options): void {
-    this.router.navigate(['topic', option]); 
+  navigateToOption(option: string): void {
+    window.location.href = `/topic/${option}`;
+  }
+  navigateToRessourceDetail(id: number): void {
+    window.location.href = `/ressource/${id}`
   }
   loadResources(): void {
     this.ressourceService.getAllRessources().subscribe(resources => {

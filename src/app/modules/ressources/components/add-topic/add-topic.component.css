@@ -5,13 +5,13 @@
     display: flex;
     width: 920px;
     height: 80%;
-    position: fixed;
+   margin-top: 400px;
     align-items: center;
     justify-content: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    margin-top: 20px;
+  background-color: transparent;
     margin-left: 150px;
     overflow: hidden;
     background-color: #ffffff25;
@@ -20,7 +20,41 @@
     border: 0.1px solid rgba(128, 128, 128, 0.178);
 }
 
-  
+@keyframes circleAnimation {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(1, 31, 69);
+  border-radius: 50%;
+  animation: circleAnimation 1.5s infinite ease-out;
+}
+
+.circle1 {
+  top: 30%;
+  left: 10%;
+}
+
+.circle2 {
+  top: 50%;
+  left: 70%;
+}
+
+.circle3 {
+  top: 70%;
+  left: 40%;
+}
+
   .left {
      width: 70%; 
     height: 100%;
@@ -213,4 +247,17 @@
   .button:active .button__icon {
     background-color: #5e7eb6;
   }
+  #file-input::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #5e7eb6;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
   
+  #file-input::file-selector-button:hover {
+    background: #0d45a5;
+  }

@@ -3,6 +3,7 @@ import { Options } from '../../models/options';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ResourceService } from '../../services/resource.service';
 import { Observable, forkJoin } from 'rxjs';
+import { Topic } from '../../models/topic';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class ListTopicComponent {
     return this.resourceService.getResourcesCountByTopicId(topicId);
   }
   viewResources(topicId: number): void {
-    this.router.navigate(['/ressources-by-topic', topicId]);
+    window.location.href = `/ressources-by-topic/${topicId}`;
   }
+
 }

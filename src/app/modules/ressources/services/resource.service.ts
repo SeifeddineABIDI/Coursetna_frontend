@@ -32,10 +32,9 @@ export class ResourceService {
   }
 
 
-  uploadFile(file: File, titre: string, description: string, categorie: string, options: string, userId: number, rating: number, topicName: string): Observable<any> {
+  uploadFile(file: File,  description: string, categorie: string, options: string, userId: number, rating: number, topicName: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('titre', titre);
     formData.append('description', description);
     formData.append('categorie', categorie); 
     formData.append('options', options); 
@@ -61,6 +60,10 @@ archiverRessource(id: number): Observable<any> {
       return throwError(error);
     })
   );
+}
+getRessourcesByCategoryAndTopicId(category: string, topicId: number): Observable<Ressource[]> {
+  const url = `${this.baseUrl}/fltr/${category}/${topicId}`;
+  return this.http.get<Ressource[]>(url);
 }
 
 désarchiverRessource(id: number): Observable<any> {
@@ -101,13 +104,25 @@ désarchiverRessource(id: number): Observable<any> {
   getResourcesCountByTopicId(topicId: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/${topicId}/ressources/count`);
   }
-  getRessourcesByCategoryAndTopicId(categorie: string, topicId: number): Observable<Ressource[]> {
-    const url = `${this.baseUrl}/byCategorie/${categorie}/${topicId}`;
-    return this.http.get<Ressource[]>(url);
-  }
+
+  
   getResourcesByUserId(userId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userId}`);
   }
 
-  
+  uploadFileDrive(file: File, path: string, description: string, categorie: string, userId: number, topicName: string, options: string): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('path', path);
+    formData.append('description', description);
+    formData.append('categorie', categorie);
+    formData.append('userId', userId.toString());
+    formData.append('topicName', topicName);
+    formData.append('options', options);
+
+    return this.http.post<any>('http://localhost:9000/pidev/api/v1/files/upload', formData).toPromise();
+  }
+  getLatestResourceId(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/latestResourceId`);
+  }
 }

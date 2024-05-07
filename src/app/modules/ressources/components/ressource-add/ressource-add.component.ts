@@ -19,7 +19,6 @@ export class RessourceAddComponent implements OnInit {
   @ViewChild('myForm') form!: NgForm;
   @ViewChild('fileInput') fileInput!: ElementRef;
   file: File | undefined;
-  titre: string | undefined;
   description: string | undefined;
   categorie: string | undefined;
   options: string | undefined;
@@ -96,7 +95,6 @@ cancelAddResource() {
   }
   resetForm() {
     this.file = undefined;
-    this.titre = undefined;
     this.description = undefined;
     this.categorie = undefined;
     this.selectedTopicName = '';
@@ -118,7 +116,7 @@ cancelAddResource() {
   }
 
   ajouterRessource() {
-    if (this.file && this.titre && this.description && this.categorie && this.options && this.selectedTopicName) {
+    if (this.file  && this.description && this.categorie && this.options && this.selectedTopicName) {
         this.showConfirmationDialog = true;
     } else {
         this.successMessage = undefined;
@@ -129,8 +127,8 @@ cancelAddResource() {
 
 async ajouterRessourceConfirm() {
   try {
-    const newResource = await this.ressourceService.uploadFile(this.file!, this.titre!, this.description!, this.categorie!, this.options!, this.userId, this.rating, this.selectedTopicName!).toPromise();
-    this.router.navigate(['/detailRs', newResource.id]);
+    const newResource = await this.ressourceService.uploadFile(this.file!,this.description!, this.categorie!, this.options!, this.userId, this.rating, this.selectedTopicName!).toPromise();
+    this.navigateToRessourceDetail(newResource.id);
     this.resetForm();
     this.successMessage = 'Ressource ajoutée avec succès !';
     this.errorMessage = undefined;
@@ -144,5 +142,8 @@ async ajouterRessourceConfirm() {
   }
 }
 
+ navigateToRessourceDetail(newResource: number): void {
+    window.location.href = `/detailRs/${newResource}`
+  }
 
 }

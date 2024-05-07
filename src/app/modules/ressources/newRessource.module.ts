@@ -21,6 +21,7 @@ import { StarRatingComponent } from './components/ressource-detail/StarRatingCom
 import { SharedModule } from './SharedModule.module';
 import { ListTopicComponent } from './components/list-topic/list-topic.component';
 import { NewRessourceDetailComponent } from './components/new-ressource-detail/new-ressource-detail.component';
+import { ReadMoreDirective } from './components/ressource-detail/appReadMore';
 
 
 const exampleRoute: Route[] = [{
@@ -32,11 +33,10 @@ const exampleRoute: Route[] = [{
 @NgModule({
     declarations: [
       NewRessourceDetailComponent,
-  
         
     ],
     imports     : [
-        SharedModule,    
+        SharedModule,  
         RouterModule.forChild(exampleRoute),
         CommonModule,
         FormsModule,

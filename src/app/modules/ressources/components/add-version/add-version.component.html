@@ -1,0 +1,40 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <!-- Header -->
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <!-- Fond du header -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <div class="z-10 relative flex flex-col items-center">
+            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+                Ajouter une Version pour la ressource 
+                        </div>
+            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+                <h2 class="card-titre">          
+              
+                </h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section_our_solution relative z-20 top-[-50px]">
+
+<form class="form" (submit)="ajouterVersion()" enctype="multipart/form-data">
+    <span class="form-title">Upload your file</span>
+    <p class="form-paragraph">File should be a PDF</p>
+    <label for="file-input" class="drop-container">
+      <span class="drop-title">Drop files here</span> or
+      <input type="file" accept=".pdf" required id="file-input" (change)="onFileSelected($event)">
+    </label>
+    <div class="form-group">
+      <label for="version-name">Version Name:</label>
+      <input type="text" id="version-name" [(ngModel)]="newVersion.versionName" name="versionName" required>
+    </div>
+    <button type="submit">Upload</button>
+  </form>
+</div>

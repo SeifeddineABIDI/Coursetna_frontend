@@ -32,8 +32,7 @@ const exampleRoute: Route[] = [{
 @NgModule({
     declarations: [
       RessourceListComponent,
-  
-        
+
     ],
     imports     : [
         SharedModule,    
