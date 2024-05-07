@@ -34,14 +34,7 @@
                             Required
                         </mat-error>
                     </mat-form-field>
-                    <!-- URL -->
-                    <mat-form-field class="w-full">
-                        <input matInput [formControlName]="'url'" [required]="true">
-                        <mat-label>URL</mat-label>
-                        <mat-error *ngIf="supportForm.get('url').hasError('required')">
-                            Required
-                        </mat-error>
-                    </mat-form-field>
+                    
 
                     <!-- Subforum -->
                     <div class="w-full">
@@ -66,17 +59,7 @@
                             Required
                         </mat-error>
                     </mat-form-field>
-                    <!-- Email -->
-                    <mat-form-field class="w-full">
-                        <input type="email" matInput [formControlName]="'email'" [required]="true">
-                        <mat-label>Email</mat-label>
-                        <mat-error *ngIf="supportForm.get('email').hasError('required')">
-                            Required
-                        </mat-error>
-                        <mat-error *ngIf="supportForm.get('email').hasError('email')">
-                            Enter a valid email address
-                        </mat-error>
-                    </mat-form-field>
+                    
                     <!-- Image -->
                     <div class="flex items-left justify-left">
                         <input type="file" (change)="onImageSelected($event)" />

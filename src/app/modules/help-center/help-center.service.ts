@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject, tap } from 'rxjs';
 import { FaqCategory, Guide, GuideCategory } from 'app/modules/help-center/help-center.type';
 import { PostModel } from '../forum/shared/post-model.model';
+import { Subforum } from '../forum/subforum/subforum.model';
+import { SubforumService } from '../forum/subforum/subforum.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +14,7 @@ export class HelpCenterService
     private _faqs: ReplaySubject<FaqCategory[]> = new ReplaySubject<FaqCategory[]>(1);
     private _guides: ReplaySubject<GuideCategory[]> = new ReplaySubject<GuideCategory[]>(1);
     private _guide: ReplaySubject<Guide> = new ReplaySubject<Guide>(1);
-
+    private baseUrl = 'http://localhost:9000/pidev/posts';
     /**
      * Constructor
      */
@@ -32,6 +34,14 @@ export class HelpCenterService
             'Authorization': `Bearer ${token}`
           });
         return this._httpClient.get<Array<PostModel>>('http://localhost:9000/pidev/posts/most-interactive', { headers });
+      }
+
+    getAllSubforums(): Observable<Array<Subforum>> {
+        return this._httpClient.get<Array<Subforum>>('http://localhost:9000/pidev/subforums');
+      }
+    
+    getPostsBySubforum(subforumId: number): Observable<PostModel[]> {
+        return this._httpClient.get<PostModel[]>(`${this.baseUrl}/by-subforum/${subforumId}`);
       }
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors

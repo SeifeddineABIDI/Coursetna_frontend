@@ -5,4 +5,7 @@ export class Comment {
     duration?: string;
     email?:string;
     createdDate?: string;
+    nom?:string;
+    prenom?:string;
+    userId?: number;
 }

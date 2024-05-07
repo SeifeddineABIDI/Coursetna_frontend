@@ -5,6 +5,14 @@
             <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
                 Frequently Asked Questions and Posts
             </div>
+            <!-- Subforum Dropdown -->
+            <div class="mt-4">
+                <label for="subforumSelect"> <b style="font-size: medium">Select Subforum </b></label>
+                <select id="subforumSelect" [(ngModel)]="selectedSubforum" (change)="changeSubforum($event.target.value)">
+                    <option value="" selected>All</option>
+                    <option *ngFor="let subforum of subforums" [value]="subforum.name">{{ subforum.name }}</option>
+                </select> 
+            </div>
             <!-- Display Posts -->
 
             <div *ngFor="let post of posts" class="mt-4  ">
@@ -14,10 +22,10 @@
                     <fuse-card class="flex flex-col max-w-140 w-full filter-post filter-interactive "
                         #expandableCard02="fuseCard">
                         <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-4">
-                            <img class="w-10 h-10 rounded-full mr-4" src="assets/images/avatars/female-01.jpg"
+                            <img class="w-10 h-10 rounded-full mr-4" [src]="userImages[post.userId]"
                                 alt="Card cover image">
                             <div class="flex flex-col">
-                                <span class="font-semibold">{{ post.email }}</span>
+                                <span class="font-semibold">{{ post.prenom }}_{{ post.nom }}</span>
                                 <span class="text-sm text-secondary leading-none mt-1">{{ post.subforumName }} • {{
                                     post.duration }}</span>
                             </div>
@@ -26,20 +34,29 @@
                             </button>
                         </div>
                         <div class="mx-6 sm:mx-8 mt-2 mb-6">
-                            <div>{{ post.postName }}</div>
+                            <div><b style="font-size: larger">{{ post.postName }}</b></div>
+                            <div>{{ post.description }}</div>
                         </div>
                         <div class="relative mb-4" *ngIf=" getPostImageUrl(post.id)">
                             <img class="h-80 object-cover" [src]="getPostImageUrl(post.id)" alt="Post Image">
                         </div>
                         <div class="flex items-center mx-3 sm:mx-5">
-                            <button class="px-3 mr-1" mat-button>
-                                <mat-icon class="icon-size-5">thumb_up</mat-icon>
+                            <!-- Upvote Button -->
+                            <button class="px-3 mr-1" mat-button (click)="upvotePost(post.id)">
+                                <mat-icon class="icon-size-5"
+                                    [ngStyle]="{ 'color': getUserVoteColor(post.id, 'upvote') }">thumb_up</mat-icon>
                                 <span class="ml-2">Upvote</span>
                             </button>
-                            <button class="px-3 mr-1" mat-button>
-                                <mat-icon class="icon-size-5">thumb_down</mat-icon>
+                            <!-- Display Vote Count -->
+                            <span class="font-semibold">{{ post.voteCount }}</span>
+
+                            <!-- Downvote Button -->
+                            <button class="px-3 mr-1" mat-button (click)="downvotePost(post.id)">
+                                <mat-icon class="icon-size-5"
+                                    [ngStyle]="{ 'color': getUserVoteColor(post.id, 'downvote') }">thumb_down</mat-icon>
                                 <span class="ml-2">Downvote</span>
                             </button>
+                            
                             <button class="px-3 mr-1" mat-button>
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chat-alt'"></mat-icon>
                                 <span class="ml-2">Comment</span>
@@ -49,18 +66,18 @@
 
                         <hr class="border-b mx-6 sm:mx-8 mt-4 mb-6">
                         <!-- Single Comment Section -->
+                        <fuse-alert class="mb-8" *ngIf="alert" [type]="alert.type" [showIcon]="false">
+                            {{alert.message}}
+                        </fuse-alert>
                         <div class="flex flex-col sm:flex-row sm:items-center mx-6 sm:mx-8 mb-4 sm:mb-6">
                             <div class="flex items-center">
                                 <img class="w-6 h-6 m-0.5 rounded-full text-card ring-2 ring-bg-card"
-                                    src="assets/images/avatars/female-02.jpg" alt="Card cover image">
-                                <img class="w-6 h-6 m-0.5 rounded-full -ml-3 text-card ring-2 ring-bg-card"
-                                    src="assets/images/avatars/female-04.jpg" alt="Card cover image">
+                                    [src]="userImages[post.userId]" alt="User Image">
                                 <div class="text-md tracking-tight ml-3">Posted by {{ post.commentUserName }}</div>
                             </div>
                             <div class="hidden sm:flex flex-auto"></div>
                             <div class="flex items-center mt-4 sm:mt-0">
-                                <button class="px-3 mr-1 -ml-2 sm:ml-0" mat-button>{{ post.commentCount }}
-                                    shares</button>
+
                                 <button class="px-3 sm:-mr-4" mat-button (click)="toggleComments(post.id)">
                                     <span class="mr-1">{{ post.commentCount }} Comments</span>
                                     <mat-icon class="icon-size-5 transition-transform ease-in-out duration-150 rotate-0"
@@ -71,25 +88,26 @@
                         </div>
 
                         <!-- Comments Section -->
+
+
                         <div *ngIf="isCommentsExpanded(post.id)">
                             <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
                                 <textarea #commentText matInput [rows]="3" [placeholder]="'Write a comment...'"
                                     cdkTextareaAutosize></textarea>
                             </mat-form-field>
 
-                            <button mat-button (click)="postComment(commentText.value, email)">Post Comment</button>
+                            <button mat-button (click)="postComment(commentText.value, email)">Comment</button>
                             <!-- Iterate through comments and display them -->
                             <div *ngFor="let comment of comments[post.id]">
                                 <div class="flex items-start mx-4 sm:mx-8 my-6">
-                                    <img class="w-8 h-8 rounded-full mr-4" src="assets/images/avatars/male-05.jpg"
+                                    <img class="w-10 h-10 rounded-full mr-4" [src]="userImages[comment.userId]"
                                         alt="Card cover image">
                                     <div class="flex flex-col mt-0.5">
                                         <span>
-                                            <b>{{ comment.author }}</b> {{ comment.text }}
+                                            <b>{{comment.prenom}}_{{ comment.nom }}</b> {{ comment.text }}
                                         </span>
                                         <div class="flex items-center text-sm text-secondary mt-2">
-                                            <span class="mr-2 cursor-pointer hover:underline">Like</span>
-                                            <span class="mr-2">&bull;</span>
+
                                             <span>{{ comment.createdDate }}</span>
                                         </div>
                                     </div>

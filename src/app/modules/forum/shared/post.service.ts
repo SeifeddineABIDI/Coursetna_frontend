@@ -34,4 +34,5 @@ export class PostService {
   getPostImage(postId: number): Observable<Blob> {
     return this.http.get('http://localhost:9000/pidev/posts/' + postId + '/image', { responseType: 'blob' });
   }
+  
 }

@@ -20,6 +20,9 @@ export class HelpCenterGuidesComponent implements OnInit, OnDestroy
     createSubforumForm: FormGroup;
     subforumModel: Subforum;
     alert: any;
+    currentUserString = localStorage.getItem('currentUser');
+    currentUser = JSON.parse(this.currentUserString);
+    token: string;
 
     /**
      * Constructor
@@ -33,7 +36,6 @@ export class HelpCenterGuidesComponent implements OnInit, OnDestroy
         this.createSubforumForm = new FormGroup({
             title: new FormControl('', Validators.required),
             description: new FormControl('', Validators.required),
-            email: new FormControl('', Validators.required),
             file: new FormControl(null) // Add file FormControl for image upload
         });
         this.subforumModel = {
@@ -94,8 +96,7 @@ export class HelpCenterGuidesComponent implements OnInit, OnDestroy
         .value;
         this.subforumModel.description = this.createSubforumForm.get('description')
         .value;
-        this.subforumModel.email = this.createSubforumForm.get('email')
-        .value;
+        this.subforumModel.email = this.currentUser.email;
         this.subforumService.createSubforum(this.subforumModel).subscribe(data => {
           this.router.navigateByUrl('/help-center/faqs');
         }, error => {

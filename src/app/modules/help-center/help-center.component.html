@@ -22,8 +22,12 @@
             </div>
             <mat-form-field class="fuse-mat-rounded fuse-mat-bold w-full max-w-80 sm:max-w-120 mt-10 sm:mt-20"
                 [subscriptSizing]="'dynamic'">
-                <input matInput [placeholder]="'Enter a question, topic or keyword'">
+                <input matInput [placeholder]="'Enter a question, topic or keyword'" [(ngModel)]="searchQuery"
+                    (ngModelChange)="search()">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                <button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear search" (click)="resetSearch()">
+                    <mat-icon [svgIcon]="'heroicons_outline:x-circle'"></mat-icon>
+                </button>
             </mat-form-field>
         </div>
     </div>
@@ -84,31 +88,37 @@
                 </div>
             </div>
         </div>
-        <div class="mt-24 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-center">Most frequently asked questions</div>
-        <div class="mt-2 text-xl text-center text-secondary">Here are the most frequently asked questions you may check before getting started</div>
+        <div class="mt-24 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-center">Most frequently
+            asked questions</div>
+        <div class="mt-2 text-xl text-center text-secondary">Here are the most frequently asked questions you may check
+            before getting started</div>
 
         <div class="flex flex-col items-center pb-6 px-6 sm:pb-10 sm:px-10">
-            <!-- Fuse Card Integration -->
-            <div *ngFor="let post of posts" class="mt-4">
-                <fuse-card class="flex flex-col max-w-80 w-full filter-article filter-interactive" #expandableCard01="fuseCard">
-                    <div class="m-8 mb-4">
-                        <div class="text-2xl font-semibold leading-tight">{{ post.subforumName }}</div>
-                        <div class="text-secondary text-md mt-1">{{ post.postName }} • {{post.email}}</div>
-                        <div class="mt-3 -mx-3">
-                            <button class="px-3" mat-button [color]="'primary'" (click)="expandableCard01.expanded = !expandableCard01.expanded">
-                                <span class="mr-1">Details</span>
-                                <mat-icon
-                                    class="icon-size-5 transition-transform ease-in-out duration-150 rotate-0"
-                                    [ngClass]="{'rotate-180': expandableCard01.expanded}"
-                                    [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
-                            </button>
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Fuse Card Integration -->
+                <div *ngFor="let post of posts" class="mt-4">
+                    <fuse-card class="flex flex-col max-w-80 w-full filter-article filter-interactive"
+                        #expandableCard01="fuseCard">
+                        <div class="m-8 mb-4">
+                            <div class="text-2xl font-semibold leading-tight">{{ post.subforumName }}</div>
+                            <div class="text-secondary text-md mt-1">{{ post.postName }} • {{post.prenom}}_{{post.nom}}
+                            </div>
+                            <div class="mt-3 -mx-3">
+                                <button class="px-3" mat-button [color]="'primary'"
+                                    (click)="expandableCard01.expanded = !expandableCard01.expanded">
+                                    <span class="mr-1">Details</span>
+                                    <mat-icon class="icon-size-5 transition-transform ease-in-out duration-150 rotate-0"
+                                        [ngClass]="{'rotate-180': expandableCard01.expanded}"
+                                        [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <ng-container fuseCardExpansion>
-                        <div class="m-8 mt-0 text-lg text-secondary">{{ post.description }}</div>
-                    </ng-container>
-                </fuse-card>
-    </div>
-    <!-- End of Fuse Card Integration -->
-</div>
+                        <ng-container fuseCardExpansion>
+                            <div class="m-8 mt-0 text-lg text-secondary">{{ post.description }}</div>
+                        </ng-container>
+                    </fuse-card>
+                </div>
+            </div>
+            <!-- End of Fuse Card Integration -->
+        </div>

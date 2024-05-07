@@ -34,7 +34,8 @@ export class VoteButtonComponent implements OnInit {
 
     this.votePayload = {
       voteType: undefined,
-      postId: undefined
+      postId: undefined,
+      email: undefined
     }
     //this.authService.loggedIn.subscribe((data: boolean) => this.isLoggedIn = data);
   }
@@ -44,13 +45,13 @@ export class VoteButtonComponent implements OnInit {
   }
 
   upvotePost() {
-    this.votePayload.voteType = VoteType.UPVOTE;
+    this.votePayload.voteType = VoteType.LIKE;
     this.vote();
     this.downvoteColor = '';
   }
 
   downvotePost() {
-    this.votePayload.voteType = VoteType.DOWNVOTE;
+    this.votePayload.voteType = VoteType.DISLIKE;
     this.vote();
     this.upvoteColor = '';
   }

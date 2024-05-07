@@ -99,7 +99,6 @@ export const appRoutes: Route[] = [
 
             // {path: 'create-subforum', component: CreateSubforumComponent },
             {path: 'help-center', loadChildren: () => import('app/modules/help-center/help-center.module').then(m => m.HelpCenterModule)},
-
             {path: 'forum', loadChildren: () => import('app/modules/forum/forum.module').then(m => m.ForumModule)},
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
             {path: 'example2', loadChildren: () => import('app/modules/admin/example2/example2.module').then(m => m.Example2Module)},
