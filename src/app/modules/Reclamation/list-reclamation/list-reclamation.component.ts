@@ -14,6 +14,8 @@ export class ListReclamationComponent implements OnInit  {
   reclamationsNonTraitees: number = 0;
   id : any ; 
   reclam:any ; 
+  currentUser: any;
+
   reponse : any ;
   constructor(
     private listrec: ReclamationService,
@@ -25,6 +27,8 @@ export class ListReclamationComponent implements OnInit  {
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.params['id'];
 
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));//recuperer l'utilisateur connecté
+
     this.getByid(this.id);
     this.getallreclmationbyUSER();
   
@@ -32,8 +36,8 @@ export class ListReclamationComponent implements OnInit  {
 
 
   getallreclmationbyUSER() {
-    const userid = 2;
-    this.listrec.getallreclamationbyUSER(userid).subscribe((res: any) => {
+    //const userid = 2;
+    this.listrec.getallreclamationbyUSER(1).subscribe((res: any) => {
       this.listreclamation = res;
       console.log('liste by user', this.listreclamation);
     });

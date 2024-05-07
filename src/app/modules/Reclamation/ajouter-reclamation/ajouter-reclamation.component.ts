@@ -12,23 +12,27 @@ import { Topic } from 'app/modules/ressources/models/topic';
   styleUrls: ['./ajouter-reclamation.component.css']
 })
 export class AjouterReclamationComponent implements OnInit {
- /* reclamationTitle: string = '';
-  reclamationDescription: string = '';
-  reclamationTopic: string = '';*/
-  topics : Topic[]=[] ; 
-  reclamation : Reclamation[]=[] ; 
- //******************************************************************************* */
-  userid: any;
+  /* reclamationTitle: string = '';
+   reclamationDescription: string = '';
+   reclamationTopic: string = '';*/
+  topics: Topic[] = [];
+  reclamation: Reclamation[] = [];
+  //******************************************************************************* */
 
-  reclamationform:FormGroup
-  topic=new FormControl('',Validators.required);
-  constructor(private reclamationService: ReclamationService , private fb:FormBuilder, private router:Router) {
-    this.reclamationform=this.fb.group({
+
+  currentUser: any;
+
+
+  reclamationform: FormGroup
+  topic = new FormControl('', Validators.required);
+  constructor(private reclamationService: ReclamationService, private fb: FormBuilder, private router: Router) {
+    this.reclamationform = this.fb.group({
       titre: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
     })
-   }
+  }
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));//recuperer l'utilisateur connecté
     this.getalltopic();
   }
   getalltopic() {
@@ -38,26 +42,38 @@ export class AjouterReclamationComponent implements OnInit {
     });
   }
   addreclamation() {
-    const userid = 1;
-    const selectedTopicId: number = parseInt(this.topic.value, 10); // interprets the string as a decimal number.    
-        this.reclamationService.addReclamation(this.reclamationform.value, userid, selectedTopicId).subscribe(
-          (result:any) => {
-            console.log('mtaa swalll :' , result);
-            Swal.fire({
-              title: 'Added!',
-              text: 'Your reclamation has been added successfully.',
-              icon: 'success'
-            }).then((result) => {
-              // Check if the Swal promise is resolved
-              console.log('Swal closed:', result);
-              // Redirection vers une autre page après l'ajout de la réclamation
-              this.router.navigate(['/reclamation']);
-            });
+    const selectedTopicId: number = parseInt(this.topic.value, 10);
+    this.reclamationService.addReclamation(this.reclamationform.value, this.currentUser.id, selectedTopicId).subscribe(
+      (result: any) => {
+        // Afficher une fenêtre modale de succès
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your reclamation has been added successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          // Rediriger vers une autre page ou faire d'autres actions après avoir cliqué sur OK
+          if (result.isConfirmed) {
+            // Redirection vers une autre page
+            this.router.navigate(['/reclamation']);
           }
-          
-        );
-      } 
-  
+        });
+      },
+      (error: any) => {
+        // Afficher une fenêtre modale d'erreur si l'ajout de la réclamation échoue
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your reclamation has been added successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        window.location.reload();
 
+      }
+    );
 }
+}
+
+
+
 

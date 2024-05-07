@@ -116,7 +116,6 @@ export const appRoutes: Route[] = [
             {path: 'addreclamation', loadChildren: () => import('app/modules/Reclamation/ajouter-reclamation.module').then(m => m.AjouterReclamationModule) },
             {path: 'stat', loadChildren: () => import('app/modules/Reclamation/stat-rec.module').then(m => m.StatRecModule) },
           //  {path: 'reponse', loadChildren: () => import('app/modules/Reclamation/reponse.module').then(m => m.ReponseModule) },
-            {path: 'reponse', loadChildren: () => import('app/modules/Reclamation/reponse.module').then(m => m.ReponseModule) },
             {path: 'listReclamation', loadChildren: () => import('app/modules/Reclamation/list-reclamation.module').then(m => m.ListReclamationModule) },
 
         /*********end Reclamation ******** */

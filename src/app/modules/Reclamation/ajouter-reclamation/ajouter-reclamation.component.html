@@ -1,66 +1,68 @@
-<div
-    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
-    cdkScrollable>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-    <!-- Header -->
-    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
-        <!-- Background - @formatter:off -->
-        <!-- Rings -->
-        <svg class="absolute inset-0 pointer-events-none"
-             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
-                <circle r="234" cx="196" cy="23"></circle>
-                <circle r="234" cx="790" cy="491"></circle>
-            </g>
-        </svg>
-        <!-- @formatter:on -->
-        <div class="z-10 relative flex flex-col items-center">
-            <h2 class="text-xl font-semibold">COURSETNA</h2>
-            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
-              Here You Can Submit Your Reclamation
-            </div>
-            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
-            </div>
-        </div>
+  <!-- Header -->
+  <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+    <!-- Background - @formatter:off -->
+    <!-- Rings -->
+    <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
+      preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+        <circle r="234" cx="196" cy="23"></circle>
+        <circle r="234" cx="790" cy="491"></circle>
+      </g>
+    </svg>
+
+    <!-- @formatter:on -->
+    <div class="z-10 relative flex flex-col items-center">
+      <h2 class="text-xl font-semibold">COURSETNA</h2>
+      <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+        Here You Can Submit Your Reclamation
+      </div>
+      <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+      </div>
     </div>
-<form [formGroup]="reclamationform">
+  </div><br>
+  <!-- Modal Content -->
   <div class="container">
-    <div class="content-container">
+    <div class="content-container py-8 px-4 sm:p-16 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
       <h2 class="title"> <span class="reclamation">Reclamation</span></h2>
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control" id="title" formControlName="titre" placeholder="Enter the title of your reclamation">
-        <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="reclamationform.get('titre')?.hasError('required') && reclamationform.get('titre')?.touched">
-          Title is required
-      </div>
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" formControlName="description" rows="3" placeholder="Enter the description of your reclamation"></textarea>
-        <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="reclamationform.get('description')?.hasError('required') && reclamationform.get('description')?.touched">
-          description is required
+      
+      <form [formGroup]="reclamationform">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" formControlName="titre"
+            placeholder="Enter the title of your reclamation">
+          <div class="form-error font-medium text-red-600 dark:text-red-500"
+            *ngIf="reclamationform.get('titre')?.hasError('required') && reclamationform.get('titre')?.touched">
+            Title is required
+          </div>
         </div>
-      </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" formControlName="description" rows="3"
+            placeholder="Enter the description of your reclamation"></textarea>
+          <div class="form-error font-medium text-red-600 dark:text-red-500"
+            *ngIf="reclamationform.get('description')?.hasError('required') && reclamationform.get('description')?.touched">
+            description is required
+          </div>
+        </div>
 
-      <div class="mb-3">
-        <label for="topic" class="form-label">Topic</label>
-        <select class="form-select" id="topic" aria-label="Select a topic" [formControl]="topic">
+        <div class="mb-3">
+          <label for="topic" class="form-label">Topic</label>
+          <select class="form-select" id="topic" aria-label="Select a topic" [formControl]="topic">
             <option value="" disabled selected>Select a topic</option>
             <option *ngFor="let t of topics" [value]="t.id">{{t.nom}}</option>
-            
-        </select>
-        <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
-          Topic is required
-      </div>
-    </div>
-    
-    
+
+          </select>
+          <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
+            Topic is required
+          </div>
+        </div>
+      </form>
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary" type="button" (click)="addreclamation()" [disabled]=" (reclamationform.invalid || topic.invalid)">Add</button>
+        <button class="btn btn-primary" type="button" (click)="addreclamation()">Add</button>
       </div>
     </div>
   </div>
-</form>
-
-  
+</div>
