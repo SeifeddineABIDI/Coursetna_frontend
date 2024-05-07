@@ -10,6 +10,7 @@ export interface Discussion {
     admins: User[];
     community: Discussion[];
     photo: string;
+    updating: number;
     archived: boolean;
 }
 
