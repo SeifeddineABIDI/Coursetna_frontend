@@ -9,20 +9,36 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
     },
+ 
     {
-        id   : 'acceuil',
-        title: 'Ressources',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/acceuil'
+        id      : 'acceuil',
+        title   : 'Espace Ressource',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:home',
+        link    : '/acceuil',
+        children: [
+            {
+                id        : 'acceuil',
+                title     : 'Home',
+                type      : 'basic',
+                link      : '/acceuil'
+            },
+            {
+                id   : 'stat',
+                title: 'Statistique',
+                type : 'basic',
+                // icon : 'heroicons_outline:chart-pie',
+                link : '/stat'
+            },
+            {
+                id   : 'espaceUser',
+                title: 'Espace User',
+                type : 'basic',
+                // icon : 'heroicons_outline:chart-pie',
+                link : '/espaceUser'
+            }
+        ]
     },
-    {
-        id   : 'stat',
-        title: 'stat',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/stat'
-    }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
