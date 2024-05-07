@@ -56,7 +56,7 @@ export class LayoutComponent implements OnInit, OnDestroy
             this.currentUserRole = 'ADMIN'; // Set default to ADMIN if parsing fails
           }        
           if(this.currentUserRole == 'ADMIN'){this.userLayout='classy'}
-        else{this.userLayout='enterprise';}
+        else{this.userLayout='modern';}
         // Set the theme and scheme based on the configuration
         combineLatest([
             this._fuseConfigService.config$,

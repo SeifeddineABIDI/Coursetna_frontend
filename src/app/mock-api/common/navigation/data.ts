@@ -93,7 +93,8 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
-    }
+    },
+    
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
@@ -102,7 +103,8 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
-    }
+    },
+
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -118,5 +120,39 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example2'
-    }
+    },
+    {
+        id      : 'apps.help-center',
+        title   : 'Forum',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:support',
+        link    : '/help-center',
+        children: [
+            {
+                id        : 'apps.help-center.home',
+                title     : 'Home',
+                type      : 'basic',
+                link      : '/help-center',
+                exactMatch: true
+            },
+            {
+                id   : 'apps.help-center.faqs',
+                title: 'FAQs',
+                type : 'basic',
+                link : '/help-center/faqs'
+            },
+            {
+                id   : 'apps.help-center.guides',
+                title: 'Subforum',
+                type : 'basic',
+                link : '/help-center/guides'
+            },
+            {
+                id   : 'apps.help-center.support',
+                title: 'Post',
+                type : 'basic',
+                link : '/help-center/support'
+            }
+        ]
+    },
 ];
