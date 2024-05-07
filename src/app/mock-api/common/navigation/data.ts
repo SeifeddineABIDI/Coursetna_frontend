@@ -3,11 +3,32 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
+        id   : 'acceuil',
+        title: 'Ressources',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        link : '/acceuil'
+    },
+    {
+        id   : 'quizList',
+        title: 'Manage Quiz',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/quizList'
+    },
+    {
+        id   : 'quiz',
+        title: 'Quiz',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/quiz'
+    },
+    {
+        id   : 'statistique',
+        title: 'statistique',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/statistique'
     },
     {
         id   : 'reclamation',
@@ -45,7 +66,68 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/listReclamation'
-    }
+    },
+    
+    {
+
+        id   : 'forum',
+        title: 'Testing',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/forum'
+    },
+    {
+        id      : 'apps.help-center',
+        title   : 'Forum',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:support',
+        link    : '/help-center',
+        children: [
+            {
+                id        : 'apps.help-center.home',
+                title     : 'Home',
+                type      : 'basic',
+                link      : '/help-center',
+                exactMatch: true
+            },
+            {
+                id   : 'apps.help-center.faqs',
+                title: 'FAQs',
+                type : 'basic',
+                link : '/help-center/faqs'
+            },
+            {
+                id   : 'apps.help-center.guides',
+                title: 'Subforum',
+                type : 'basic',
+                link : '/help-center/guides'
+            },
+            {
+                id   : 'apps.help-center.support',
+                title: 'Post',
+                type : 'basic',
+                link : '/help-center/support'
+            }
+        ]
+    },
+ 
+            {
+                id   : 'settings',
+                title: 'Settings',
+                type : 'basic',
+                icon : 'heroicons_outline:chart-pie',
+                link : '/settings'
+            },
+            {
+                id   : 'forgot',
+                title: 'Forgot-password',
+                type : 'basic',
+                icon : 'heroicons_outline:Home',
+                link : '/forgot'
+            }
+        
+    
+
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -72,5 +154,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    {
+        id   : 'quiz',
+        title: 'Quiz',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/quiz'
     }
 ];

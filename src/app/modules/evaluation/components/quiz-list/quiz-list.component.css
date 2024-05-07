@@ -1,0 +1,52 @@
+.custom-table {
+    max-width: 95%; /* Largeur maximale de la table */
+    margin: 2% auto; /* Centrer la table horizontalement */
+}
+
+
+.me-2{
+    margin: 0.5px;
+}
+
+ /* Style for the modal */
+ .add-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    z-index: 9999;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style to hide the table when modal is displayed */
+.modal-open {
+    overflow: hidden;
+}
+/******************************search****************/
+/* Style pour le bouton "Add" */
+.add-button2 {
+    margin-left: 1%; /* Ajoute un espacement à gauche */
+    border-radius: 20px; /* Ajoute une bordure arrondie */
+    width: 10%;
+}
+
+/* Style pour l'entrée de recherche */
+.short-input {
+    margin-left: 2%;
+    border-radius: 20px; /* Ajoute une bordure arrondie */
+    width: 25%;
+}
+.search-container {
+    margin-top: 2%;
+    display: flex; /* Enable flexbox for the container */
+  }
+
+/* CSS for the images */
+.btn img {
+    width: 20px; /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+}

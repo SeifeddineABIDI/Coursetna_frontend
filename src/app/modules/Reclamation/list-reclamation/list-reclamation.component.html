@@ -41,7 +41,7 @@
             <td>#{{ rec.idrec }}</td>
             <td>{{ rec.titre }}</td>
             <td>{{ rec.description }}</td>
-            <td>{{ rec.creationDate }}</td>
+            <td> {{rec.creationDate|slice:0:10}} </td>
             <td> <button type="button" class="btn btn-success">{{ rec.status }}</button>
             </td>
             <td>

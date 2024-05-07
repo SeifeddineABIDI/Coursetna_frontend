@@ -1,0 +1,243 @@
+.content {
+  width: calc(100%);  
+  }
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+  
+    }
+  .card {
+    width: 250px;
+    height: 200px;
+    border-radius: 15px;
+    background: rgba(203, 203, 203, 0.103);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card::before {
+    content: "";
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    border-radius: 50%;
+    border: 35px solid rgba(142, 34, 34, 0.102);
+    transition: all .8s ease;
+    filter: blur(.5rem);
+  }
+  
+  .text {
+    flex-grow: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    color: rgb(27, 63, 95);
+    font-weight: 900;
+    font-size: 1.2em;
+  }
+  
+  .subtitle {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(39, 83, 122, 0.691);
+  }
+  
+  .icons {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    width: 250px;
+    border-radius: 0px 0px 15px 15px;
+    overflow: hidden;
+  }
+  
+  .btn {
+    border: none;
+    width: 84px;
+    height: 35px;
+    background-color: rgba(227, 227, 227, 0.674);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .svg-icon {
+    width: 25px;
+    height: 25px;
+    stroke: rgb(38, 59, 126);
+  }
+  
+  .btn:hover {
+    background-color: rgb(247, 234, 234);
+  }
+  
+  .card:hover::before {
+    width: 140px;
+    height: 140px;
+    top: -30%;
+    left: 50%;
+    filter: blur(0rem);
+  }
+
+  
+  .header  {
+    background-color: #bcc0d2;
+    background-image: linear-gradient(43deg, #a2a2a2 0%, #ffffff 46%, #878175 100%);
+    border-radius: 8px;
+    color: white;
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    cursor: pointer;
+  }
+  .card-titre {
+    font-weight: 800;
+    text-transform: uppercase;
+    color:  rgb(27, 63, 95);
+    margin-top: 10px;
+    font-size: 25px;
+    letter-spacing: 1px;
+    text-align: center; /* Centrer le texte */
+  }
+  
+     
+  .button-container {
+    display: flex;
+    width: 250px;
+    height: 40px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    transition: all 0.5s;
+    margin-left: auto;
+  }
+  
+  .button-container:hover {
+    width: 300px;
+    transition: all 0.5s;
+  }
+  .button {
+    width: 140px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background:transparent;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition-duration: .2s;
+  }
+  
+  .bell {
+    width: 13px;
+  }
+  
+  .bell path {
+    fill: rgb(255, 255, 255);
+  }
+  
+  
+  
+  .button:active {
+    transform: scale(0.97);
+    transition-duration: .2s;
+  }
+  
+  .button:hover .bell {
+    animation: bellRing 0.9s both;
+  }
+  
+  @keyframes bellRing {
+    0%,
+    100% {
+      transform-origin: top;
+    }
+  
+    15% {
+      transform: rotateZ(10deg);
+    }
+  
+    30% {
+      transform: rotateZ(-10deg);
+    }
+  
+    45% {
+      transform: rotateZ(5deg);
+    }
+  
+    60% {
+      transform: rotateZ(-5deg);
+    }
+  
+    75% {
+      transform: rotateZ(2deg);
+    }
+  }
+  
+  
+  
+  .button:active {
+    transform: scale(0.97);
+    transition-duration: .2s;
+  }
+  
+  .button:hover .bell {
+    animation: bellRing 0.9s both;
+  }
+  
+  @keyframes bellRing {
+    0%,
+    100% {
+      transform-origin: top;
+    }
+  
+    15% {
+      transform: rotateZ(10deg);
+    }
+  
+    30% {
+      transform: rotateZ(-10deg);
+    }
+  
+    45% {
+      transform: rotateZ(5deg);
+    }
+  
+    60% {
+      transform: rotateZ(-5deg);
+    }
+  
+    75% {
+      transform: rotateZ(2deg);
+    }
+  }
+  .icon {
+    font-size: 20px;
+  }
+  .card-divider {
+    width: 100%;
+    border: 1px solid var(--main-color);
+    border-radius: 50px;
+    border-top: 1px solid #1d1919;
+  }
+ 
+  
+  .card-price {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--font-color);
+  }

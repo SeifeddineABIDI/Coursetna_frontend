@@ -1,0 +1,78 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.topics {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 10px;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.topics ul {
+  list-style: none;
+  padding: 0;
+}
+
+.topics li {
+  margin-bottom: 10px;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.timer-label {
+  margin-right: 5px;
+}
+
+.timer-value {
+  color: #ff5722;
+}
+
+.icon {
+  width: 30px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.icon-container {
+  margin-left: 8px;
+}
+
+.spinning {
+  animation: spin 1.65s linear infinite;
+}
+
+.button-container {
+  text-align: center; /* Center the button */
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px; /* Add some spacing between the quiz and the button */
+}

@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Number of Quizzes</h5>
+          <div class="chart-container">
+            <canvas baseChart
+                    [chartType]="'bar'"
+                    [datasets]="[{ data: [totalQuizzes], label: 'Total Quizzes' }]"
+                    [labels]="['Total Quizzes']">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Average Quiz Score</h5>
+          <div class="chart-container">
+            <canvas baseChart
+                    [chartType]="'bar'"
+                    [datasets]="[{ data: [averageScore], label: 'Average Score' }]"
+                    [labels]="['Average Score']">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Percentage of Correct Answers</h5>
+          <div class="chart-container">
+            <canvas baseChart
+                    [chartType]="'pie'"
+                    [datasets]="[{ data: [percentageCorrectAnswers, 100 - percentageCorrectAnswers], backgroundColor: ['#36a2eb', '#ff6384'], hoverBackgroundColor: ['#36a2eb', '#ff6384'] }]"
+                    [labels]="['Correct Answers', 'Incorrect Answers']">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

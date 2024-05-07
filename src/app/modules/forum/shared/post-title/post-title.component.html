@@ -1,0 +1,56 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex flex-col items-center p-6 sm:p-10">
+        <div class="flex flex-col w-full max-w-4xl">
+            <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
+                Frequently Asked Questions
+            </div>
+            <!-- List of posts -->
+            <div class="mt-12 sm:mt-16 text-3xl font-bold leading-tight tracking-tight">
+                List of Posts
+            </div>
+            <!-- Display Posts -->
+            <div *ngFor="let post of posts" class="mt-4 border rounded-lg p-4">
+                <!-- Display individual post -->
+                <h2 class="text-xl font-semibold">{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                <!-- Include app-vote-button here -->
+                <app-vote-button [post]="post"></app-vote-button>
+                <!-- Section to Display Post Information-->
+                <div class="row post">
+                    <div class="col-md-11">
+                        <span class="subforum-info">
+                            <span class="subforum-text"><a class="posturl"
+                                    routerLink="">{{post.subforumName}}</a></span>
+                            <span> . Posted by <a class="username"
+                                    routerLink="/user/{{post.userName}}">{{post.userName}}</a></span>
+                            <span> . {{post.duration}}</span>
+                        </span>
+                        <hr />
+                        <div class="post-title">
+                            <a class="postname" href="{{post.url}}">{{post.postName}}</a>
+                        </div>
+                        <div>
+                            <p class="post-text" [innerHtml]="post.description"></p>
+                        </div>
+                        <!-- Display post image -->
+                        <!-- Display post image if it exists -->
+                        <div *ngIf="getPostImageUrl(post.id)">
+                            <img [src]="getPostImageUrl(post.id)" alt="Post Image">
+                        </div>
+                        <hr />
+                        <span>
+                            <a class="btnCommments" role="button">
+                                <fa-icon [icon]="faComments"></fa-icon>
+                                Comments({{post.commentCount}})
+                            </a>
+                            <button class="login" (click)="goToPost(post.id)">
+                                Read Post
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

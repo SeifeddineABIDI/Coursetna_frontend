@@ -1,0 +1,202 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+    <!-- Modèle d'ajout -->
+    <div class="add-modal" *ngIf="showAddModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ modalTitle }}</h5>
+                    <button type="button" class="btn-close" (click)="toggleAddModal(false)" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="quizForm">
+                        <div class="mb-3">
+                            <label  class="form-label">Title</label>
+                            <input type="text" class="form-control" placeholder="Title" formControlName="title" >
+
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('title')?.hasError('required') && quizForm.get('title')?.touched">
+                                Title is required
+                            </div>
+                        </div>
+
+
+                      <!-- Show topic select only when adding a new quiz -->
+                        <ng-container *ngIf="!isEditMode">
+                            <div class="mb-3">
+                                <label class="form-label">Topic</label>
+                                <select class="form-control" [formControl]="topic">
+                                    <option value="">Select Topic</option> 
+                                    <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.nom }}</option>
+                                </select>
+                                <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="topic.invalid && topic.touched">
+                                    Topic is required
+                                </div>
+                            </div>
+                        </ng-container>
+                
+                        <div class="mb-3">
+                            <label  class="form-label">Description</label>
+                            <input type="text" class="form-control" placeholder="Description" formControlName="description">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('description')?.hasError('required') && quizForm.get('description')?.touched">
+                                Description is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Duree</label>
+                            <input type="text" class="form-control" placeholder="Duree" formControlName="duree">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('duree')?.hasError('required') && quizForm.get('duree')?.touched">
+                                Duree is required
+                            </div>
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="quizForm.get('duree')?.hasError('pattern') && quizForm.get('duree')?.touched">
+                                Duree must be number
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="toggleAddModal(false)">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="save()" [disabled]="isEditMode ? quizForm.invalid : (quizForm.invalid || topic.invalid)">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model d'ajout -->
+
+    <!-- Modèle d'ajout d'une question -->
+    <div class="add-modal" *ngIf="showModalQuestion">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Question</h5>
+                    <button type="button" class="btn-close" (click)="toggleModalQuestion(false)" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="questionForm">
+                        <div class="mb-3">
+                            <label  class="form-label">Question</label>
+                            <input type="text" class="form-control" placeholder="question" formControlName="question" >
+
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('question')?.hasError('required') && questionForm.get('question')?.touched">
+                                Question is required
+                            </div>
+                        </div>
+                
+                        <div class="mb-3">
+                            <label  class="form-label">choice1</label>
+                            <input type="text" class="form-control" placeholder="choice1" formControlName="choice1">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice1')?.hasError('required') && questionForm.get('choice1')?.touched">
+                                choice1 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">choice2</label>
+                            <input type="text" class="form-control" placeholder="choice2" formControlName="choice2">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice2')?.hasError('required') && questionForm.get('choice2')?.touched">
+                                choice2 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">choice3</label>
+                            <input type="text" class="form-control" placeholder="choice3" formControlName="choice3">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice3')?.hasError('required') && questionForm.get('choice3')?.touched">
+                                choice3 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">correctAnswer</label>
+                            <input type="text" class="form-control" placeholder="correctAnswer" formControlName="correctAnswer">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('correctAnswer')?.hasError('required') && questionForm.get('correctAnswer')?.touched">
+                                correctAnswer is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">points</label>
+                            <input type="text" class="form-control" placeholder="points" formControlName="points">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('points')?.hasError('required') && questionForm.get('points')?.touched">
+                                points is required
+                            </div>
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('points')?.hasError('pattern') && questionForm.get('points')?.touched">
+                                points must be number
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="toggleModalQuestion(false)">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="saveNewQusetion()" [disabled]="questionForm.invalid">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model d'ajout -->
+
+    <!-- Header -->
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- @formatter:on -->
+        <div class="z-10 relative flex flex-col items-center">
+            <h2 class="text-xl font-semibold">COURSETNA</h2>
+            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+              Here You Can Manage Your Quizzes
+            </div>
+            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+            </div>
+        </div>
+    </div>
+
+        <!-- Search input -->
+        <div class="search-container">
+            <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
+            <button class="btn btn-primary add-button2" type="button" (click)="toggleAddModal(true)"><i class="fas fa-plus"></i> Add</button>
+        </div>
+          
+        <!-- Tableau de données -->
+        <table id="example" class="table table-striped custom-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Duree</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody >
+                <!-- Contenu de la table -->
+                <tr *ngFor="let q of quizzes | filter: searchTerm">
+                    <td>{{q.title}}</td>
+                    <td>{{q.description}}</td>
+                    <td>{{q.duree}}</td>
+                    <td>
+                        <button class="btn btn-primary me-2" [routerLink]="['/listquestion',q.numQuiz]"><img src="../../../../../assets/icons/info.png"></button>
+                        <button class="btn btn-primary me-2" (click)="toggleModalQuestion(true)" (click)="selectedQuizId=q.numQuiz" ><img src="../../../../../assets/icons/add.png"></button> <!-- Icône de modification -->
+    
+                        <button class="btn btn-primary me-2" (click)="editModel(q)"><img src="../../../../../assets/icons/edit.png"></button> <!-- Icône de modification -->
+                        <button class="btn btn-danger me-2" (click)="delQuiz(q.numQuiz)"><img src="../../../../../assets/icons/delete.png"></button> <!-- Icône de suppression -->
+                        <button class="btn btn-primary me-2" (click)="publishQuiz(q.numQuiz)" [disabled]="q.status"><img src="../../../../../assets/icons/eye.png"></button>
+    
+                    </td>
+                </tr>         
+            </tbody>
+        </table>
+</div>
