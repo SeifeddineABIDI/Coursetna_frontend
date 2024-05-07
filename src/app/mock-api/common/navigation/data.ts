@@ -3,12 +3,86 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
+        id      : 'acceuil',
+        title   : 'Espace Ressource',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:home',
+        link    : '/acceuil',
+        children: [
+            {
+                id        : 'acceuil',
+                title     : 'Home',
+                type      : 'basic',
+                link      : '/acceuil'
+            },
+            {
+                id   : 'stat',
+                title: 'Statistique',
+                type : 'basic',
+                // icon : 'heroicons_outline:chart-pie',
+                link : '/stat'
+            },
+            {
+                id   : 'espaceUser',
+                title: 'Espace User',
+                type : 'basic',
+                // icon : 'heroicons_outline:chart-pie',
+                link : '/espaceUser'
+            }
+        ]
+    },
+    {
+        id   : 'quizList',
+        title: 'Manage Quiz',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        link : '/quizList'
     },
+    {
+        id   : 'quiz',
+        title: 'Quiz',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/quiz'
+    },
+    {
+        id   : 'statistique',
+        title: 'statistique',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/statistique'
+    },
+    {
+        id   : 'reclamation',
+        title: 'reclamationAdmin',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/reclamation',
+       
+    },
+    
+    {
+        id: 'addreclamation', // Corrected spelling
+        title: 'Reclamation User', // Corrected spelling and added space
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/addreclamation' // Use {{}} to bind dynamicId
+    },
+    {
+        id   : 'stat',
+        title: 'stat',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/stat'
+    },
+    {
+        id   : 'listReclamation',
+        title: 'listReclamation',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/listReclamation'
+    },
+    
     {
 
         id   : 'forum',
@@ -17,7 +91,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:chart-pie',
         link : '/forum'
     },
-   
     {
         id      : 'apps.help-center',
         title   : 'Forum',
@@ -53,21 +126,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
  
-            {
-                id        : 'example',
-                title     : 'Example',
-                type      : 'basic',
-                icon : 'heroicons_outline:chart-pie',
-                link      : '/example',
-                exactMatch: true
-            },
-            {
-                id   : 'example2',
-                title: 'Example2',
-                type : 'basic',
-                icon : 'heroicons_outline:chart-pie',
-                link : '/example2'
-            },
             {
                 id   : 'settings',
                 title: 'Settings',
@@ -113,10 +171,10 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         link : '/example'
     },
     {
-        id   : 'example2',
-        title: 'Example2',
+        id   : 'quiz',
+        title: 'Quiz',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/example2'
+        link : '/quiz'
     }
 ];

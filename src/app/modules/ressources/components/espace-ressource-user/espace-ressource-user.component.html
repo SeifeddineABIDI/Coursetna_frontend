@@ -1,0 +1,98 @@
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+<div class="flex">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-100 h-screen overflow-y-auto shadow-lg">
+        <div class="p-4">
+            <div class="text-xl font-bold mb-4">Espace Ressource</div>
+            <ul class="space-y-2">
+             
+                <li>
+                    <a href="http://localhost:4200/acceuil" class="flex items-center px-4 py-2 rounded hover:bg-gray-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 22V12h6v10"></path>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="http://localhost:4200/add" class="flex items-center px-4 py-2 rounded hover:bg-gray-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        Create Resource
+                    </a>
+                </li>
+                <li>
+                    <a href="http://localhost:4200/addTopic" class="flex items-center px-4 py-2 rounded hover:bg-gray-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                        </svg>
+                        Create Topic
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-grow">
+        <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        
+            <svg class="absolute inset-0 pointer-events-none"
+                 viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                    <circle r="234" cx="196" cy="23"></circle>
+                    <circle r="234" cx="790" cy="491"></circle>
+                </g>
+            </svg>
+            <div class="z-10 relative flex flex-col items-center">
+                <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+                    La liste des ressources
+                </div>
+                
+            </div>
+        </div>
+        <div class="content">
+            <div class="card-container">
+                <div class="card" *ngFor="let ressource of resources">
+                    <div class="text">{{ ressource.titre }}</div>
+                    <div class="ratings-container">
+                        <star-rating [rating]="ressource.rating ?? 0"></star-rating>
+                    </div>
+                    <!-- <p class="card-text"  [appReadMore]="40">{{ ressource.description }}</p> -->
+                    <div class="card__date">
+                        Postulé il y a {{ calculateDaysSince(ressource.dateTlg) }} jour(s)
+                    </div>
+                    
+                    <div class="card__actions">
+                        <button class="icon-button" (click)="viewResource(ressource.id)">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>                        
+                        
+                        <button class="icon-button"(click)="viewVersion(ressource.id)">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>        
+        
+            </div>
+        </div>
+     
+        </div>

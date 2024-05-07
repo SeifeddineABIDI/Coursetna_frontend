@@ -55,9 +55,16 @@
                             "src/styles/vendors.scss",
                             "src/@fuse/styles/main.scss",
                             "src/styles/styles.scss",
-                            "src/styles/tailwind.scss"
+                            "src/styles/tailwind.scss",
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/chart.js/dist/Chart.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js"
+                        ],
+                        "allowedCommonJsDependencies": [
+                            "chart.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
