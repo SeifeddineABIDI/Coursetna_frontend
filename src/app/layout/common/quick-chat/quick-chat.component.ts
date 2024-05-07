@@ -13,6 +13,8 @@ import { ReactionService } from './services/reaction.service';
 import { DatePipe } from '@angular/common';
 import { waitForAsync } from '@angular/core/testing';
 import { has } from 'lodash';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NumberValueAccessor } from '@angular/forms';
 
 @Component({
     selector: 'quick-chat',
@@ -29,12 +31,15 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     usersPre: User[] = [];
     messages: Message[] = [];
 
-    sendMessageo!: string;
+    sendMessageo: string = "";
     editreplyMessageo!: string;
     forwardingo!: string;
 
-    prenomInput!: string;
-    nomInput!: string;
+    storageBucket = 'arctic4-pi.appspot.com';
+    uploadUrl = `https://firebasestorage.googleapis.com/v0/b/${this.storageBucket}/o?uploadType=media`;
+
+    prenomInput: string;
+    nomInput: string;
     imageData: string | ArrayBuffer | null = " ";
     imageDatam: string | ArrayBuffer | null = " ";
 
@@ -44,15 +49,22 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     currentDiscussionTitle!: string;
     currentDiscussionType!: string;
     currentCommunityTitle!: string;
+    currentDiscussionUpdating!: string;
+    currentCommunityUpdating!: string;
     currentMessage: any = null;
+    currentPage: any = null;
+
+    selectedChannel: boolean = false;
 
     forwardins: boolean = false;
+    searching: boolean = false;
 
     showModala: boolean = false;
     showModalb: boolean = false;
     showModalc: boolean = false;
     showModald: boolean = false;
     showModale: boolean = false;
+    showModalf: boolean = false;
 
     showFEmoji: boolean = false;
     showFTranslate: boolean = false;
@@ -65,6 +77,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     existingChannels: string[] = [];
 
     intervalId: any;
+
     formattedDate: string | undefined;
 
     languages: string[] = [
@@ -86,9 +99,54 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         'Welsh', 'Xhosa', 'Yiddish', 'Yoruba', 'Zulu'
     ].sort(); // Sort alphabetically
 
+    emojis: string[] = [
+        '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', // Smilies
+        '😋', '😎', '😍', '😘', '😗', '😙', '😚', '☺️', '🙂', '🤗',
+        '🤩', '🤔', '🤨', '😐', '😑', '😶', '🙄', '😏', '😣', '😥', // More expressions
+        '😮', '🤤', '😯', '😪', '😫', '😴', '😌', '😛', '😜', '😝',
+        '🤪', '🤓', '😈', '👿', '👹', '👺', '🤡', '💩', '👻', '💀', // Monsters and characters
+        '☠️', '👽', '👾', '🤖', '🎃', '😺', '😸', '😹', '😻', '😼',
+        '😽', '🙀', '😿', '😾', '👐', '🙌', '👏', '🙏', '👍', '👎', // Hands
+        '👊', '✊', '🤛', '🤜', '🤞', '✌️', '🤟', '🤘', '👌', '👈',
+        '👉', '👆', '👇', '☝️', '✋', '🤚', '🖐️', '🖖', '👋', '🤙',
+        '💪', '🦵', '🦶', '🖕', '✍️', '🙏', '💍', '💄', '💋', '👄', // More body parts and actions
+        '👅', '👂', '👃', '👣', '👁️', '👀', '🧠', '🦷', '🦴', '👶',
+        '🧒', '👦', '👧', '🧑', '👱', '👨', '🧔', '👩', '👱‍♂️', '👱‍♀️',
+        '👨‍🦱', '👩‍🦱', '👨‍🦰', '👩‍🦰', '👨‍🦳', '👩‍🦳', '👨‍🦲', '👩‍🦲',
+        '👨‍', '👩‍', '🧓', '👴', '👵', '🙍', '🙎', '🙅', '🙆', '💁',
+        '💆', '💇', '🚶', '🏃', '💃', '🕺', '👯', '👫', '👬', '👭',
+        '💏', '💑', '👪', '👨‍👩‍👧', '👨‍👩‍👧‍👦', '👨‍👨‍👧‍👦', '👩‍👩‍👦‍👦', '👨‍👨‍', // People and family
+        '👨‍👩‍', '👪', '👨‍👦', '👨‍👧', '👨‍👧‍👦', '👨‍👨‍', '👩‍👩‍', '👩‍👦', '👩‍👧', '👩‍👧‍👦',
+        '👩‍👩‍', '🤷', '🤦', '💁‍♂️', '💁‍♀️', '🙋‍♂️', '🙋‍♀️', '🙇‍♂️', '🙇‍♀️', '🤸‍♂️', // More people
+        '🤸‍♀️', '🤾‍♂️', '🤾‍♀️', '🤹‍♂️', '🤹‍♀️', '🧗‍♂️', '🧗‍♀️', '🏋️‍♂️', '🏋️‍♀️', '🏌️‍♂️',
+        '🏌️‍♀️', '⛹️‍♂️', '⛹️‍♀️', '🤺', '🤼‍♂️', '🤼‍♀️', '🤽‍♂️', '🤽‍♀️', '🤼', '🏌️', // More sports and activities
+        '🧗', '⛹️', '🤽', '🤸', '🏋️', '🤼', '🧘‍♂️', '🧘‍♀️', '🚴‍♂️', '🚴‍♀️',
+        '🛀', '🧖‍♂️', '🧖‍♀️', '💆‍♂️', '💆‍♀️', '💇‍♂️', '💇‍♀️', '🚶‍♂️', '🚶‍♀️', '🏃‍♂️',
+        '🏃‍♀️', '🧘‍♀️', '🧘‍♂️', '🧖‍♀️', '🧖‍♂️', '🚴‍♂️', '🚴‍♀️', '🚵‍♂️', '🚵‍♀️', '🧗‍♂️', // More activities and outdoor
+        '🧗‍♀️', '🏇', '🏄‍♂️', '🏄‍♀️', '🏊‍♂️', '🏊‍♀️', '🤼‍♂️', '🤼‍♀️', '⛷️', '🏂',
+        '🚣‍♂️', '🚣‍♀️', '🚤', '⛴️', '🛥️', '🛳️', '⛵', '🚢', '🚟', '🚠', // Transportation
+        '🚡', '🚇', '🚉', '🚊', '🚝', '🚃', '🚋', '🚞', '🚄', '🚅',
+        '🚀', '🛸', '🚁', '🚂', '🚜', '🚔', '🚍', '🚘', '🚖', '🚗',
+        '🚙', '🚑', '🚒', '🚓', '🚕', '🛻', '🚚', '🚒', '🚔', '🦽', // More transportation and travel
+        '🦼', '🛵', '🏍️', '🛺', '🚨', '🚨', '🚬', '💊', '💉', '🩹',
+        '🩸', '🦠', '🦷', '🦴', '👀', '👂', '👃', '👅', '👄', '💋', // More body parts and medical
+        '💌', '💘', '💖', '💗', '💓', '💞', '💕', '💟', '❣️', '💔',
+        '💣', '💥', '💨', '💦', '💧', '💫', '🧨', '💡', '💤', '💦', // Objects and other symbols
+        '🌧️', '🌩️', '⛈️', '🌦️', '🌨️', '🌈', '☀️', '⛅', '☁️', '☂️',
+        '☔', '⚡', '🌙', '🌜', '🌛', '🌞', '🌟', '🌠', '🪐', '🌏', // Nature and weather
+        '🌎', '🌍', '🌋', '🗻', '🏔️', '⛰️', '🌄', '🏞️', '🌅', '🌄',
+        '🏜️', '🏝️', '🏖️', '🏕️', '🏟️', '🏛️', '🏰', '🏯', '🏟️', '🏙️',
+        '🏚️', '🏡', '🏠', '🏘️', '🏢', '🏣', '🏤', '🏥', '🏦', '🏨',
+        '🏩', '🏪', '🏫', '🏬', '🏭', '🏯', '🗼', '⛪', '🗽', '🗾', // Buildings and structures
+        '🗿', '🏝️', '🏜️', '🏕️', '🏖️', '🏟️', '⛱️', '🏞️']
+
     selectedLanguage: string = '';
 
     translated: string = '';
+
+    @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
+
+    @ViewChild('chatContainer') chatContainer: ElementRef;
 
     @ViewChild('messageInput') messageInput: ElementRef;
     chat: Chat;
@@ -110,7 +168,8 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         private _renderer2: Renderer2,
         private _ngZone: NgZone,
         private _quickChatService: QuickChatService,
-        private _scrollStrategyOptions: ScrollStrategyOptions
+        private _scrollStrategyOptions: ScrollStrategyOptions,
+        private http: HttpClient
     ) {
     }
 
@@ -158,11 +217,11 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        const currentUser = localStorage.getItem("currentUser") ;
+        const currentUser = localStorage.getItem("currentUser");
         const userObject = JSON.parse(currentUser);
-        this.currentUserId =  parseInt(userObject.id);
-        localStorage.setItem("currentUserId",this.currentUserId.toString());
-        
+        this.currentUserId = parseInt(userObject.id);
+        localStorage.setItem("currentUserId", this.currentUserId.toString());
+
 
 
         this.usersPre = [
@@ -209,7 +268,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 photo: 'https://i.pinimg.com/736x/f3/1e/a0/f31ea05d300cfe3aebfc0576d0faba10.jpg',
                 isArchived: false,
                 isBanned: false
-           
+
             },
         ];
 
@@ -221,9 +280,11 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentDiscussionTitle = "Discussions";
         this.currentCommunityTitle = "";
 
+        this.retrieveAllCommunities();
+
 
         if (localStorage.getItem('currentCommunity')) {
-            this.selectCommunity(parseInt(localStorage.getItem('currentCommunity')!))
+            this.selectCommunity(parseInt(localStorage.getItem('currentCommunity')!), parseInt(this.currentCommunityUpdating))
             this.currentCommunity = parseInt(localStorage.getItem("currentCommunity")!)
             this.currentCommunityTitle = localStorage.getItem("currentCommunityTitle");
 
@@ -233,21 +294,29 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.retrieveAllDiscussions();
         }
         if (localStorage.getItem('currentDiscussion')) {
-            this.retrieveAllMessages(parseInt(localStorage.getItem('currentDiscussion')!));
+            this.retrieveMessages(parseInt(localStorage.getItem('currentDiscussion')!));
             this.currentDiscussion = parseInt(localStorage.getItem("currentDiscussion")!)
-            this.currentDiscussionTitle = localStorage.getItem("currentDiscussionTitle") ;
+            this.currentDiscussionTitle = localStorage.getItem("currentDiscussionTitle");
         }
 
         this.intervalId = setInterval(() => {
             this.retrieveAllCommunities();
-            this.retrieveRecentMessages();
             if (!localStorage.getItem('currentCommunity')) {
                 this.retrieveAllDiscussions();
+            } else {
+                this.selectCommunity(parseInt(localStorage.getItem('currentCommunity')!), parseInt(this.currentCommunityUpdating));
+            }
+
+            if (localStorage.getItem('currentDiscussion')) {
+
+                if (this.searching == false) {
+                    this.retrieveRecentMessages();
+                }
             }
 
         }, 5000);
 
-        
+
 
 
     }
@@ -473,6 +542,10 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showModale = true;
     }
 
+    openModalf() {
+        this.showModalf = true;
+    }
+
     closeModala() {
         this.showModala = false;
     }
@@ -491,6 +564,10 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     closeModale() {
         this.showModale = false;
+    }
+
+    closeModalf() {
+        this.showModalf = false;
     }
 
     handlemodclick(): void {
@@ -570,15 +647,18 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     retrieveUsersForDiscussion() {
         const id = this.currentUserId;
-        this.discussionService.retrieveUsersForDiscussion(this.prenomInput,this.nomInput)
+        this.users = []
+        this.discussionService.retrieveUsersForDiscussion(this.prenomInput, this.nomInput)
             .subscribe(users => this.users = users);
-            this.users = this.users.filter((user) => user.id !== this.currentUserId);
+        this.users = this.users.filter((user) => user.id !== this.currentUserId);
 
     }
 
+    ifUserinDiscussion(id: number) {
+        return this.existingUsers.find((user) => user.id === id);
+    }
+
     startDiscussion() {
-
-
 
         this.closeModala();
         const userDiscussionIds = this.userDiscussion.map((u) => u.id);
@@ -588,6 +668,8 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.discussionService.startDiscussionDuo(this.currentUserId, otherUserId).subscribe(
                 (response) => {
                     console.log('Duo discussion started successfully');
+                    this.selectDM();
+                    this.retrieveAllDiscussions();
                     // Optionally, call a function to refresh the list of discussions
                 },
                 (error) => {
@@ -604,6 +686,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.discussionService.startDiscussionGroup(this.currentUserId, discussionTitle, userList, this.imageData).subscribe(
                     (response) => {
                         console.log('Group discussion started successfully');
+                        this.selectDM();
                         this.retrieveAllDiscussions()
                     },
                     (error) => {
@@ -626,31 +709,38 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.inputTitle.length == 0) {
             alert("Please insert a title.");
         } else {
-            if (userDiscussionIds.length === 0) {
+            if (channelString == "") {
+                alert("Please insert a channel.");
+            } else {
+                if (userDiscussionIds.length === 0) {
 
 
-                this.discussionService.startDiscussionCommunity(this.currentUserId, discussionTitle, "", channelString, this.imageData).subscribe(
-                    (response) => {
-                        console.log('Community discussion started successfully');
-                    },
-                    (error) => {
-                        alert('Error starting Community discussion: ' + error);
-                        console.error('Error starting Community discussion:', error);
-                    }
-                );
+                    this.discussionService.startDiscussionCommunity(this.currentUserId, discussionTitle, "", channelString, this.imageData).subscribe(
+                        (response) => {
+                            console.log('Community discussion started successfully');
+                            this.retrieveAllCommunities();
+                        },
+                        (error) => {
+                            alert('Error starting Community discussion: ' + error);
+                            console.error('Error starting Community discussion:', error);
+                        }
+                    );
 
-            } else if (userDiscussionIds.length > 1) {
-                const userList = this.userDiscussion.map((u) => u.id).join('_');
-                this.discussionService.startDiscussionCommunity(this.currentUserId, discussionTitle, userList, channelString, this.imageData).subscribe(
-                    (response) => {
-                        console.log('Community discussion started successfully');
-                        this.retrieveAllDiscussions()
-                    },
-                    (error) => {
-                        alert('Error starting Community discussion: ' + error);
-                        console.error('Error starting Community discussion:', error);
-                    }
-                );
+                } else if (userDiscussionIds.length >= 1) {
+                    const userList = this.userDiscussion.map((u) => u.id).join('_');
+                    this.discussionService.startDiscussionCommunity(this.currentUserId, discussionTitle, userList, channelString, this.imageData).subscribe(
+                        (response) => {
+                            console.log('Community discussion started successfully');
+                            this.retrieveAllCommunities();
+                        },
+                        (error) => {
+                            alert('Error starting Community discussion: ' + error);
+                            console.error('Error starting Community discussion:', error);
+                        }
+                    );
+                } else {
+                    alert("Select users for the community");
+                }
             }
         }
     }
@@ -700,39 +790,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    paddAdmins() {
-        this.userDiscussion = [];
 
-        if (this.currentCommunity == 0) {
-        const d = this.discussions.find((discussion) => discussion.id === this.currentDiscussion);
-       
-        this.existingUsers = d.users;
-        for (const user of this.existingUsers) {
-          
-            if (d.admins.find((userx) => userx.id === user.id)) {
-                this.userDiscussion.push(user);
-            }
-        }
-    
-    } else {
-            const d = this.communities.find((c) => c.id === this.currentCommunity);
-      
-            this.existingUsers = d.users;
-            for (const user of this.existingUsers) {
-              
-                if (d.admins.find((userx) => userx.id === user.id)) {
-                    this.userDiscussion.push(user);
-                }
-            }
-        }
-
-     
-           
-
-
-
-
-    }
 
 
     modifyDiscussion() {
@@ -742,7 +800,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         if (userDiscussionIds.length >= 1) {
             const discussionTitle = this.inputTitle;
             const userList = this.userDiscussion.map((u) => u.id).join('_');
-            this.discussionService.modifyDiscussionGroup(this.currentDiscussion, this.currentUserId, discussionTitle, userList,  this.currentUserId, this.imageDatam).subscribe(
+            this.discussionService.modifyDiscussionGroup(this.currentDiscussion, this.currentUserId, discussionTitle, userList, this.currentUserId, this.imageDatam).subscribe(
                 (response) => {
                     console.log('Group discussion modified successfully');
                     this.retrieveAllDiscussions()
@@ -769,7 +827,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.discussionService.modifyDiscussionCommunity(this.currentCommunity, this.currentUserId, discussionTitle, userList, channelString, this.currentUserId, this.imageData).subscribe(
                 (response) => {
                     console.log('Community discussion modified successfully');
-                    this.retrieveAllDiscussions()
+                    this.retrieveAllCommunities();
                 },
                 (error) => {
                     alert('Error modifying Community discussion: ' + error.error);
@@ -781,9 +839,39 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    paddAdmins() {
+        this.userDiscussion = [];
+        this.existingUsers = [];
+
+        if (this.currentCommunity == 0) {
+            const d = this.discussions.find((discussion) => discussion.id === this.currentDiscussion);
+
+            this.existingUsers = d.users;
+            for (const user of this.existingUsers) {
+
+                if (d.admins.find((userx) => userx.id === user.id)) {
+                    this.userDiscussion.push(user);
+                }
+            }
+
+        } else {
+            const d = this.communities.find((c) => c.id === this.currentCommunity);
+
+            this.existingUsers = d.users;
+            for (const user of this.existingUsers) {
+
+                if (d.admins.find((userx) => userx.id === user.id)) {
+                    this.userDiscussion.push(user);
+                }
+            }
+        }
+
+
+    }
+
     addAdmins() {
 
-      
+
         this.closeModale();
         const userDiscussionIds = this.userDiscussion.map((u) => u.id);
         if (userDiscussionIds.length >= 1) {
@@ -791,28 +879,31 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (this.currentCommunity == 0) {
 
-            this.discussionService.addAdminsToDiscussion(this.currentDiscussion, this.currentUserId, userList).subscribe(
-                (response) => {
-                    console.log('Admins added successfully');
-                },
-                (error) => {
-                    alert('Error adding admins: ' + error.error);
-                    console.error('Error adding admins:', error);
-                }
-            );
+                this.discussionService.addAdminsToDiscussion(this.currentDiscussion, this.currentUserId, userList).subscribe(
+                    (response) => {
+                        this.retrieveAllDiscussions();
+                        console.log('Admins added successfully');
+
+                    },
+                    (error) => {
+                        alert('Error adding admins: ' + error.error);
+                        console.error('Error adding admins:', error);
+                    }
+                );
 
             } else {
 
-                
-            this.discussionService.addAdminsToDiscussion(this.currentCommunity, this.currentUserId, userList).subscribe(
-                (response) => {
-                    console.log('Admins added successfully');
-                },
-                (error) => {
-                    alert('Error adding admins: ' + error.error);
-                    console.error('Error adding admins:', error);
-                }
-            );
+
+                this.discussionService.addAdminsToDiscussion(this.currentCommunity, this.currentUserId, userList).subscribe(
+                    (response) => {
+                        this.retrieveAllCommunities();
+                        console.log('Admins added successfully');
+                    },
+                    (error) => {
+                        alert('Error adding admins: ' + error.error);
+                        console.error('Error adding admins:', error);
+                    }
+                );
 
             }
         } else {
@@ -824,17 +915,34 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (confirm('Are you sure to leave this Disucssion? (You can only rejoin when an admin reinvite you)')) {
 
-            this.discussionService.leaveDiscussion(this.currentUserId, this.currentDiscussion).subscribe(
-                (response) => {
-                    console.log('Left discussion successfully');
-                    this.retrieveAllDiscussions()
-                },
-                (error) => {
-                    alert('Error leaving discussion: ' + error);
-                    console.error('Error leaving discussion:', error);
-                }
-            );
-        } 
+            if (this.currentCommunity == 0) {
+
+                this.discussionService.leaveDiscussion(this.currentUserId, this.currentDiscussion).subscribe(
+                    (response) => {
+                        console.log('Left discussion successfully');
+                        this.retrieveAllDiscussions()
+                    },
+                    (error) => {
+                        alert('Error leaving discussion: ' + error);
+                        console.error('Error leaving discussion:', error);
+                    }
+                );
+
+            } else {
+                this.discussionService.leaveDiscussion(this.currentUserId, this.currentCommunity).subscribe(
+                    (response) => {
+                        console.log('Left discussion successfully');
+                        this.retrieveAllCommunities()
+                        this.selectDM();
+                    },
+                    (error) => {
+                        alert('Error leaving discussion: ' + error);
+                        console.error('Error leaving discussion:', error);
+                    }
+                );
+
+            }
+        }
 
     }
 
@@ -861,6 +969,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.discussionService.deleteDiscussion(this.currentUserId, this.currentCommunity).subscribe(
                     (response) => {
                         this.retrieveAllCommunities()
+                        this.selectDM();
                     },
                     (error) => {
                         alert('Error deleting discussion: ' + error.error)
@@ -876,240 +985,250 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     selectDM(): void {
         const id = this.currentUserId;
+        this.searching = true;
         localStorage.removeItem('currentCommunity');
         this.currentCommunity = 0;
         this.currentCommunityTitle = "";
         this.currentDiscussionTitle = "Select a Discussion";
-        localStorage.setItem("currentCommunityTitle","");
-        localStorage.setItem("currentDiscussionTitle","Select a Discussion");
+        localStorage.setItem("currentCommunityTitle", "");
+        localStorage.setItem("currentDiscussionTitle", "Select a Discussion");
+        this.discussions = [];
         this.retrieveAllDiscussions();
 
     }
 
-    selectDiscussion(id: number, title: string, type: string) {
+    selectDiscussion(discussion: Discussion) {
         this._toggleOpened(true);
-        this.currentDiscussionTitle = title;
-        localStorage.setItem("currentDiscussionTitle",title) ;
-        this.currentDiscussionType = type;
-        localStorage.setItem("currentDiscussionType",type) ;
-        this.retrieveAllMessages(id);
 
-        if(this.forwardins) {
-            this.forwarding();
+        if (this.currentCommunity != 0) {
+            this.selectedChannel = true;
+        } else {
+            this.selectedChannel = false
         }
 
-    }
+        this.searching = false;
 
-    selectCommunity(id: number) {
-        localStorage.setItem('currentCommunity', id.toString());
-        this.currentCommunity = id
+        if (discussion.typeDiscussion == "Duo") {
+            if (discussion.users[0].id == this.currentUserId) {
+                this.currentDiscussionTitle = discussion.users[1].prenom + " " + discussion.users[1].nom;
+                localStorage.setItem("currentDiscussionTitle", this.currentDiscussionTitle);
 
 
-        const targetCommunity = this.communities.find(community => community.id === id);
-        if (targetCommunity) {
-            targetCommunity.community = targetCommunity.community.filter((x) => x.archived == false);
-            this.discussions = targetCommunity.community
+            } else {
+                this.currentDiscussionTitle = discussion.users[0].prenom + " " + discussion.users[0].nom;
+                localStorage.setItem("currentDiscussionTitle", this.currentDiscussionTitle);
 
-            this.currentCommunityTitle = targetCommunity.title + " : ";
-            localStorage.setItem("currentCommunityTitle",targetCommunity.title + " : ");
-            this.currentDiscussionTitle = "Select a Channel";
-            localStorage.setItem("currentDiscussionTitle","Select a Channel");
+            }  } else {
+
+
+                this.currentDiscussionTitle = discussion.title;
+                localStorage.setItem("currentDiscussionTitle", this.currentDiscussionTitle);
+            }
+            this.currentDiscussionType = discussion.typeDiscussion;
+            localStorage.setItem("currentDiscussionType", discussion.typeDiscussion);
+            this.currentDiscussionUpdating = discussion.updating.toString();
+            localStorage.setItem("currentDiscussionUpdating", discussion.updating.toString());
+
+            //this.retrieveAllMessages(id);
+            this.retrieveMessages(discussion.id);
+
+            if (this.forwardins) {
+                this.forwarding();
+            }
+
+        }
+
+        selectCommunity(id: number, updating: number) {
+            localStorage.setItem('currentCommunity', id.toString());
+            this.currentCommunity = id
+            this.discussions = []
+            const targetCommunity = this.communities.find(community => community.id === id);
+            if (targetCommunity) {
+                targetCommunity.community = targetCommunity.community.filter((x) => x.archived == false);
+                this.discussions = targetCommunity.community
+
+                this.currentCommunityTitle = targetCommunity.title + " : ";
+
+                if (!this.selectedChannel) {
+                    localStorage.setItem("currentCommunityTitle", targetCommunity.title + " : ");
+                    this.currentDiscussionTitle = "Select a Channel";
+                }
+
+                localStorage.setItem("currentDiscussionTitle", "Select a Channel");
+                this.currentCommunityUpdating = updating.toString();
+                localStorage.setItem("currentCommunityUpdating", updating.toString());
+
+            }
+
+
+
         }
 
 
-    }
 
-    retrieveAllCommunities(): void {
-        const id = this.currentUserId;
-        this.discussionService.retrieveAllCommunities(id)
-            .subscribe(communities => this.communities = communities);
 
-    }
+        retrieveAllCommunities(): void {
+            const userId = this.currentUserId;
 
-    retrieveAllDiscussions(): void {
-        const id = this.currentUserId;
-        this.discussionService.retrieveAllDiscussions(id)
-            .subscribe(discussions => this.discussions = discussions);
+            this.discussionService.retrieveAllCommunities(userId).subscribe((newCommunities) => {
 
-    }
+                if (this.communities.length > newCommunities.length) {
+                    this.communities = newCommunities;
+                }
 
-    retrieveAllMessages(id: number): void {
-        const idx = id;
-        this.messageService.retrieveAllMessages(idx)
-            .subscribe(messages => this.messages = messages
+                newCommunities.forEach((newCommunity) => {
+
+
+
+                    const exists = this.communities.some(
+                        (existingCommunity) => existingCommunity.id === newCommunity.id
+                    );
+
+                    if (!exists) {
+                        this.communities.push(newCommunity);
+                    }
+
+                    if (newCommunity.id == this.currentCommunity) {
+                        const storedUpdatingValue = parseInt(localStorage.getItem('currentCommunityUpdating'));
+                        if (newCommunity.updating != storedUpdatingValue) {
+                            const index = this.communities.findIndex(x => x.id === newCommunity.id);
+                            this.communities[index] = newCommunity
+                            localStorage.setItem("currentCommunityUpdating", newCommunity.updating.toString())
+                            this.communities.find((community) => community.id === this.currentCommunity).updating = newCommunity.updating;
+
+                        }
+                    }
+                });
+
+            });
+        }
+
+        retrieveAllDiscussions(): void {
+            const userId = this.currentUserId;
+
+            this.discussionService.retrieveAllDiscussions(userId).subscribe((newDiscussions) => {
+
+                if (this.discussions.length > newDiscussions.length) {
+                    this.discussions = newDiscussions;
+                }
+
+                newDiscussions.forEach((newDiscussion) => {
+
+                    const exists = this.discussions.some(
+                        (existingDiscussion) => existingDiscussion.id === newDiscussion.id
+                    );
+
+                    if (!exists) {
+                        this.discussions.push(newDiscussion);
+                    }
+
+                    if (newDiscussion.id == this.currentDiscussion) {
+                        const storedUpdatingValue = parseInt(localStorage.getItem('currentDiscussionUpdating'));
+                        if (newDiscussion.updating != storedUpdatingValue) {
+                            const index = this.discussions.findIndex(x => x.id === this.currentDiscussion);
+                            this.discussions[index] = newDiscussion;
+                            this.retrieveMessages(this.currentDiscussion);
+                            localStorage.setItem("currentDiscussionUpdating", newDiscussion.updating.toString())
+                            this.discussions.find((discussion) => discussion.id === this.currentDiscussion).updating = newDiscussion.updating;
+
+                        }
+                    }
+                });
+
+            });
+        }
+
+        retrieveAllMessages(id: number): void {
+            const idx = id;
+            this.messageService.retrieveAllMessages(idx)
+                .subscribe(messages => this.messages = messages
+                );
+
+            const currentDate = new Date();
+            this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSSSS')!;
+            localStorage.setItem('currentLocalDateTime', this.formattedDate);
+            localStorage.setItem('currentDiscussion', idx.toString());
+            this.currentDiscussion = idx;
+        }
+
+        retrieveMessages(id: number): void {
+            const idx = id;
+            const size = 20;
+            localStorage.setItem("currentPage", "0")
+        this.currentPage = 0;
+            this.messages = [];
+            this.messageService.retrieveMessages(idx, this.currentPage, size)
+                .subscribe((messages) => {
+                    messages.reverse();
+
+                    this.messages.unshift(...messages)
+                }
+                );
+
+            const currentDate = new Date();
+            this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSSSS')!;
+            localStorage.setItem('currentLocalDateTime', this.formattedDate);
+            localStorage.setItem('currentDiscussion', idx.toString());
+            this.currentDiscussion = idx;
+        }
+
+
+        @HostListener('scroll', ['$event'])
+        onScroll(event: Event) {
+            const element = this.chatContainer.nativeElement;
+            console.log('Scroll position:', element.scrollTop); // Check scroll position
+            if (element.scrollTop === 0) {
+                console.log('Scrolled to the top, loading more messages');
+                this.retrieveMoreMessages(this.currentDiscussion);
+            }
+        }
+
+        retrieveMoreMessages(id: number): void {
+            const idx = id;
+            const size = 20;
+            this.currentPage++;
+            localStorage.setItem("currentPage", this.currentPage)
+        this.messageService.retrieveMessages(idx, this.currentPage, size)
+                .subscribe((messages) => {
+                    messages.reverse();
+
+                    this.messages.unshift(...messages)
+                }
+                );
+
+        }
+
+
+        retrieveRecentMessages() {
+            const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+            const recentd = localStorage.getItem("currentLocalDateTime");
+            this.messageService.retrieveRecentMessages(discussion, recentd).subscribe(
+                (newMessages: Message[]) => {
+                    this.messages = [...this.messages, ...newMessages];
+                    const currentDate = new Date();
+                    this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSSSS')!;
+                    localStorage.setItem('currentLocalDateTime', this.formattedDate);
+                },
+                (error) => {
+                    console.error('Error fetching recent messages:', error);
+                }
             );
 
-        const currentDate = new Date();
-        this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSSSS')!;
-        localStorage.setItem('currentLocalDateTime', this.formattedDate);
-        localStorage.setItem('currentDiscussion', idx.toString());
-        this.currentDiscussion = idx;
-
-
-
-    }
-
-
-    retrieveRecentMessages() {
-        const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
-        this.messageService.retrieveRecentMessages(discussion).subscribe(
-            (newMessages: Message[]) => {
-                this.messages = [...this.messages, ...newMessages];
-                const currentDate = new Date();
-                this.formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSSSS')!;
-                localStorage.setItem('currentLocalDateTime', this.formattedDate);
-            },
-            (error) => {
-                console.error('Error fetching recent messages:', error);
-            }
-        );
-
-        if (this.showPinsB == true) {
-            this.messages = this.messages.filter(message => message.pinned);
-        }
-    }
-
-    sendMessage() {
-
-        const keywords = [
-            "Hey chatgpt", "hi chatgpt", "hey gemini", "hi gemini", "hey copilot", "hi copilot", "chatgpt",
-            "gemini", "copilot", "ai", "hey ai", "hi ai", "hi chatbot", "hey chatbot", "chatbot",
-        ];
-
-        const user = this.currentUserId;
-        const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
-        this.messageService.sendMessage(user, discussion, this.sendMessageo).subscribe(response => {
-            console.log('Message sent successfully');
-            this.retrieveRecentMessages();
-            this.sendMessageo = "";
-        }, error => {
-            console.error('Error sending message:', error);
-        });
-
-        const normalizedInput = this.sendMessageo.trim().toLowerCase();
-
-        for (const keyword of keywords) {
-            if (normalizedInput.startsWith(keyword.toLowerCase())) {
-                this.askQuestion(this.sendMessageo);
+            if (this.showPinsB == true) {
+                this.messages = this.messages.filter(message => message.pinned);
             }
         }
 
-    }
+        sendMessage() {
 
-    onMessageClick(message: any) {
-        this.currentMessage = message;
-    }
+            const keywords = [
+                "Hey chatgpt", "hi chatgpt", "hey gemini", "hi gemini", "hey copilot", "hi copilot", "chatgpt",
+                "gemini", "copilot", "ai", "hey ai", "hi ai", "hi chatbot", "hey chatbot", "chatbot",
+            ];
 
-    performAction(action: string) {
-        switch (action) {
-            case 'react':
-                this.showFEmoji = !this.showFEmoji;
-                break;
-            case 'translate':
-                this.showFTranslate = !this.showFTranslate;
-                break;
-            case 'close':
-                this.currentMessage = null; // Hide the popup after action
-                break;
-
-        }
-    }
-
-    modifyMessage(id: number) {
-        this.messageService.modifyMessage(id, "(Modified) " + this.editreplyMessageo).subscribe(response => {
-            console.log('Message deleted successfully');
-            this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
-        }, error => {
-            console.error('Error sending message:', error);
-        });
-        this.currentMessage = null;
-    }
-
-    deleteMessage(id: number) {
-        this.messageService.deleteMessage(id).subscribe(response => {
-            console.log('Message deleted successfully');
-            this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
-        }, error => {
-            console.error('Error sending message:', error);
-        });
-        this.currentMessage = null;
-
-
-    }
-
-    replyMessage(message: number) {
-
-        const user = this.currentUserId;
-        const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
-        this.messageService.replyMessage(user, discussion, message, this.editreplyMessageo).subscribe(response => {
-            console.log('Reply sent successfully');
-            this.retrieveRecentMessages();
-            this.currentMessage = null;
-        }, error => {
-            console.error('Error sending message:', error);
-        });
-
-    }
-
-    reactMessage(message: number, reaction: string) {
-
-        const user = this.currentUserId;
-        const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
-        this.reactionService.addReaction(user, message, reaction).subscribe(response => {
-            console.log('Reaction sent successfully');
-            this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
-            this.currentMessage = null;
-        }, error => {
-            console.error('Error reacting to message:', error);
-        });
-
-    }
-
-    groupReactions(reactions: { reaction: string, archived: boolean }[]): { emoji: string, count: number }[] {
-        // Filter out reactions that are archived
-        const activeReactions = reactions.filter(reaction => !reaction.archived);
-
-        const reactionMap = activeReactions.reduce((map, reaction) => {
-            if (!map[reaction.reaction]) {
-                map[reaction.reaction] = 0;
-            }
-            map[reaction.reaction]++;
-            return map;
-        }, {} as { [key: string]: number });
-
-        return Object.entries(reactionMap).map(([emoji, count]) => ({
-            emoji,
-            count
-        }));
-    }
-
-
-    pinMessage(id: number) {
-        this.messageService.pinMessage(this.currentMessage.id).subscribe(response => {
-            console.log('Message pinned successfully');
-            this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
-        }, error => {
-            console.error('Error pinning message:', error);
-        });
-        this.currentMessage = null;
-    }
-
-    showPins() {
-        this.showPinsB = !this.showPinsB
-        this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
-        if (this.showPinsB == true) {
-            this.messages = this.messages.filter(message => message.pinned);
-        }
-    }
-
-    askQuestion(question: string) {
-        // Send the question to the backend
-        this.messageService.askQuestion(question).subscribe((response: any) => {
-
-            const textValue = "🤖:  " + response?.candidates?.[0]?.content?.parts?.[0]?.text;
             const user = this.currentUserId;
             const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
-            this.messageService.sendMessage(user, discussion, textValue).subscribe(response => {
+            this.messageService.sendMessage(user, discussion, this.sendMessageo).subscribe(response => {
                 console.log('Message sent successfully');
                 this.retrieveRecentMessages();
                 this.sendMessageo = "";
@@ -1117,41 +1236,310 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.error('Error sending message:', error);
             });
 
-        }, error => {
-            console.log("lol");
-        });
+            const normalizedInput = this.sendMessageo.trim().toLowerCase();
 
-        this.currentMessage = null;
+            for (const keyword of keywords) {
+                if (normalizedInput.startsWith(keyword.toLowerCase())) {
+                    this.askQuestion(this.sendMessageo);
+                }
+            }
+
+        }
+
+        onMessageClick(message: any) {
+            this.currentMessage = message;
+        }
+
+        performAction(action: string) {
+            switch (action) {
+                case 'react':
+                    this.showFEmoji = !this.showFEmoji;
+                    break;
+                case 'translate':
+                    this.showFTranslate = !this.showFTranslate;
+                    break;
+                case 'close':
+                    this.currentMessage = null; // Hide the popup after action
+                    break;
+
+            }
+        }
+
+        modifyMessage(id: number) {
+            this.messageService.modifyMessage(id, "(Modified) " + this.editreplyMessageo).subscribe(response => {
+                console.log('Message deleted successfully');
+                this.retrieveMessages(parseInt(localStorage.getItem("currentDiscussion")!));
+            }, error => {
+                console.error('Error sending message:', error);
+            });
+            this.currentMessage = null;
+        }
+
+        deleteMessage(id: number) {
+            this.messageService.deleteMessage(id).subscribe(response => {
+                console.log('Message deleted successfully');
+                this.retrieveMessages(parseInt(localStorage.getItem("currentDiscussion")!));
+            }, error => {
+                console.error('Error sending message:', error);
+            });
+            this.currentMessage = null;
+
+
+        }
+
+        replyMessage(message: number) {
+
+            const user = this.currentUserId;
+            const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+            this.messageService.replyMessage(user, discussion, message, this.editreplyMessageo).subscribe(response => {
+                console.log('Reply sent successfully');
+                this.retrieveRecentMessages();
+                this.currentMessage = null;
+            }, error => {
+                console.error('Error sending message:', error);
+            });
+
+        }
+
+        reactMessage(message: number, reaction: string) {
+
+            const user = this.currentUserId;
+            const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+            this.reactionService.addReaction(user, message, reaction).subscribe(response => {
+                console.log('Reaction sent successfully');
+                this.retrieveMessages(parseInt(localStorage.getItem("currentDiscussion")!));
+                this.currentMessage = null;
+            }, error => {
+                console.error('Error reacting to message:', error);
+            });
+
+        }
+
+        groupReactions(reactions: { reaction: string, archived: boolean }[]): { emoji: string, count: number } [] {
+            // Filter out reactions that are archived
+            const activeReactions = reactions.filter(reaction => !reaction.archived);
+
+            const reactionMap = activeReactions.reduce((map, reaction) => {
+                if (!map[reaction.reaction]) {
+                    map[reaction.reaction] = 0;
+                }
+                map[reaction.reaction]++;
+                return map;
+            }, {} as { [key: string]: number });
+
+            return Object.entries(reactionMap).map(([emoji, count]) => ({
+                emoji,
+                count
+            }));
+        }
+
+
+        pinMessage(id: number) {
+            this.messageService.pinMessage(this.currentMessage.id).subscribe(response => {
+                console.log('Message pinned successfully');
+                this.retrieveMessages(parseInt(localStorage.getItem("currentDiscussion")!));
+            }, error => {
+                console.error('Error pinning message:', error);
+            });
+            this.currentMessage = null;
+        }
+
+        showPins() {
+            this.showPinsB = !this.showPinsB
+            this.retrieveAllMessages(parseInt(localStorage.getItem("currentDiscussion")!));
+            if (this.showPinsB == true) {
+                this.messages = this.messages.filter(message => message.pinned);
+            }
+
+            if (this.searching == true) {
+                this.messages = this.messages.filter((message) =>
+                    message.message.toLowerCase().includes(this.sendMessageo.toLowerCase()))
+            }
+
+        }
+
+        askQuestion(question: string) {
+            // Send the question to the backend
+            this.messageService.askQuestion(question).subscribe((response: any) => {
+
+                const textValue = "🤖:  " + response?.candidates?.[0]?.content?.parts?.[0]?.text;
+                const user = this.currentUserId;
+                const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+                this.messageService.sendMessage(user, discussion, textValue).subscribe(response => {
+                    console.log('Message sent successfully');
+                    this.retrieveRecentMessages();
+                    this.sendMessageo = "";
+                }, error => {
+                    console.error('Error sending message:', error);
+                });
+
+            }, error => {
+                console.log("lol");
+            });
+
+            this.currentMessage = null;
+        }
+
+        translate() {
+            // Send the question to the backend
+            this.messageService.askQuestion('Translate this phrase to ' + this.selectedLanguage + ': ' + this.currentMessage.message).subscribe((response: any) => {
+                this.translated = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            }, error => {
+                console.log("lol");
+            });
+
+        }
+
+        pforwarding() {
+            this.forwardins = true;
+            alert("Select a discussion to share the selected message.");
+            this.forwardingo = this.currentMessage.message;
+            this.currentMessage = ""
+        }
+
+        forwarding() {
+
+            if (confirm('Are you sure to share this message to the discussion ' + this.currentDiscussionTitle + '?')) {
+                this.sendMessageo = this.forwardingo;
+                this.sendMessage();
+            }
+            this.forwardins = false;
+        }
+
+        openFileDialog() {
+            // Trigger a click on the file input
+            this.fileInput.nativeElement.click();
+        }
+
+
+        onFileSelected(event: Event) {
+            const input = event.target as HTMLInputElement;
+            if (!input.files || input.files.length === 0) {
+                return;
+            }
+
+            const file = input.files[0];
+            this.uploadFile(file);
+        }
+
+        uploadFile(file: File) {
+            const storagePath = `uploads/${file.name}`;
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Optional: Authentication token, if needed
+            const headers = new HttpHeaders({
+                Authorization: 'Bearer YOUR_FIREBASE_AUTH_TOKEN',
+            });
+
+            // First, upload the file
+            this.http.post(`${this.uploadUrl}&name=${storagePath}`, formData, { headers }).subscribe(
+                (response) => {
+                    console.log('File uploaded successfully:', response);
+
+                    // After uploading, fetch the metadata to get the download URL
+                    this.getDownloadUrl(storagePath);
+                },
+                (error) => {
+                    console.error('Error uploading file:', error);
+                }
+            );
+        }
+
+        getDownloadUrl(storagePath: string) {
+            const metadataUrl = `https://firebasestorage.googleapis.com/v0/b/${this.storageBucket}/o/${encodeURIComponent(
+                storagePath
+            )}?alt=media`;
+
+            this.http.get(metadataUrl).subscribe(
+                (response: any) => {
+                    const user = this.currentUserId;
+                    const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+                    this.messageService.sendMessage(user, discussion, metadataUrl).subscribe(response => {
+                        console.log('Message sent successfully');
+                        this.retrieveRecentMessages();
+                        this.sendMessageo = "";
+                    }, error => {
+                        console.error('Error sending message:', error);
+                    });
+                },
+                (error) => {
+                    const user = this.currentUserId;
+                    const discussion = parseInt(localStorage.getItem("currentDiscussion")!);
+                    this.messageService.sendMessage(user, discussion, error.url).subscribe(response => {
+                        console.log('Message sent successfully');
+                        this.retrieveRecentMessages();
+                        this.sendMessageo = "";
+                    }, error => {
+                        console.error('Error sending message:', error);
+                    });
+                }
+            );
+        }
+
+        isImage(content: string): boolean {
+            const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|tif|tiff)\?alt=media$/i;
+            return imageExtensions.test(content);
+        }
+
+        extractTextFromURL(url: string): string {
+            // Find the text between "%2F" and "?alt"
+            const start = url.indexOf('%2F') + 3; // 3 because %2F is 3 characters
+            const end = url.indexOf('?alt');
+
+            return url.substring(start, end);
+        }
+
+        summarize() {
+            // Send the question to the backend
+            let x: string;
+            for (const message of this.messages) {
+                if (message.user.id != this.currentUserId) {
+                    x = ' | ' + 'Them : ' + message.message;
+                } else {
+                    x = ' | ' + 'Me : ' + message.message;
+                }
+            }
+            this.messageService.askQuestion('These are messages of a disussion :  ' + x + ' - Summerize everything (ignore links).').subscribe((response: any) => {
+                alert(response?.candidates?.[0]?.content?.parts?.[0]?.text);
+
+            }, error => {
+                console.log("lol");
+            });
+
+        }
+
+        emotion() {
+            // Send the question to the backend
+            let x: string;
+            for (const message of this.messages) {
+                if (message.user.id != this.currentUserId) {
+                    x = ' | ' + 'Them : ' + message.message;
+                } else {
+                    x = ' | ' + 'Me : ' + message.message;
+                }
+            }
+            this.messageService.askQuestion('This is a discussion between me and a person :  ' + x + ' Detect the emotion of the person and give me advice on how to talk with them (ignore links)').subscribe((response: any) => {
+                alert(response?.candidates?.[0]?.content?.parts?.[0]?.text);
+
+            }, error => {
+                console.log("lol");
+            });
+
+        }
+
+        search() {
+            this.searching = true;
+            this.messageService.retrieveAllMessages(this.currentDiscussion)
+                .subscribe(messages => {
+
+                    messages = messages.filter((message) =>
+                        message.message.toLowerCase().includes(this.sendMessageo.toLowerCase())
+                    );
+                    this.messages = messages
+
+                })
+        }
+
     }
-
-    translate() {
-        // Send the question to the backend
-        this.messageService.askQuestion('Translate this phrase to ' + this.selectedLanguage + ': ' + this.currentMessage.message).subscribe((response: any) => {
-            this.translated = response?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        }, error => {
-            console.log("lol");
-        });
-
-    }
-
-    pforwarding() {
-        this.forwardins= true ;
-        alert("Select a discussion to share the selected message.") ;
-        this.forwardingo = this.currentMessage.message;
-        this.currentMessage = ""
-    }
-
-    forwarding() {
-        
-        if (confirm('Are you sure to share this message to the discussion '+ this.currentDiscussionTitle +'?')) {
-            this.sendMessageo =  "(forwarded) "+ this.forwardingo;
-            this.sendMessage();
-        } 
-        this.forwardins = false ;
-    }
-
-
-
-
-}

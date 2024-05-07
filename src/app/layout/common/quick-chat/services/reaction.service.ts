@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Reaction } from '../models/Reaction';
+import { environment } from 'app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReactionService {
-  private baseUrl = 'http://localhost:9000/pidev/reaction'; 
+  private baseUrl = `${environment.apiUrl}/reaction`; 
 
   constructor(private http: HttpClient) { }
 

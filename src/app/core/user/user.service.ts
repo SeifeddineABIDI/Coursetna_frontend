@@ -51,7 +51,7 @@ export class UserService
         });
     
         // Modify the endpoint URL as per your backend API
-        return this._httpClient.get<User>(`localhost:9000/pidev/api/v1/auth/current`, { headers }).pipe(
+        return this._httpClient.get<User>(`${environment.apiUrl}/api/v1/auth/current`, { headers }).pipe(
           tap((user: User) => {
             this._user.next(user);
           })
