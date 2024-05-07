@@ -28,6 +28,9 @@ export class ApplyComponent implements OnInit {
     this.getStages();
 
   }
+  goToList() {
+    this.router.navigate(['/list']);
+  }
 
   getStages(): void {
     this.stageService.getStages().subscribe(

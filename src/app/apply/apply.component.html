@@ -1,35 +1,32 @@
 <div class="container">
-    <div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-6">
-                <h2>Apply For <b>INTERNSHIP</b></h2>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="table-wrapper">
+      <div class="table-title">
+          <div class="row">
+              <div class="col-sm-6">
+                  <h2>Apply For <b>INTERNSHIP</b></h2>
+              </div>
+              <div class="col-sm-6 text-right">
+                <button type="button" class="btn btn-dark" (click)="goToList()">Go to List</button>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-4" *ngFor="let stage of stages">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ stage.title }}</h5>
-          <p class="card-text">{{ stage.company }}</p>
-          <p class="card-text">Location: {{ stage.location }}</p>
-          <p class="card-text">Publication Date: {{ stage.publicationDate| date:'yyyy-MM-dd' }}</p>
-       
-
-
-          <i class="fa-duotone fa-cloud-arrow-down"></i>
-
-
-          <hr>
-          <h5>Upload CV</h5>
-          <input type="file" (change)="onFileChanged($event)" />
-        </div>
+<div class="row">
+  <div class="col-md-4" *ngFor="let stage of stages">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ stage.title }}</h5>
+        <p class="card-text">{{ stage.company }}</p>
+        <p class="card-text">Location: {{ stage.location }}</p>
+        <p class="card-text">Publication Date: {{ stage.publicationDate| date:'yyyy-MM-dd' }}</p>
+        <hr>
+        <h5>Upload CV</h5>
+        <input type="file" (change)="onFileChanged($event)" />
       </div>
     </div>
   </div>
+</div>
 </div>
