@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Message } from '../models/Message';
+import { environment } from 'app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-  private baseUrl = 'http://localhost:9000/pidev/message'; 
+  private baseUrl =`${environment.apiUrl}/message`; 
 
   constructor(private http: HttpClient) { }
 
@@ -16,8 +17,12 @@ export class MessageService {
     return this.http.get<Message[]>(`${this.baseUrl}/retrieveAllMessages?id=${id}`);
   }
 
-  retrieveRecentMessages(id: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.baseUrl}/retrieveRecentMessages?id=${id}&recentDate=${localStorage.getItem('currentLocalDateTime')}`);
+  retrieveMessages(id: number, page: number, size: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.baseUrl}/retrieveMessages?id=${id}&page=${page}&size=${size}`);
+  }
+
+  retrieveRecentMessages(id: number,recent: string): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.baseUrl}/retrieveRecentMessages?id=${id}&recentDate=${recent}`);
   }
 
   sendMessage(user: number, discussion: number, message: string): Observable<any> {
