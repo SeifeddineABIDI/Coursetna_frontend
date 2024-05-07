@@ -1,0 +1,181 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+    <!-- Modèle d'edit -->
+    <div class="add-modal" *ngIf="showModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Question</h5>
+                    <button type="button" class="btn-close" (click)="toggleModal(false)" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="questionForm">
+                        <div class="mb-3">
+                            <label  class="form-label">Question</label>
+                            <input type="text" class="form-control" placeholder="question" formControlName="question" >
+
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('question')?.hasError('required') && questionForm.get('question')?.touched">
+                                Question is required
+                            </div>
+                        </div>
+                
+                        <div class="mb-3">
+                            <label  class="form-label">choice1</label>
+                            <input type="text" class="form-control" placeholder="choice1" formControlName="choice1">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice1')?.hasError('required') && questionForm.get('choice1')?.touched">
+                                choice1 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">choice2</label>
+                            <input type="text" class="form-control" placeholder="choice2" formControlName="choice2">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice2')?.hasError('required') && questionForm.get('choice2')?.touched">
+                                choice2 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">choice3</label>
+                            <input type="text" class="form-control" placeholder="choice3" formControlName="choice3">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('choice3')?.hasError('required') && questionForm.get('choice3')?.touched">
+                                choice3 is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">correctAnswer</label>
+                            <input type="text" class="form-control" placeholder="correctAnswer" formControlName="correctAnswer">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('correctAnswer')?.hasError('required') && questionForm.get('correctAnswer')?.touched">
+                                correctAnswer is required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">points</label>
+                            <input type="text" class="form-control" placeholder="points" formControlName="points">
+                            
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('points')?.hasError('required') && questionForm.get('points')?.touched">
+                                points is required
+                            </div>
+                            <div class="form-error font-medium text-red-600 dark:text-red-500" *ngIf="questionForm.get('points')?.hasError('pattern') && questionForm.get('points')?.touched">
+                                points must be number
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="toggleModal(false)">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="editQuestion()" [disabled]="questionForm.invalid">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model d'edit -->
+
+    <!-- Modèle de stat sur une question -->
+    <div class="add-modal" *ngIf="showModalStat">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" (click)="toggleModalStat(false)" aria-label="Close"></button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Total Number of Answers</h5>
+              <div class="chart-container">
+                <canvas baseChart
+                        [chartType]="'bar'"
+                        [datasets]="[{ data: [TotalAnswers], label: 'Total Answers', backgroundColor: ['#97a7be'],hoverBackgroundColor: ['#97a7be'] }]"
+                        [labels]="['Total Answers']">
+                </canvas>
+              </div>
+            </div>
+      
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Percentage of Correct Answers</h5>
+                    <div class="chart-container">
+                      <canvas baseChart
+                              [chartType]="'pie'"
+                              [datasets]="[{ data: [percentageCorrectAnswers, 100 - percentageCorrectAnswers], backgroundColor: ['#0e948c', '#1e293b'], hoverBackgroundColor: ['#0e948c', '#1e293b'] }]"
+                              [labels]="['Correct Answers', 'Incorrect Answers']">
+                      </canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="toggleModalStat(false)">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+      
+      
+    <!-- end Modèle de stat sur une question -->
+
+
+    <!-- Header -->
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- @formatter:on -->
+        <div class="z-10 relative flex flex-col items-center">
+            <h2 class="text-xl font-semibold">COURSETNA</h2>
+            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+              Here You Can Manage Your Questions
+            </div>
+            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+            </div>
+        </div>
+    </div>
+
+    <!-- Search input -->
+    <div class="search-container">
+        <input type="text" class="form-control short-input" placeholder="Search" [(ngModel)]="searchTerm">
+    </div>
+
+    <!-- Tableau de données -->
+    <table id="example" class="table table-striped custom-table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Choices</th>
+                <th>Correct</th>
+                <th>Points</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody >
+            <!-- Contenu de la table -->
+            <tr *ngFor="let q of questions | filter: searchTerm">
+                <td>{{q.question}}</td>
+                <td><p>{{q.choice1}}</p><p>{{q.choice2}}</p><p>{{q.choice3}}</p></td>
+                <td>{{q.correctAnswer}}</td>
+                <td>{{q.points}}</td>
+                <td>
+                    
+                    <button title="Statistique" class="btn  me-2" style="background-color: #2077f9;"  (click)="getTotalCorrectAnswersForQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/statistics-white.png"></button> <!-- Icône de modification -->
+                    <button title="Edit this question" class="btn me-2" style="background-color: #2077f9;"  (click)="editModel(q)" ><img src="../../../../../assets/icons/edit-white.png"></button> <!-- Icône de modification -->
+                    <button title="Delete this question" class="btn me-2" style="background-color: #f92020;"  (click)="delQuestion(q.numQuestion)" ><img src="../../../../../assets/icons/delete-white.png"></button> <!-- Icône de suppression -->
+                </td>
+            </tr>         
+        </tbody>
+    </table>
+    
+</div>

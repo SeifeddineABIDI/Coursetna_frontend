@@ -7,12 +7,6 @@ export const environment = {
   hmr: false,
   apiUrl: 'http://localhost:9000/pidev'
 };
-export const env = {
-  production: false,
-  recaptcha: {
-    siteKey: '6LdhYsIpAAAAAMLOyQUOuCvPNaHFkbqN-HRbFucB',
-  },
-};
 
 /*
  * For easier debugging in development mode, you can import the following file

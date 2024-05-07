@@ -1,0 +1,50 @@
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+
+    <!-- Header -->
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- @formatter:on -->
+        <div class="z-10 relative flex flex-col items-center">
+            <h2 class="text-xl font-semibold">COURSETNA</h2>
+            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
+                Here you can find the Stats
+            </div>
+            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+            </div>
+        </div>
+    </div>
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+  
+        <!-- CONTENT GOES HERE -->
+        <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
+  
+<div class="container">
+    <h1>Statistiques de réclamations</h1>
+    <div class="stat">
+        <!-- Card for reclamations traitées -->
+        <div class="card">
+            <div class="card-content">
+                <p><span class="label">Nombre de réclamations traitées :</span> {{ reclamationsTraitees }}</p>
+            </div>
+        </div>
+        <!-- Card for reclamations non traitées -->
+        <div class="card" [ngClass]="{'red-card': reclamationsNonTraitees > 1}">
+            <div class="card-content">
+                <p><span class="label">Nombre de réclamations non traitées :</span> {{ reclamationsNonTraitees }}</p>
+            </div>
+        </div>
+    </div>
+</div>

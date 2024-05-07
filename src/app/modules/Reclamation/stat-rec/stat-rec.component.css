@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20;
+    background-color: aquamarine;
+}
+
+.container {
+    background-color: #f4f4f4;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    color: #333;
+}
+
+.stat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+}
+
+.red-card {
+    background-color: #ffcccc; /* Light red */
+}
+
+.stat p {
+    margin: 5px 0;
+}
+
+.stat .label {
+    font-weight: bold;
+}
