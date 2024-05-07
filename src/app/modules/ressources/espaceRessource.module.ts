@@ -30,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 const exampleRoute: Route[] = [{
@@ -41,6 +42,7 @@ const exampleRoute: Route[] = [{
 @NgModule({
     declarations: [
       EspaceRessourceUserComponent,
+
   
         
     ],
@@ -60,6 +62,7 @@ const exampleRoute: Route[] = [{
         MatSidenavModule,
         MatSlideToggleModule,
         FuseAlertModule,
+        MatPaginatorModule
     ],
     providers: [
       provideAnimations()
