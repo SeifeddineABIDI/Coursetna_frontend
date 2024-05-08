@@ -1,13 +1,11 @@
-
 <div class="modal dark:hover:bg-hover" [ngClass]="{'hidden': !showModala}"
     style="box-shadow: -2px 0px 8px rgba(0,0,0,0.1); position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999;">
     <div class="modal-overlay"
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
     </div>
     <div class="modal-content dark:bg-hover bg-white"
-
         style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 80%; max-width: 800px; z-index: 10000;">
-        <h2 style="margin-bottom: 20px; text-align: center;">Create a Discussion</h2>
+        <h6 style="margin-bottom: 20px; text-align: center;">Create a Discussion</h6>
         <div style="display: flex; flex-direction: row;">
 
             <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px; max-width: 300px;">
@@ -33,7 +31,7 @@
 
             </div>
             <div style="flex: 1;">
-                <h3 style="margin: 0;"><- Search for students</h3>
+                <h6 style="margin: 0;"><- Search for students</h6>
 
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <!-- First Input Field -->
@@ -52,12 +50,12 @@
                             </button>
                         </div>
 
-                        <h3 style="margin: 0;">"Group" discussion title:</h3>
+                        <h6 style="margin: 0;">"Group" discussion title:</h6>
                         <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
                             <input type="text" matInput [(ngModel)]="inputTitle"
                                 placeholder="Insert discussion title here">
                         </mat-form-field>
-                        <h3 style="margin: 0;">Insert image for "Group" discussion:</h3>
+                        <h6 style="margin: 0;">Insert image for "Group" discussion:</h6>
                         <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
                         <div *ngIf="imageData != ' ' else fallback">
                             <img [src]="imageData" alt="Uploaded Image"
@@ -67,7 +65,7 @@
                             <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'"
                                 alt="Default Image" style="width: 70px; height: 70px; border-radius: 50%;">
                         </ng-template>
-
+                        <br>
             </div>
         </div>
         <div class="modal-footer" style="display: flex; justify-content: flex-end;">
@@ -88,11 +86,11 @@
     </div>
     <div class="modal-content dark:bg-hover bg-white"
         style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 80%; max-width: 800px; z-index: 10000;">
-        <h2 style="margin-bottom: 20px; text-align: center;">Modify a Discussion</h2>
+        <h6 style="margin-bottom: 20px; text-align: center;">Modify a Discussion</h6>
         <div style="display: flex; flex-direction: row;">
             <!-- Duplicate this section to create three columns -->
             <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px;">
-                <h3 style="margin: 0;">Existing students:</h3>
+                <h6 style="margin: 0;">Existing students:</h6>
 
                 <div *ngFor="let user of existingUsers">
                     <div *ngIf="user.id != currentUserId">
@@ -130,7 +128,7 @@
 
             <!-- The second part of the modal -->
             <div style="flex: 1;">
-                <h3 style="margin: 0;"><- Search for students</h3>
+                <h6 style="margin: 0;"><- Search for students</h6>
 
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <!-- First Input Field -->
@@ -150,13 +148,13 @@
                         </div>
 
 
-                        <h3 style="margin: 0;">Group discussion title:</h3>
+                        <h6 style="margin: 0;">Group discussion title:</h6>
                         <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
                             <input type="text" matInput [(ngModel)]="inputTitle"
                                 placeholder="Insert discussion title here">
                         </mat-form-field>
 
-                        <h3 style="margin: 0;">Insert image for "Group" discussion:</h3>
+                        <h6 style="margin: 0;">Insert image for "Group" discussion:</h6>
                         <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
                         <div *ngIf="imageDatam != ' ' else fallback">
                             <img [src]="imageDatam" alt="Uploaded Image"
@@ -167,6 +165,7 @@
                             <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'"
                                 alt="Default Image" style="width: 70px; height: 70%; border-radius: 50%;">
                         </ng-template>
+                        <br>
             </div>
         </div>
 
@@ -189,7 +188,7 @@
     </div>
     <div class="modal-content dark:bg-hover bg-white"
         style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 80%; max-width: 800px; z-index: 10000;">
-        <h2 style="margin-bottom: 20px; text-align: center;">Create a Community</h2>
+        <h6 style="margin-bottom: 20px; text-align: center;">Create a Community</h6>
         <div style="display: flex; flex-direction: row;">
             <!-- Left side: Discussions -->
             <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px;">
@@ -214,7 +213,7 @@
 
             <!-- Middle side: Student Search, Group Title, and Image Input -->
             <div style="flex: 1; padding-right: 20px;">
-                <h3 style="margin: 0;"><-Search for students</h3>
+                <h6 style="margin: 0;"><-Search for students</h6>
 
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <!-- First Input Field -->
@@ -233,12 +232,12 @@
                             </button>
                         </div>
 
-                        <h3 style="margin: 0;">Community title:</h3>
+                        <h6 style="margin: 0;">Community title:</h6>
                         <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
                             <input type="text" matInput [(ngModel)]="inputTitle"
                                 placeholder="Insert community title here">
                         </mat-form-field>
-                        <h3 style="margin: 0;">Insert image for Community:</h3>
+                        <h6 style="margin: 0;">Insert image for Community:</h6>
                         <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
                         <div *ngIf="imageData != ' ' else fallback">
                             <img [src]="imageData" alt="Uploaded Image"
@@ -248,11 +247,12 @@
                             <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'"
                                 alt="Default Image" style="width: 70px; height: 70px; border-radius: 50%;">
                         </ng-template>
+                        <br>
             </div>
 
             <!-- Right side: Channels with Add/Remove -->
             <div style="flex: 1; overflow-y: auto; max-height: 300px;">
-                <h3 style="margin: 0;">Channels:</h3>
+                <h6 style="margin: 0;">Channels:</h6>
                 <div *ngFor="let channel of channels; let i=index">
                     <mat-form-field class="fuse-mat-bold w-full">
                         <input type="text" matInput [(ngModel)]="channels[i]" placeholder="Channel {{ i + 1 }}">
@@ -283,12 +283,12 @@
     <div class="modal-content dark:bg-hover bg-white"
         style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 90%; max-width: 1000px; z-index: 10000;">
 
-        <h2 style="margin-bottom: 20px; text-align: center;">Modify a Community</h2>
+        <h6 style="margin-bottom: 20px; text-align: center;">Modify a Community</h6>
         <div style="display: flex; flex-direction: row; gap: 20px;">
 
             <!-- User List 1 -->
             <div style="flex: 1; overflow-y: auto; max-height: 500px;">
-                <h3 style="margin: 0;">Existing students:</h3>
+                <h6 style="margin: 0;">Existing students:</h6>
                 <div *ngFor="let user of existingUsers">
                     <div *ngIf="user.id != currentUserId">
                         <div (click)="toggleUserSelection(user)" [ngClass]="{'bg-primary-400': isUserSelected(user)}"
@@ -327,7 +327,7 @@
 
             <!-- Option List -->
             <div style="flex: 1; padding-right: 20px;">
-                <h3 style="margin: 0;"><- Search for students</h3>
+                <h6 style="margin: 0;"><- Search for students</h6>
 
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <!-- First Input Field -->
@@ -346,12 +346,12 @@
                             </button>
                         </div>
 
-                        <h3 style="margin: 0;">Community title:</h3>
+                        <h6 style="margin: 0;">Community title:</h6>
                         <mat-form-field class="fuse-mat-bold w-full" style="margin-bottom: 20px;">
                             <input type="text" matInput [(ngModel)]="inputTitle"
                                 placeholder="Insert community title here">
                         </mat-form-field>
-                        <h3 style="margin: 0;">Insert image for Community:</h3>
+                        <h6 style="margin: 0;">Insert image for Community:</h6>
                         <input type="file" (change)="handleFileInput($event)" style="margin-bottom: 10px;">
                         <div *ngIf="imageDatam !== ' ' else fallback">
                             <img [src]="imageDatam" alt="Uploaded Image"
@@ -361,11 +361,12 @@
                             <img [src]="'https://i.pinimg.com/originals/71/c7/53/71c7533cc831bf2d6ddffdd74cd117bb.png'"
                                 alt="Default Image" style="width: 70px; height: 70px; border-radius: 50%;">
                         </ng-template>
+                        <br>
             </div>
 
             <!-- Channel List -->
             <div style="flex: 1; overflow-y: auto; max-height: 300px;">
-                <h3 style="margin: 0;">Channels:</h3>
+                <h6 style="margin: 0;">Channels:</h6>
                 <div *ngFor="let channel of existingChannels; let i=index">
                     <mat-form-field class="fuse-mat-bold w-full">
                         <input type="text" matInput [(ngModel)]="existingChannels[i]" placeholder="Channel {{ i + 1 }}">
@@ -397,7 +398,7 @@
     </div>
     <div class="modal-content dark:bg-hover bg-white"
         style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 26%; max-width: 800px; z-index: 10000;">
-        <h2 style="margin-bottom: 20px; text-align: center;">Students of {{currentDiscussionTitle}} discussion :</h2>
+        <h6 style="margin-bottom: 20px; text-align: center;">Students of {{currentDiscussionTitle}} discussion :</h6>
         <div style="display: flex; flex-direction: row;">
             <!-- Duplicate this section to create three columns -->
             <div style="flex: 1; margin-right: 20px; overflow-y: auto; max-height: 500px;">
@@ -423,7 +424,7 @@
 
         <div class="modal-footer" style="display: flex; justify-content: flex-end;">
 
-            <h3 style="margin: 0;">Checked students are admins : </h3>
+            <h6 style="margin: 0;">Checked students are admins : </h6>
             <button class="bg-primary-400" mat-raised-button (click)="addAdmins()"
                 style="border-radius: 8%; border: 4px; padding: 10px 20px; margin-right: 10px;">Add Admins</button>
             <button class="bg-gray-200" mat-raised-button (click)="closeModale()"
@@ -442,14 +443,14 @@
     </div>
     <div class="modal-content dark:bg-hover bg-white"
         style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; width: 100%; max-width: 800px; z-index: 10000;">
-        <h2 style="margin-bottom: 20px; text-align: center;">Choose your emoji:</h2>
-        
+        <h6 style="margin-bottom: 20px; text-align: center;">Choose your emoji:</h6>
+
         <!-- Scrollable emoji container with fixed height -->
         <div style="display: flex; flex-direction: column; overflow-y: auto; height: 300px;">
             <div style="display: flex; flex-wrap: wrap; justify-content: center;">
                 <ng-container *ngFor="let emoji of emojis">
-                    <button (click)="sendMessageo = sendMessageo + emoji" 
-                            style="padding: 10px; font-size: 35px; cursor: pointer; margin: 5px;">
+                    <button (click)="sendMessageo = sendMessageo + emoji"
+                        style="padding: 10px; font-size: 35px; cursor: pointer; margin: 5px;">
                         {{emoji}}
                     </button>
                 </ng-container>
@@ -497,28 +498,29 @@
 
                         <!-- This button will trigger the file input click -->
                         <button class="ml-auto mr-4" mat-icon-button
-                            Class="hover:bg-gray-100 dark:hover:bg-hover': showPinsB"
-                            (click)="openFileDialog()" [disabled]="!currentDiscussion">
+                            Class="hover:bg-gray-100 dark:hover:bg-hover': showPinsB" (click)="openFileDialog()"
+                            [disabled]="!currentDiscussion">
                             📄
                         </button>
 
-                        <button (click)="showPins()" [disabled]="!currentDiscussion" class="ml-auto mr-4" mat-icon-button [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover':  showPinsB,
+                        <button (click)="showPins()" [disabled]="!currentDiscussion" class="ml-auto mr-4"
+                            mat-icon-button [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover':  showPinsB,
                     'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': showPinsB}">
                             📌
                         </button>
 
-                        <button (click)="askQuestion(sendMessageo)" [disabled]="!currentDiscussion" class="ml-auto mr-4" mat-icon-button
-                            [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
+                        <button (click)="askQuestion(sendMessageo)" [disabled]="!currentDiscussion" class="ml-auto mr-4"
+                            mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
                             ✨
                         </button>
 
-                        <button [disabled]="!currentDiscussion" (click)="openModalf()"
-                            class="ml-auto mr-4" mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
+                        <button [disabled]="!currentDiscussion" (click)="openModalf()" class="ml-auto mr-4"
+                            mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
                             😀
                         </button>
 
-                        <button [disabled]="currentDiscussionType == 'Duo' || !currentDiscussion" (click)="openModale()" class="ml-auto mr-4"
-                            mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
+                        <button [disabled]="currentDiscussionType == 'Duo' || !currentDiscussion" (click)="openModale()"
+                            class="ml-auto mr-4" mat-icon-button [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'">
                             👨‍👩‍👧‍👦
                         </button>
 
@@ -529,36 +531,40 @@
                             <button class="p-2 rounded hover:bg-gray-300" mat-icon-button>⬇️</button>
 
                             <!-- Hidden buttons that appear on hover -->
-          
+
                             <div
-                                class="absolute left-0 top-full mt-2 opacity-0 transform -translate-y-100 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 flex flex-col space-y-2 z-10">
+                                class="absolute left-0 top-full mt-2 opacity-0 transform -translate-y-100 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 flex flex-col space-y-1 z-10">
 
 
-                                <button [disabled]="currentDiscussionType == 'Duo' || !currentDiscussion" (click)="leaveDiscussion()"
-                                class="p-2 bg-gray-200 rounded hover:bg-gray-300">
-                                👋 Leave
-                            </button>
+                                <button [disabled]="currentDiscussionType == 'Duo' || !currentDiscussion"
+                                    (click)="leaveDiscussion()" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                                    👋 Leave
+                                </button>
 
                                 <!-- Settings button -->
-                                <button [disabled]="currentDiscussionType == 'Duo' || !currentDiscussion" (click)="handlemodclick()"
-                                    class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                                <button [disabled]="currentDiscussionType == 'Duo' || !currentDiscussion"
+                                    (click)="handlemodclick()" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
                                     🔧 Modify
                                 </button>
 
                                 <!-- Delete button -->
-                                <button (click)="deleteDiscussion()" [disabled]="!currentDiscussion" style="width:115px" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                                <button (click)="deleteDiscussion()" [disabled]="!currentDiscussion" style="width:115px"
+                                    class="p-2 bg-gray-200 rounded hover:bg-gray-300">
                                     ❌ Delete
                                 </button>
 
-                                <button (click)="summarize()" [disabled]="!currentDiscussion" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                                <button (click)="summarize()" [disabled]="!currentDiscussion"
+                                    class="p-1 bg-gray-200 rounded hover:bg-gray-300">
                                     💡 Summarize
                                 </button>
 
-                                <button (click)="emotion()" [disabled]="!currentDiscussion" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                                <button (click)="emotion()" [disabled]="!currentDiscussion"
+                                    class="p-2 bg-gray-200 rounded hover:bg-gray-300">
                                     👀 Emotion
                                 </button>
 
-                                <button (click)="search()" [disabled]="!currentDiscussion" class="p-2 bg-gray-200 rounded hover:bg-gray-300">
+                                <button (click)="search()" [disabled]="!currentDiscussion"
+                                    class="p-2 bg-gray-200 rounded hover:bg-gray-300">
                                     🔍 Search
                                 </button>
                             </div>
@@ -585,7 +591,7 @@
                 <div class="flex-auto">
 
 
-                    <div class="flex items-center py-3 px-4 cursor-pointer"
+                    <div class="flex items-center py-3 px-3 cursor-pointer"
                         [ngClass]="'hover:bg-gray-100 dark:hover:bg-hover'" (click)="openModala()"
                         style="font-size: x-large;">
 
@@ -602,10 +608,9 @@
                     <ng-container *ngFor="let discussion of discussions">
 
 
-                        <div class="flex items-center py-3 px-4 cursor-pointer"
+                        <div class="flex items-center py-3 px-3 cursor-pointer"
                             [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': currentDiscussion.id !== discussion.id,
                                         'hover:bg-primary-400 bg-primary-400 dark:bg-primary-400 dark:hover:bg-primary-400': currentDiscussion === discussion.id}"
-
                             (click)="selectDiscussion(discussion)">
 
 
@@ -617,7 +622,6 @@
                                     <div class="relative flex flex-0 items-center justify-center w-12 h-12">
 
                                         <img class="w-full h-full rounded-full object-cover"
-
                                             src="http://localhost:9000/pidev/api/v1/auth/{{discussion.users[1].id}}/image"
                                             alt="Contact avatar" />
 
@@ -630,7 +634,6 @@
                                     <div class="relative flex flex-0 items-center justify-center w-12 h-12">
 
                                         <img class="w-full h-full rounded-full object-cover"
-
                                             src="http://localhost:9000/pidev/api/v1/auth/{{discussion.users[0].id}}/image"
                                             alt="Contact avatar" />
 
@@ -672,7 +675,8 @@
                     <div class="flex flex-col flex-auto shrink p-6">
                         <ng-container *ngIf="messages && messages.length > 0">
 
-                            <ng-container *ngIf="!messages[0].message.startsWith('🏁 Discussion started by') && searching == false && showPinsB == false">
+                            <ng-container
+                                *ngIf="!messages[0].message.startsWith('🏁 Discussion started by') && searching == false && showPinsB == false">
                                 <button class="bg-blue-300" mat-button
                                     (click)="retrieveMoreMessages(messages[0].discussion.id)"> Load more
                                     messages</button>
@@ -844,7 +848,7 @@
                 <div class="flex-auto">
 
 
-                    <div class="bg-primary-500 flex items-end py-3 px-4 cursor-pointer">
+                    <div class="bg-primary-500 flex items-end py-3 px-3 cursor-pointer">
                         <div class="relative flex flex-0 items-center justify-center w-8 h-20">
 
                             <div class="vertical-text"
@@ -856,8 +860,8 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center py-3 px-4 cursor-pointer"
-                        [ngClass]="'bg-primary-500 hover:bg-gray-100 dark:hover:bg-hover'" (click)="openModalb()"
+                    <div class="flex items-center py-3 px-3 cursor-pointer"
+                        [ngClass]="'bg-primary-500 hover:bg-gray-300 dark:hover:bg-hover'" (click)="openModalb()"
                         style="font-size: x-large;">
 
                         <div class="relative flex flex-0 items-center justify-center w-8 h-5" style="color: white;">
@@ -874,15 +878,14 @@
                     <div class="flex items-center py-3 px-4 cursor-pointer" [ngClass]="{'hover:bg-gray-200 dark:hover:bg-hover': currentCommunity != 0,
                             'hover:bg-gray-400 bg-gray-400 dark:hover:bg-hover dark:bg-hover': currentCommunity == 0}"
                         (click)="selectDM()">
-                        <div class="relative flex flex-0 items-center justify-center w-8 h-8">
-                            <h1>🔵DMs🔵</h1>
+                        <div class="relative flex flex-0 items-center justify-center w-8 h-8 ">
+                            <h5>🔵DMs🔵</h5>
                         </div>
                     </div>
                     <ng-container *ngFor="let community of communities">
-                        <div class="flex items-center py-3 px-4 cursor-pointer"
+                        <div class="flex items-center py-3 px-3 cursor-pointer"
                             [ngClass]="{'hover:bg-gray-200 dark:hover:bg-hover': currentCommunity != community.id,
                                       'hover:bg-gray-400 bg-gray-400 dark:hover:bg-hover dark:bg-hover ': currentCommunity == community.id}"
-
                             (click)="selectCommunity(community.id,community.updating)">
                             <div class="relative flex flex-0 items-center justify-center w-8 h-8">
                                 <ng-container *ngIf="community.photo != ' ' else noIx">
