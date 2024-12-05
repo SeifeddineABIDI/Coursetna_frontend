@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <hr />
+        <div class="create-post-container col-md-9">
+            <form class="post-form" [formGroup]="createPostForm" (ngSubmit)="createPost()">
+                <div class="form-group">
+                    <div class="create-post-heading">Create Post</div>
+                    <hr />
+                    <input type="text" [formControlName]="'postName'" class="form-control" style="margin-top: 5px"
+                        placeholder="Title">
+                    <input type="email" [formControlName]="'email'" class="form-control" style="margin-top: 5px"
+                        placeholder="Email">
+
+                    <input type="text" class="form-control" [formControlName]="'url'" style="margin-top: 5px"
+                        placeholder="URL">
+                    <select class="form-control" style="margin-top: 10px" [formControlName]="'subforumName'" (change)="onSubforumSelected($event)">
+                            <option value="" selected disabled>Select Subforum</option>
+                            <option *ngFor="let subforum of subforums">{{subforum.name}}</option>
+                    </select>
+
+                    <!-- Add input field for image upload -->
+                    <input type="file" (change)="onImageSelected($event)" class="form-control" style="margin-top: 5px">
+
+                    <editor apiKey="lokoo7cch0b2ac6ndrxp4npx5g9mdrymi55hpwo3j402me0g" [formControlName]="'description'" [init]="{
+                        height: 500,
+                        menubar: false,
+                        plugins: [
+                          'advlist autolink lists link image charmap print preview anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar:
+                          'undo redo | formatselect | bold italic backcolor | \
+                          alignleft aligncenter alignright alignjustify | \
+                          bullist numlist outdent indent | removeformat | help'
+                      }"></editor>
+                    <span>
+                        <div style="margin-top: 5px" class="float-right">
+                            <button (click)="discardPost()" class="btnDiscard">Discard</button>
+                            <button type="submit" class="btnCreatePost" [disabled]="createPostForm.invalid">Post</button>
+                        </div>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
